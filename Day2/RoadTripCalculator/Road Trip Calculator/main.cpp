@@ -22,7 +22,7 @@ int main() {
     cout << "Enter the cost of gas in dollars per gallon: ";
     cin >> dollarsPerGallon;
     
-    double gallonsPerTrip = distanceInMiles / static_cast<double>(milesPerGallon);
+    double gallonsPerTrip = distanceInMiles / static_cast<double>(milesPerGallon); // using static_cast to make the division accurate
     double costOfTrip = gallonsPerTrip * dollarsPerGallon;
     
     cout << "The total cost of the trip in dollars is $ " << fixed << setprecision(2) << costOfTrip << endl;
