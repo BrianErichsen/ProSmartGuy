@@ -7,21 +7,23 @@
 
 #include <iostream>
 
-using namespace std; // makes my life easier so don't have to copy std multiple times
+using namespace std;
 
 int main() {
     
     int itemPrice, amountPaid;
-    
-    cout << "Enter item price in cents: ";
-    cin >> itemPrice;
-    
-    cout << "Enter amount paid in cents: ";
-    cin >> amountPaid;
+    //ading do loop to proof negative input from user;
+    do {
+        cout << "Enter item price in cents: ";
+        cin >> itemPrice;
+        cout << "Enter amount paid in cents: ";
+        cin >> amountPaid;
+    }
+    while (itemPrice < 0 || amountPaid < 0);
     
     int change = amountPaid - itemPrice;
     int quarters = change / 25.0;
-    int remainder = change % 25; //keeps track of leftover after program computed quarters
+    int remainder = change % 25; //keeps track of leftover
     int dimes = remainder / 10;
     remainder = remainder % 10; //keeps track of change after dimes
     int nickels = remainder / 5;
