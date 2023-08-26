@@ -10,7 +10,6 @@
 #include <cctype> // to use the tolower(ch) function;
 using namespace std;
 //finds the number of words from input;
-
 int numWords (string input) { //this function has it's own limititaions;
     int number_of_words = 0; // it does not count for double spaces from user;
     for (int a = 0; a <= input.length() - 1; a++) {
@@ -32,9 +31,10 @@ int numSentences (string input) { // I am using same format that I used on numWo
     return number_of_sentences;
 }
 bool isVowel (char input) { // a, i, u, e, o y vowels, if char == vowels bool returns true;
-    if (tolower(input) == 'a' || tolower(input) == 'e' ||
-        tolower(input) == 'i' || tolower(input) == 'o' ||
-        tolower(input) == 'u' || tolower(input) == 'y') {
+    input = tolower(input);
+    if (input == 'a' || input == 'e' ||
+        input == 'i' || input == 'o' ||
+        input == 'u' || input == 'y') {
         return true;
     }
     return false; // else returns false;
@@ -49,7 +49,8 @@ int numVowels (string input) {
     return number_of_vowels;
 }
 bool isConsonant (char input) { //if vowels, punctuations and spaces are false then
-    // isConsonant is set to true;
+    // isConsonant is set to true; this code is also limited to :, ;, ', /, @, #, $. %, ^
+    // &, *, (, ), -, +, {, {, \, inputs;
     if (isVowel(input) == false && input != '.' && input != '?' && input != '!'
         && input != ' ' && input != ',') {
         return true;
@@ -76,19 +77,18 @@ int main() {
             break; // added break because my program wasn't quite finishing on 1st
             // 'done' input. Now with break it does what it supposed to do and exits
             // the loop whenever the user inputs 'done';
-        }
-        else {
-            cout << "Analysis: " << endl;
-            cout << "   Number of words: " << numWords(s) << endl;
-            cout << "   Number of sentences: " << numSentences(s) << endl;
-            cout << "   Number of vowels: " << numVowels(s) << endl;
-            cout << "   Number of consonants: " << numConsonants(s) << endl;
-            double readingLevel = (numConsonants(s) + numVowels(s)) /
-            static_cast<double>(numWords(s)); //using proper placement of ();
-            // using static_cast<double> for proper double division;
-            cout << "   Reading level (average word length): " << readingLevel << endl;
-        }
+        } // no need to a else statement here since I am using break on the above line;
+        cout << "Analysis: " << endl;
+        cout << "   Number of words: " << numWords(s) << endl;
+        cout << "   Number of sentences: " << numSentences(s) << endl;
+        cout << "   Number of vowels: " << numVowels(s) << endl;
+        cout << "   Number of consonants: " << numConsonants(s) << endl;
+        double readingLevel = (numConsonants(s) + numVowels(s)) /
+        static_cast<double>(numWords(s)); //using proper placement of ();
+        // using static_cast<double> for proper double division;
+        cout << "   Reading level (average word length): " << readingLevel << endl;
+        double averageVowels = numVowels(s) / static_cast<double>(numWords(s));
+        cout << "   Average vowels per word: " << averageVowels << endl;
     }
-    
     return 0;
 }
