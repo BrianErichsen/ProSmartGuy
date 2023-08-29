@@ -27,8 +27,11 @@
  */
 bool Contains( vector<int> input, int lookFor )
 {
-  // TODO: Fill in implementation. Do not always return false.
-
+    for (int item : input) {
+        if (item == lookFor) {
+            return true;
+        }
+    }
   return false;
 }
 
@@ -45,9 +48,14 @@ bool Contains( vector<int> input, int lookFor )
  */
 int FindMin( vector<int> input )
 {
-  // TODO: Fill in implementation. Do not always return 0.
+    int min = input[0];
+    for (int a : input) {
+        if (a < min) {
+            min = a;
+        }
+    }
 
-  return 0;
+  return min;
 }
 
 /*
@@ -63,9 +71,14 @@ int FindMin( vector<int> input )
  */
 int FindMax( vector<int> input )
 {
-  // TODO: Fill in implementation. Do not always return 0.
+    int max = input[0];
+    for (int a : input) {
+        if (a > max) {
+            max = a;
+        }
+    }
 
-  return 0;
+  return max;
 }
 
 /*
@@ -81,9 +94,13 @@ int FindMax( vector<int> input )
  */
 int Average( vector<int> input )
 {
-  // TODO: Fill in implementation. Do not always return 0.
-
-  return 0;
+    int sum = input[0];
+    for (int a : input) {
+        a += a;
+        sum = a;
+    }
+    int average = sum / input.size();
+  return average;
 }
 
 
@@ -109,7 +126,17 @@ int Average( vector<int> input )
  */
 bool IsSorted( vector<int> input )
 {
-  // TODO: Fill in implementation. Do not always return false.
-
-  return false;
+    if (input.size() <= 1) {
+        return true; // returns true if vector is empty or if has a single item;
+    }
+    for (int a =  0; a < input.size() - 1; a++) { //a < input.size() - 1
+        // because you are comparing pre last item with last item;
+        if (input[a] > input[a + 1]) {
+            return false;
+        }
+        else if (input[a] == input[a + 1]) {
+                    continue; //continue checking when 2 consecutive int are found;
+        }
+    }
+  return true;
 }

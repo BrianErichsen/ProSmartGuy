@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07A1B4F52A9D5118001923B6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07A1B4F42A9D5118001923B6 /* main.cpp */; };
+		07A1B4FD2A9D5554001923B6 /* VectorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07A1B4FC2A9D5554001923B6 /* VectorTest.cpp */; };
+		07A1B4FF2A9D55A8001923B6 /* VectorUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07A1B4FE2A9D55A8001923B6 /* VectorUtil.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +25,9 @@
 
 /* Begin PBXFileReference section */
 		07A1B4F12A9D5118001923B6 /* VectorsHW */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VectorsHW; sourceTree = BUILT_PRODUCTS_DIR; };
-		07A1B4F42A9D5118001923B6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		07A1B4FC2A9D5554001923B6 /* VectorTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorTest.cpp; sourceTree = "<group>"; };
+		07A1B4FE2A9D55A8001923B6 /* VectorUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorUtil.cpp; sourceTree = "<group>"; };
+		07A1B5002A9D55D3001923B6 /* VectorUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorUtil.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +60,9 @@
 		07A1B4F32A9D5118001923B6 /* VectorsHW */ = {
 			isa = PBXGroup;
 			children = (
-				07A1B4F42A9D5118001923B6 /* main.cpp */,
+				07A1B4FC2A9D5554001923B6 /* VectorTest.cpp */,
+				07A1B4FE2A9D55A8001923B6 /* VectorUtil.cpp */,
+				07A1B5002A9D55D3001923B6 /* VectorUtil.h */,
 			);
 			path = VectorsHW;
 			sourceTree = "<group>";
@@ -119,7 +124,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07A1B4F52A9D5118001923B6 /* main.cpp in Sources */,
+				07A1B4FD2A9D5554001923B6 /* VectorTest.cpp in Sources */,
+				07A1B4FF2A9D55A8001923B6 /* VectorUtil.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

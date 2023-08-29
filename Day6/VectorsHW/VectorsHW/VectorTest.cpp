@@ -16,6 +16,7 @@
 
 // Include the VectorUtil library
 #include "VectorUtil.h"
+#include <cassert>
 
 /*
  * Helper function for failing a test.
@@ -26,7 +27,26 @@ void ErrorExit( std::string message )
   std::cerr << "Failed test: " << message << std::endl;
   exit(1); // Causes the entire program to exit.
 }
-
+void testFindMin () {
+    std::vector<int> a = {1, 2, 3, 4, 5};
+    int min = FindMin(a);
+    assert(min == 1);
+}
+void testFindMax () {
+    std::vector<int> a = {1, 2, 3, 4, 5};
+    int max = FindMax(a);
+    assert(max = 5);
+}
+void testAverage (){
+    std::vector<int> a = {1, 2, 3};
+    int average = Average(a);
+    assert(average = 2);
+}
+void testIsSorted () {
+    std::vector<int> a = {2, 2, 3, 4, 5};
+    bool sorted = IsSorted(a);
+    assert(sorted == true);
+}
 
 int main()
 {
@@ -73,6 +93,10 @@ int main()
   // TODO: Add your own tests that thoroughly exercise your VectorUtil library.
 
   // Since any failed test exits the program, if we made it this far, we passed all tests.
+    testFindMin();
+    testFindMax();
+    testAverage();
+    testIsSorted();
   std::cout << "All tests passed!\n";
 
 }
