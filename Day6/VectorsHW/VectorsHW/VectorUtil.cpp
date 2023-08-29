@@ -69,7 +69,7 @@ int FindMin( vector<int> input )
  * Returns:
  *   The largest item in the vector
  */
-int FindMax( vector<int> input )
+int FindMax( vector<int> input ) //for x = 1; x < numbers.size(); x++
 {
     int max = input[0];
     for (int a : input) {
