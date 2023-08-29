@@ -16,7 +16,6 @@ struct card {
     int rank; //here rank is from 0 to 12; 0 being the number Two and Ace 12;
     enum CardSuit {Spades, Hearts, Clubs, Diamonds} suit; //enum is a special data-type of constants, the card's suit in this case;
 };
-
 //const char* suitNames[] = {"Spades", "Hearts", "Clubs", "Diamonds"};
 //const char* rankNames[] = {"Two", "Three", "Four", "Five", "Six", "Seven",
 //    "Eight", "Nine", "Ten", "Joker", "Queen", "King", "Ace"};
@@ -26,6 +25,13 @@ struct card {
 vector<string> suitNames = {"Spades", "Hearts", "Clubs", "Diamonds"};
 vector<string> rankNames = {"Two", "Three", "Four", "Five", "Six", "Seven",
         "Eight", "Nine", "Ten", "Joker", "Queen", "King", "Ace"};
+// void so it does not return a value but it prints the content of a vector<card>;
+void printCards (vector<card> a) {
+    for (card b : a) {
+        cout << "Card rank is " << rankNames[b.rank] << " and card suit is " <<
+        suitNames[b.suit] << endl;
+    }
+}
 
 int main() {
     vector<card> deck;
@@ -42,11 +48,7 @@ int main() {
             deck.push_back(newCard); // adding new card with rank and suit into deck
         }
     }
-    for (card a : deck) {
-        cout << "Card rank is " << rankNames[a.rank] << " and card suit is " <<
-        suitNames[a.suit] << endl;
-        //cout << a.rank << endl; if you want to see each card's rank value;
-    }
+    printCards(deck);
     
     return 0;
 }
