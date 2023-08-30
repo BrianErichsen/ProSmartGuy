@@ -8,20 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0792E5FF2A9E97730062F840 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0792E5FE2A9E97730062F840 /* main.cpp */; };
-		0792E61D2A9EE0580062F840 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0792E5FE2A9E97730062F840 /* main.cpp */; };
+		0792E61A2A9ED5D60062F840 /* Cards.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0792E6182A9ED5D60062F840 /* Cards.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		0792E5F92A9E97730062F840 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		0792E6202A9EE0580062F840 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -35,18 +26,12 @@
 /* Begin PBXFileReference section */
 		0792E5FB2A9E97730062F840 /* Cards */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Cards; sourceTree = BUILT_PRODUCTS_DIR; };
 		0792E5FE2A9E97730062F840 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		0792E6242A9EE0580062F840 /* Cards copy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Cards copy"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0792E6182A9ED5D60062F840 /* Cards.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cards.cpp; sourceTree = "<group>"; };
+		0792E6192A9ED5D60062F840 /* Cards.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cards.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		0792E5F82A9E97730062F840 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0792E61F2A9EE0580062F840 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -59,6 +44,8 @@
 		0792E5F22A9E97730062F840 = {
 			isa = PBXGroup;
 			children = (
+				0792E6182A9ED5D60062F840 /* Cards.cpp */,
+				0792E6192A9ED5D60062F840 /* Cards.hpp */,
 				0792E5FD2A9E97730062F840 /* Cards */,
 				0792E5FC2A9E97730062F840 /* Products */,
 			);
@@ -68,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				0792E5FB2A9E97730062F840 /* Cards */,
-				0792E6242A9EE0580062F840 /* Cards copy */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,23 +87,6 @@
 			productReference = 0792E5FB2A9E97730062F840 /* Cards */;
 			productType = "com.apple.product-type.tool";
 		};
-		0792E61B2A9EE0580062F840 /* Cards copy */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0792E6212A9EE0580062F840 /* Build configuration list for PBXNativeTarget "Cards copy" */;
-			buildPhases = (
-				0792E61C2A9EE0580062F840 /* Sources */,
-				0792E61F2A9EE0580062F840 /* Frameworks */,
-				0792E6202A9EE0580062F840 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Cards copy";
-			productName = Cards;
-			productReference = 0792E6242A9EE0580062F840 /* Cards copy */;
-			productType = "com.apple.product-type.tool";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -146,7 +115,6 @@
 			projectRoot = "";
 			targets = (
 				0792E5FA2A9E97730062F840 /* Cards */,
-				0792E61B2A9EE0580062F840 /* Cards copy */,
 			);
 		};
 /* End PBXProject section */
@@ -157,14 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0792E5FF2A9E97730062F840 /* main.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0792E61C2A9EE0580062F840 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0792E61D2A9EE0580062F840 /* main.cpp in Sources */,
+				0792E61A2A9ED5D60062F840 /* Cards.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,22 +257,6 @@
 			};
 			name = Release;
 		};
-		0792E6222A9EE0580062F840 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		0792E6232A9EE0580062F840 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -329,15 +274,6 @@
 			buildConfigurations = (
 				0792E6032A9E97730062F840 /* Debug */,
 				0792E6042A9E97730062F840 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0792E6212A9EE0580062F840 /* Build configuration list for PBXNativeTarget "Cards copy" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0792E6222A9EE0580062F840 /* Debug */,
-				0792E6232A9EE0580062F840 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0792E5FF2A9E97730062F840 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0792E5FE2A9E97730062F840 /* main.cpp */; };
+		0792E61A2A9ED5D60062F840 /* Cards.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0792E6182A9ED5D60062F840 /* Cards.cpp */; };
 		0792E61D2A9EE0580062F840 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0792E5FE2A9E97730062F840 /* main.cpp */; };
+		0792E61E2A9EE0580062F840 /* Cards.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0792E6182A9ED5D60062F840 /* Cards.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +37,8 @@
 /* Begin PBXFileReference section */
 		0792E5FB2A9E97730062F840 /* Cards */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Cards; sourceTree = BUILT_PRODUCTS_DIR; };
 		0792E5FE2A9E97730062F840 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		0792E6182A9ED5D60062F840 /* Cards.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cards.cpp; sourceTree = "<group>"; };
+		0792E6192A9ED5D60062F840 /* Cards.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cards.hpp; sourceTree = "<group>"; };
 		0792E6242A9EE0580062F840 /* Cards copy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Cards copy"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -59,6 +63,8 @@
 		0792E5F22A9E97730062F840 = {
 			isa = PBXGroup;
 			children = (
+				0792E6182A9ED5D60062F840 /* Cards.cpp */,
+				0792E6192A9ED5D60062F840 /* Cards.hpp */,
 				0792E5FD2A9E97730062F840 /* Cards */,
 				0792E5FC2A9E97730062F840 /* Products */,
 			);
@@ -157,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0792E5FF2A9E97730062F840 /* main.cpp in Sources */,
+				0792E61A2A9ED5D60062F840 /* Cards.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0792E61D2A9EE0580062F840 /* main.cpp in Sources */,
+				0792E61E2A9EE0580062F840 /* Cards.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
