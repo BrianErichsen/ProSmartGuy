@@ -39,7 +39,7 @@ int main() {
     const int numSuits = 4; // from 0 to 3 on the loop
     const int numRanks = 13;// from 0 to 12 on the loop;
     
-    for (int rank = 0; rank < numRanks; ++rank) {
+    for (int rank = 0; rank < numRanks; ++rank) { //rank++ or ++rank
         for (int suit = 0; suit < numSuits; ++suit) {
             card newCard;// declaring new card will be added into deck vector;
             newCard.rank = rank;// rank loop will go from 0 to 12;
