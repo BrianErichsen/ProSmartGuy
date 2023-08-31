@@ -35,12 +35,12 @@ void testFindMin () {
 void testFindMax () {
     std::vector<int> a = {1, 2, 3, 4, 5};
     int max = FindMax(a);
-    assert(max = 5);
+    assert(max == 5);
 }
 void testAverage (){
     std::vector<int> a = {1, 2, 3};
     int average = Average(a);
-    assert(average = 2);
+    assert(average == 2);
 }
 void testIsSorted () {
     std::vector<int> a = {2, 2, 3, 4, 5};

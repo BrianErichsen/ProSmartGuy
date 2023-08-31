@@ -96,11 +96,10 @@ int Average( vector<int> input )
 {
     int sum = input[0];
     for (int a : input) {
-        a += a;
-        sum = a;
+        sum += a;
     }
-    int average = sum / input.size();
-  return average;
+    
+    return sum / input.size();
 }
 
 
@@ -134,9 +133,9 @@ bool IsSorted( vector<int> input )
         if (input[a] > input[a + 1]) {
             return false;
         }
-        else if (input[a] == input[a + 1]) {
-                    continue; //continue checking when 2 consecutive int are found;
-        }
+//        else if (input[a] == input[a + 1]) {
+//                    continue; //continue checking when 2 consecutive int are found;
+//        }
     }
   return true;
 }

@@ -72,6 +72,37 @@ bool isStraightFlush (vector<card> hand) { //still testing this fucntion to be 1
     }
     return false;
 }
+bool isRoyalFlush (vector<card> hand) {
+    card min; min.rank = hand[0].rank; //I used my findMin function from previous
+    for (card a : hand) {          //just had to change type of variable;
+        if (a.rank < min.rank) {
+            min = a;
+        }
+    } // card rank name 10 is same as int rank 8;
+    if ((min.rank == 8) && (isStraightFlush(hand))) {
+        return true;
+    }
+    return false;
+}
+bool isAce (vector<card> hand) {
+    //find match rank in other index that is not itself;
+    card p1; p1.rank = hand[0].rank;
+    int EqualCard = 0;
+    for (int a = 0; a <= hand.size() - 1; ++a) {
+        if (p1.rank == hand[a].rank) {
+            EqualCard++;
+        }
+        if (EqualCard == 2) { //could be AcesNum >= 2 but once it finds at least two
+            // equal cards it returns true;
+            return true;
+        }
+    }
+    return false;
+}
+//bool isFullHouse (vector<card> hand) {
+//    
+//    return false;
+//}
 
 int main() {
     vector<card> deck; // composes the deck of cards;
@@ -94,11 +125,11 @@ int main() {
     printCards(hand);
     
     
-    card s1; s1.rank = 3;
-    card s2; s2.rank = 5;
-    card s3; s3.rank = 4;
-    card s4; s4.rank = 7;
-    card s5; s5.rank = 6;
+    card s1; s1.rank = 8;
+    card s2; s2.rank = 9;
+    card s3; s3.rank = 10;
+    card s4; s4.rank = 11;
+    card s5; s5.rank = 12;
     
     s5.card::suit = card::Clubs;
     s4.card::suit = card::Clubs;
@@ -106,11 +137,13 @@ int main() {
     s2.card::suit = card::Clubs;
     s1.card::suit = card::Clubs;
     
-    card s6; s6.rank = 3; s6.card::suit =card::Spades;
+    card s6; s6.rank = 8; s6.card::suit =card::Spades;
     
-    vector<card> test = {s6, s2, s3, s4, s5};
+    vector<card> test = {s1, s2, s3, s4, s5};
     cout << isStraight(test) << endl;
     cout << isStraightFlush(test) << endl;
+    cout << isRoyalFlush(test) << endl;
+    cout << isAce(test) << endl;
     
     return 0;
 }
