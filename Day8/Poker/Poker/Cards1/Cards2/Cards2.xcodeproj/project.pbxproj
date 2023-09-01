@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0792E6322A9EEAF00062F840 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0792E6312A9EEAF00062F840 /* main.cpp */; };
+		07A5ED352AA1439A00DC91FF /* PokerHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07A5ED332AA1439A00DC91FF /* PokerHelper.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		0792E62E2A9EEAF00062F840 /* Cards2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Cards2; sourceTree = BUILT_PRODUCTS_DIR; };
 		0792E6312A9EEAF00062F840 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		07A5ED332AA1439A00DC91FF /* PokerHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PokerHelper.cpp; sourceTree = "<group>"; };
+		07A5ED342AA1439A00DC91FF /* PokerHelper.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PokerHelper.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +44,8 @@
 		0792E6252A9EEAF00062F840 = {
 			isa = PBXGroup;
 			children = (
+				07A5ED332AA1439A00DC91FF /* PokerHelper.cpp */,
+				07A5ED342AA1439A00DC91FF /* PokerHelper.hpp */,
 				0792E6302A9EEAF00062F840 /* Cards2 */,
 				0792E62F2A9EEAF00062F840 /* Products */,
 			);
@@ -120,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0792E6322A9EEAF00062F840 /* main.cpp in Sources */,
+				07A5ED352AA1439A00DC91FF /* PokerHelper.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
