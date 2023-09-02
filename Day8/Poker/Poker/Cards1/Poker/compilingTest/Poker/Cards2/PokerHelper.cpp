@@ -28,11 +28,11 @@ void printCards (vector<card> a) {
     }
 }
 void shuffleDeck (vector<card>& a) {
-    mt19937 rng(time(0));
-    for (int b = 0; b <= a.size() - 1; b++) {
-        uniform_int_distribution<int> dist(b, 51);
-        int random = dist(rng);
-        swap(a[b], a[random]);
+    mt19937 rng(time(0));// calling it's function to seconds;
+    for (int b = 0; b <= a.size() - 1; b++) { //loops through each index of the vector;
+        uniform_int_distribution<int> dist(b, 51);// b min and 51 for max for random number;
+        int random = dist(rng); // int random by calling declared dist(distribution);
+        swap(a[b], a[random]);// swaping numbers;
     }
 }
 bool isFlush (const vector<card>& a) {
