@@ -9,7 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
-
+#include "words.hpp"
 using namespace std;
 
 
@@ -33,6 +33,23 @@ using namespace std;
 //    }
 //    return number_of_sentences;
 //}
+//string getTitle(const vector<string>& input) {
+//    string title;
+//    bool foundTitle = false;
+//    for (const string& word : input) {
+//        if (word.find("Title:")) {
+//            foundTitle = true;
+//            continue; //Skip the Title: word itself;
+//        }
+//        if (foundTitle) {
+//            if (!title.empty()) {
+//                title += " ";
+//            }
+//        }
+//    }
+//    return title;
+//}
+
 
 int main(int argc, const char * argv[]) {
 //    string filename(argv[1]);
@@ -59,15 +76,13 @@ int main(int argc, const char * argv[]) {
     fin.clear();
     fin.seekg(0, std::ios::beg); //Reset file stream to top file;
      
-//    cout << isTitle(vector<string>);
-//    cout << authorOftheBook;
+    cout << "Title: " << getTitle(allWords) << endl;
+    cout << "Author: " << getAuthor(allWords) << endl;
 //    cout << total number of words;
 //    cout << total number of chars;
 //    cout << shortest word in the book;
 //    cout << longest word in the book;
 //    cout << word; number of appereances, itself + index -1 and +1; % of total number of char;
-    
-    cout << allWords.size() << endl;
     fin.close();
     
     return 0;

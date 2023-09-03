@@ -7,7 +7,12 @@
 
 #ifndef words_hpp
 #define words_hpp
+#include <string>
+#include <vector>
+
+using namespace std;
 
 #include <stdio.h>
-
+string getTitle(const vector<string>& input);
+string getAuthor(const vector<string>& input);
 #endif /* words_hpp */
