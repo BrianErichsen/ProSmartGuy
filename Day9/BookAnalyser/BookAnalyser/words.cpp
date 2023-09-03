@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+
 using namespace std;
 
 string getTitle(const vector<string>& input) {
@@ -16,11 +17,15 @@ string getTitle(const vector<string>& input) {
     bool foundTitle = false; // Initialises as false first and check conditions;
     int wordCount = 0; // keeps track of how many words in total for > 100;
     for (const string& word : input) { //loops through each index on vector;
-        if (word.find("Title:") != string::npos) { //tries to find "Title"
+        string lowercaseWord = word;
+        // https://www.geeksforgeeks.org/conversion-whole-string-uppercase-lowercase-using-stl-c/#
+//        transform ::tolower syntax reference;
+        transform(lowercaseWord.begin(), lowercaseWord.end(), lowercaseWord.begin(), ::tolower);
+        if (lowercaseWord.find("title:") != string::npos) { //tries to find "Title"
             foundTitle = true;
             continue; //Skip the Title: word itself;
         } //std::string::npos means until the end of the string, usually used to indicate no matches;
-        if (foundTitle && word.find("Author:") != string::npos) { // checks if word contains
+        if (foundTitle && lowercaseWord.find("author:") != string::npos) { // checks if word contains
             // substring "author" otherwise returns std::string::npos
             break; //breaks out of the loop so it stops appending words after finding "Author";
         }
@@ -43,11 +48,13 @@ string getAuthor(const vector<string>& input) {
     bool foundAuthor = false;
     int wordCount = 0;
     for (const string& word : input) {
-        if (word.find("Author:") != string::npos) {
+        string lowercaseWord = word;
+        transform(lowercaseWord.begin(), lowercaseWord.end(), lowercaseWord.begin(), ::tolower);
+        if (lowercaseWord.find("author:") != string::npos) {
             foundAuthor = true;
             continue;
         }
-        if (foundAuthor && word.find("Release date:") != string::npos) {
+        if (foundAuthor && lowercaseWord.find("release date:") != string::npos) {
             break;
         }
         if (foundAuthor) {
@@ -62,5 +69,8 @@ string getAuthor(const vector<string>& input) {
             break;
         }
     }
-    return author.empty() ? "Unknow author" : author;
+    return author.empty() ? "Unknown author" : author;
 }
+// Author: Herman Melville
+// Release Date: June,
+//Release Date: June, 2001 [eBook #2701]
