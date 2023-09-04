@@ -23,17 +23,17 @@ using namespace std;
 //    return (number_of_words + 1); //word count = number of spaces + 1;
 //}
 int main(int argc, const char * argv[]) {
-//    string filename(argv[1]);
-//    string word(argv[2]);
-    string word;
+    string filename(argv[1]);
+    string word(argv[2]);
+//    string word;
     string singleWord; //initialises singleWord sting;
     vector<string> allWords;//initialises allWords;
 
     cout << "Enter a word: ";
     cin >> word;
     
-//  ifstream fin(filename);
-    ifstream fin("/Users/brianerichsenfagundes/Desktop/Moby.txt");
+  ifstream fin(filename);
+//    ifstream fin("/Users/brianerichsenfagundes/Desktop/Moby.txt");
     
     if (fin.fail()) {
         cout << "Failed to open file!";
@@ -55,7 +55,6 @@ int main(int argc, const char * argv[]) {
     longestWord(allWords) << endl;
     cout << "The word " << word << " appears " << numberOfTimesWord(allWords, word) <<
     " times: " << endl;
-    cout << "at " << atWordKey(allWords, word) << endl;
 
 //    cout << total number of words;
 //    cout << total number of chars;

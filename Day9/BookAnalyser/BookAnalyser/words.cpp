@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -102,18 +103,16 @@ int numberOfTimesWord (const vector<string>& input, const string& lookFor) {
     }
     return numberWord;
 }
-int atWordKey (const vector<string>& input, const string& keyword) {
-    vector<int> keywordIndex;
-    for (int i = 0; i < input.size(); ++i) {
-        if (input[i] == keyword) {
-            keywordIndex.push_back(i);
-        }
-    }
-    int at = keywordIndex[0] * 100.0 / input.size();
-    int k = 0;
-    while (k < keywordIndex.size()) {
-        k++;
-        return at;
-    }
-    return at;
-}
+//void atWordKey (const vector<string>& input, const string& keyword) {
+//    vector<int> keywordIndex;
+//    for (int i = 0; i < input.size(); ++i) {
+//        if (input[i] == keyword) {
+//            keywordIndex.push_back(i);
+//        }
+//    }
+//    for (int b = 0; b < keywordIndex.size(); ++ b) {
+//        int index = keywordIndex[b];
+//        double percentage = static_cast<double>(index) * 100 / input.size();
+//        cout << "at " << fixed << setprecision(0) << percentage << "%:" << endl;
+//    }
+//}
