@@ -45,7 +45,7 @@ string getTitle(const vector<string>& input) {
 }
 string getAuthor (const vector<string>& input) {
     string author;
-    int wordCount = 0;
+//    int wordCount = 0;
     bool isAuthor = false; //initialises isAuthor to be false first;
     for (const string& word : input) {
         string lowercaseWord = word;
@@ -57,13 +57,13 @@ string getAuthor (const vector<string>& input) {
             isAuthor = false; // ends author section whenever release word is found;
         }
         if (isAuthor) {
-            author += word + " "; // appends all words in between author: and release including spaces;
+            author += word + " "; // appends all words in between author, plus it adds spaces;
         }
-        wordCount++; //each interaction increments word count; if > 100 it empty the author's name and exits loop;
-        if (wordCount >= 100) {
-            author.clear();
-            break;
-        }
+//        wordCount++; //each interaction increments word count; if > 100 it empty the author's name and exits loop;
+//        if (wordCount >= 100) {
+//            author.clear();
+//            break;
+//        }
     }
     return author.empty() ? "Unknown Title" : author;
 }
@@ -91,4 +91,29 @@ string longestWord (const vector<string>& input) {
         }
     }
     return longest;
+}
+int numberOfTimesWord (const vector<string>& input, const string& lookFor) {
+    int numberWord = 0;
+    string p1 = input[0];
+    for (const string& word : input) {
+        if (word == lookFor) {
+            numberWord++;
+        }
+    }
+    return numberWord;
+}
+int atWordKey (const vector<string>& input, const string& keyword) {
+    vector<int> keywordIndex;
+    for (int i = 0; i < input.size(); ++i) {
+        if (input[i] == keyword) {
+            keywordIndex.push_back(i);
+        }
+    }
+    int at = keywordIndex[0] * 100.0 / input.size();
+    int k = 0;
+    while (k < keywordIndex.size()) {
+        k++;
+        return at;
+    }
+    return at;
 }
