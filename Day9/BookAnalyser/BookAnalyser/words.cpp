@@ -45,6 +45,7 @@ string getTitle(const vector<string>& input) {
 }
 string getAuthor (const vector<string>& input) {
     string author;
+    int wordCount = 0;
     bool isAuthor = false; //initialises isAuthor to be false first;
     for (const string& word : input) {
         string lowercaseWord = word;
@@ -58,22 +59,36 @@ string getAuthor (const vector<string>& input) {
         if (isAuthor) {
             author += word + " "; // appends all words in between author: and release including spaces;
         }
+        wordCount++; //each interaction increments word count; if > 100 it empty the author's name and exits loop;
+        if (wordCount >= 100) {
+            author.clear();
+            break;
+        }
     }
-    return author;
+    return author.empty() ? "Unknown Title" : author;
 }
 int charNum (const vector<string>& input) {
-    int totalchar = 0;
+    int totalchar = 0; //sets total char initially to be 0;
     for (const string& word : input) {
-        totalchar += word.size();
+        totalchar += word.size(); // loop adds total word size to total characters in each interaction;
     }
     return totalchar;
 }
-string shortestWord(const vector<string>& input) {
-    string small;
+string shortestWord (const vector<string>& input) {
+    string smallest = input[0]; //sets smallest to be index 0 so it's size can be compared to each index;
     for (const string& word : input) {
-        if (word.size() < input.size()) {
-            small = word;
+        if (word.size() < smallest.size()) { // if size is lower then smallest = wordl;
+            smallest = word;
         }
     }
-    return small;
+    return smallest;
+}
+string longestWord (const vector<string>& input) {
+    string longest = input[0]; //sets longest to be index 0 so it's size can be compared to each index;
+    for (const string& word : input) {
+        if (word.size() > longest.size()) { //if size is longer then longer = word;
+            longest = word;
+        }
+    }
+    return longest;
 }

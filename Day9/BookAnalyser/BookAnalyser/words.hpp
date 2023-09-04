@@ -16,5 +16,6 @@ using namespace std;
 string getTitle(const vector<string>& input);
 string getAuthor(const vector<string>& input);
 int charNum (const vector<string>& input);
-string shortestWord(const vector<string>& input);
+string shortestWord (const vector<string>& input);
+string longestWord (const vector<string>& input);
 #endif /* words_hpp */
