@@ -12,16 +12,6 @@
 #include "words.hpp"
 using namespace std;
 
-
-//int numWords (std::string input) { //this function has it's own limititaions;
-//    int number_of_words = 0; // it does not count for double spaces from user;
-//    for (int a = 0; a <= input.length() - 1; a++) {
-//        if (input[a] == ' ') {
-//            number_of_words++;
-//        }
-//    }
-//    return (number_of_words + 1); //word count = number of spaces + 1;
-//}
 int main(int argc, const char * argv[]) {
     string filename(argv[1]);
     string word(argv[2]);
@@ -29,8 +19,8 @@ int main(int argc, const char * argv[]) {
     string singleWord; //initialises singleWord sting;
     vector<string> allWords;//initialises allWords;
 
-    cout << "Enter a word: ";
-    cin >> word;
+//    cout << "Enter a word: ";
+//    cin >> word;
     
   ifstream fin(filename);
 //    ifstream fin("/Users/brianerichsenfagundes/Desktop/Moby.txt");
@@ -46,6 +36,7 @@ int main(int argc, const char * argv[]) {
     
     fin.clear();
     fin.seekg(0, std::ios::beg); //Reset file stream to top file;
+    vector keywordIndex = keyWordPositions(allWords, word);
      
     cout << "Title: " << getTitle(allWords) << endl;
     cout << "Author: " << getAuthor(allWords) << endl;
@@ -55,12 +46,8 @@ int main(int argc, const char * argv[]) {
     longestWord(allWords) << endl;
     cout << "The word " << word << " appears " << numberOfTimesWord(allWords, word) <<
     " times: " << endl;
+    printKeyWordPosition(keywordIndex, allWords);
 
-//    cout << total number of words;
-//    cout << total number of chars;
-//    cout << shortest word in the book;
-//    cout << longest word in the book;
-//    cout << word; number of appereances, itself + index -1 and +1; % of total number of char;
     fin.close();
     
     return 0;

@@ -19,5 +19,6 @@ int charNum (const vector<string>& input);
 string shortestWord (const vector<string>& input);
 string longestWord (const vector<string>& input);
 int numberOfTimesWord (const vector<string>& input, const string& lookFor);
-//void atWordKey (const vector<string>& input, const string& keyword);
+vector<int> keyWordPositions (const vector<string>& input, const string& keyword);
+void printKeyWordPosition (const vector<int>& keywordIndex, const vector<string>& input);
 #endif /* words_hpp */

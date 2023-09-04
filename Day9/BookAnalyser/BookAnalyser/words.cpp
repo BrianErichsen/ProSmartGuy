@@ -10,6 +10,7 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
+#include <iostream>
 
 using namespace std;
 
@@ -94,25 +95,38 @@ string longestWord (const vector<string>& input) {
     return longest;
 }
 int numberOfTimesWord (const vector<string>& input, const string& lookFor) {
-    int numberWord = 0;
-    string p1 = input[0];
+    int numberWord = 0; //sets initial count to be 0;
+    string p1 = input[0]; // for comparison starting at index 0;
     for (const string& word : input) {
-        if (word == lookFor) {
+        if (word == lookFor) { //whenever word lookfor is found, increase count by one;
             numberWord++;
         }
     }
     return numberWord;
 }
-//void atWordKey (const vector<string>& input, const string& keyword) {
-//    vector<int> keywordIndex;
-//    for (int i = 0; i < input.size(); ++i) {
-//        if (input[i] == keyword) {
-//            keywordIndex.push_back(i);
-//        }
-//    }
-//    for (int b = 0; b < keywordIndex.size(); ++ b) {
-//        int index = keywordIndex[b];
-//        double percentage = static_cast<double>(index) * 100 / input.size();
-//        cout << "at " << fixed << setprecision(0) << percentage << "%:" << endl;
-//    }
-//}
+vector<int> keyWordPositions (const vector<string>& input, const string& keyword) {
+    vector<int> keywordIndex; //creates a vector that contains all the keyword indexes;
+    for (int i = 0; i < input.size(); ++i) {
+        if (input[i] == keyword) {
+            keywordIndex.push_back(i);
+        }
+    }
+    return keywordIndex;
+}
+void printKeyWordPosition (const vector<int>& keywordIndex, const vector<string>& input) {
+    for (int b = 0; b < keywordIndex.size(); ++ b) {
+        int index = keywordIndex[b];//sets index to be b which will run through the whole keywordindex vec;
+        double percentage = static_cast<double>(index) * 100 / input.size();//calculates percentage compared
+        // to total words;
+        cout << "at " << fixed << setprecision(0) << percentage << "%: ";//sets percentage to be printed as
+        // one digit number;
+        if (index > 0) { // prints all adjacents sides of index;
+            cout << input[index - 1] << " ";
+        }
+        cout << input[index] << " ";
+        if (index < input.size() - 1) {
+            cout << input[index + 1];
+        }
+        cout << endl;
+    }
+}
