@@ -8,7 +8,7 @@
 #include "words.hpp"
 #include <string>
 #include <vector>
-
+#include <algorithm>
 
 using namespace std;
 
@@ -43,34 +43,37 @@ string getTitle(const vector<string>& input) {
     }
     return title.empty() ? "Unknown Title" : title; //conditional statement where it checks if title is empty, if true first statement is executed and if not the second statement is executed;
 }
-string getAuthor(const vector<string>& input) {
+string getAuthor (const vector<string>& input) {
     string author;
-    bool foundAuthor = false;
-    int wordCount = 0;
+    bool isAuthor = false; //initialises isAuthor to be false first;
     for (const string& word : input) {
         string lowercaseWord = word;
         transform(lowercaseWord.begin(), lowercaseWord.end(), lowercaseWord.begin(), ::tolower);
-        if (lowercaseWord.find("author:") != string::npos) {
-            foundAuthor = true;
-            continue;
+        if (lowercaseWord.find("author:") == 0) {
+            isAuthor = true; // checks for word author and enters IsAuthor section when author is found;
         }
-        if (foundAuthor && lowercaseWord.find("release date:") != string::npos) {
-            break;
+        if (lowercaseWord.find("release") == 0) {
+            isAuthor = false; // ends author section whenever release word is found;
         }
-        if (foundAuthor) {
-            if (!author.empty()) {
-                author += " ";
-            }
-            author += word;
-        }
-        wordCount++;
-        if (wordCount >= 100) {
-            author.clear();
-            break;
+        if (isAuthor) {
+            author += word + " "; // appends all words in between author: and release including spaces;
         }
     }
-    return author.empty() ? "Unknown author" : author;
+    return author;
 }
-// Author: Herman Melville
-// Release Date: June,
-//Release Date: June, 2001 [eBook #2701]
+int charNum (const vector<string>& input) {
+    int totalchar = 0;
+    for (const string& word : input) {
+        totalchar += word.size();
+    }
+    return totalchar;
+}
+string shortestWord(const vector<string>& input) {
+    string small;
+    for (const string& word : input) {
+        if (word.size() < input.size()) {
+            small = word;
+        }
+    }
+    return small;
+}

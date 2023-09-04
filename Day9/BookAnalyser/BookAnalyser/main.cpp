@@ -22,35 +22,6 @@ using namespace std;
 //    }
 //    return (number_of_words + 1); //word count = number of spaces + 1;
 //}
-//int numSentences (std::string input) { // I am using same format that I used on numWords f();
-//    int number_of_sentences = 0;// this function also has it's own limitations;
-//    // if inputs contains ... or quotes where a sentence is not finished the output
-//    // will be off;
-//    for (int a = 0; a <= input.length() - 1; a++) {
-//        if (input[a] == '.' || input[a] == '!' || input[a] == '?') {
-//            number_of_sentences++;
-//        }
-//    }
-//    return number_of_sentences;
-//}
-//string getTitle(const vector<string>& input) {
-//    string title;
-//    bool foundTitle = false;
-//    for (const string& word : input) {
-//        if (word.find("Title:")) {
-//            foundTitle = true;
-//            continue; //Skip the Title: word itself;
-//        }
-//        if (foundTitle) {
-//            if (!title.empty()) {
-//                title += " ";
-//            }
-//        }
-//    }
-//    return title;
-//}
-
-
 int main(int argc, const char * argv[]) {
 //    string filename(argv[1]);
 //    string word(argv[2]);
@@ -78,6 +49,10 @@ int main(int argc, const char * argv[]) {
      
     cout << "Title: " << getTitle(allWords) << endl;
     cout << "Author: " << getAuthor(allWords) << endl;
+    cout << "Total number of words in the file: " << allWords.size() << endl;
+    cout << "The total number of characters in the file: " << charNum(allWords) << endl;
+    cout << "The shortest word is " << shortestWord(allWords) << endl;
+
 //    cout << total number of words;
 //    cout << total number of chars;
 //    cout << shortest word in the book;
