@@ -36,7 +36,7 @@ int main(int argc, const char * argv[]) {
     
     fin.clear();
     fin.seekg(0, std::ios::beg); //Reset file stream to top file;
-    vector keywordIndex = keyWordPositions(allWords, word);
+    vector<int> keywordIndex = keyWordPositions(allWords, word);
      
     cout << "Title: " << getTitle(allWords) << endl;
     cout << "Author: " << getAuthor(allWords) << endl;
