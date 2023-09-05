@@ -1,0 +1,20 @@
+Brian Erichsen Fagundes Day11 lab;
+
+12- 1100; binary and C; Hex;
+63 - 111111; binary and 3F; Hex;
+100 - 1100100; binary and 64; Hex;
+127 - 1111111; binary and 7F; Hex;
+254 - 11111110; binary and FE; Hex;
+
+100 binary is 4 decimal & 4 Hex;
+10001 binary is 17 decimal & 11 Hex;
+100010 binary is 34 decimal & 22 Hex;
+11000000 binary is 192 decimal & C0 Hex;
+11111111 binary is 255 decimal & FF;
+
+A Hex to binary is 1010 and 10 decimal;
+C0 Hex to binary is 11000000 and 192 decimal;
+FF Hex to binary is 11111111 and 255 decimal;
+BEEF Hex to binary is 101111011101111 and 48879 decimal;
+F00D Hex to binary is 1111000000001101 and 61453 decimal;
+

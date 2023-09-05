@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
 //    cin >> word;
     
   ifstream fin(filename);
-//    ifstream fin("/Users/brianerichsenfagundes/Desktop/Moby.txt");
+//    ifstream fin("/Users/brianerichsenfagundes/Desktop/Test1.txt");
     
     if (fin.fail()) {
         cout << "Failed to open file!";

@@ -31,7 +31,7 @@ void printCards (vector<card> a) {
         cout << "Card rank is " << rankNames[b.rank] << " and card suit is " <<
         suitNames[b.suit] << endl;
     }
-}
+}   
 
 int main() {
     vector<card> deck;
