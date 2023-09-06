@@ -78,27 +78,27 @@ int main() {
     (fStraight * 100) << "%" << endl;
     
     
-//    card s1; s1.rank = 11;
-//    card s2; s2.rank = 11;
-//    card s3; s3.rank = 11;
-//    card s4; s4.rank = 12;
-//    card s5; s5.rank = 12;
-//
-//    s5.card::suit = card::Clubs;
-//    s4.card::suit = card::Clubs;
-//    s3.card::suit = card::Clubs;
-//    s2.card::suit = card::Clubs;
-//    s1.card::suit = card::Clubs;
+    card s1; s1.rank = 2;
+    card s2; s2.rank = 2;
+    card s3; s3.rank = 12;
+    card s4; s4.rank = 12;
+    card s5; s5.rank = 12;
+
+    s5.card::suit = card::Clubs;
+    s4.card::suit = card::Clubs;
+    s3.card::suit = card::Clubs;
+    s2.card::suit = card::Clubs;
+    s1.card::suit = card::Clubs;
 //
 //    card s6; s6.rank = 1; s6.card::suit =card::Spades;
 //
-//    vector<card> test = {s1, s2, s3, s4, s5};
+    vector<card> test = {s1, s2, s3, s4, s5};
 //    cout << isFlush(test) << endl;
 //    cout << isStraight(test) << endl;
 //    cout << isStraightFlush(test) << endl;
 //    cout << isRoyalFlush(test) << endl;
 //    cout << isAce(test) << endl;
-//    cout << isFullHouse(test) << endl;
+    cout << isFullHouse(test) << endl;
     
     return 0;
 }
