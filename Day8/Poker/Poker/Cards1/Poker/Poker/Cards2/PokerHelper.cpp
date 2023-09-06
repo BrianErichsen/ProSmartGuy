@@ -46,11 +46,16 @@ bool isFlush (const vector<card>& a) {
 }
 bool isStraight (const vector<card>& hand) {
     vector<card> sortedHand = hand; // creates new vector = to original vector;
-    // using sort syntax for struct vectors(beg, end, [] indexes comparison;
+    // using sort syntax for struct vectors(beg, end ...
+    // lambda provides a way to compare and order the elememts of comparison;
+    // it takes 2 parameters, card a and card b; [] lambda means that it does not
+    // capture any variables from it's surrounding scope;
     sort(sortedHand.begin(), sortedHand.end(), [](const card& a,const card& b) {
-        return a.rank < b.rank; // returns true if rank of a is less than rank of b;
+        return a.rank < b.rank; // sorts by card rank from ascending order
+        // or it returns true if a.rank is < b.rank;
         // syntax reference: https://en.cppreference.com/w/cpp/algorithm/sort
     });// 3rd example there contains struct example;
+    // lambda expression syntax reference; https://learn.microsoft.com/en-us/cpp/cpp/lambda-expressions-in-cpp?view=msvc-170
     for (int c = 0; c < hand.size() - 1; ++c) {
         if (sortedHand[c + 1].rank != sortedHand[c].rank + 1) {
             return false; // this statement is not the opposite or else I would
