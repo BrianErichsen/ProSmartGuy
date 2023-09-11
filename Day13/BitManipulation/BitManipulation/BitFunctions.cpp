@@ -51,11 +51,13 @@ using std::string;
  */
 bool GetBit( uint32_t input, int b )
 {
-    uint32_t mask = 0x1 << b; //sets mask to be 00000001 (1u) and shifts it to the left adding 0s -
-    // to the right; if b is 1 for example; 00000001 --> 00000010 so that 1 is at b position;
-    bool isSet = (input & mask) != 0; // compares mask and input with & operator and if bit in pos-
-    // b is 1, then returns true; alternative code is bool isSet = (input & mask) == mask;
-    return isSet;// returns isSet;
+    /*sets mask to be 00000001 (1u) and shifts it to the left adding 0s to the right;
+     if b is 1 for example; 00000001 --> 00000010 so that 1 is at b position; */
+    uint32_t mask = 0x1 << b;
+    /*if bit in position b is 1, then returns true; alternative code is
+     bool isSet = (input & mask) == mask;*/
+    bool isSet = (input & mask) != 0;
+    return isSet;
 }
 /*
  * Determines whether or not an int is negative
@@ -70,9 +72,11 @@ bool GetBit( uint32_t input, int b )
  */
 bool IsNegative( int input )
 {
-    int signBit = (input >> (sizeof(input) * 8 - 1)) & 1; // moves input to right; multiply * 8
+    // moves input to right; multiply * 8
     // to convert to bits; to move int to leftmost bit or MSB position;
-    return signBit == 1; //checks if input is 1;
+    int signBit = (input >> (sizeof(input) * 8 - 1)) & 1;
+    //checks if input is 1;
+    return signBit == 1;
 }
 
 /*
@@ -90,13 +94,18 @@ bool IsNegative( int input )
  *   NumBitsSet(-1) -> returns 32
  */
 int NumBitsSet( uint32_t input ) {
-    int total1s = 0;//Initialize total to be 0 first; for totals to be added to it;
-    for (int i = 0; i < 32; ++i) { //int i loops through all bits positions, from 0 to 31;
-        if ((input & (1 << i)) != 0) {//sets LSB to 1 i times to the left; by adding 0s to right of LSB;
-            total1s++;//Whenever bits numbers of input and 1 (LSB) to the left by 1 are 1 then ..
-        }//  adds to total;
+    //Initialize total to be 0 first; for totals to be added to it;
+    int total1s = 0;
+    //int i loops through all bits positions, from 0 to 31;
+    for (int i = 0; i < 32; ++i) {
+        //sets LSB to 1 i times to the left; by adding 0s to right of LSB;
+        // whenever bits number of input and 1 (LSB) are 1 using & operator
+        // then +1 totals of 1;
+        if ((input & (1 << i)) != 0) {
+            total1s++;
+        }
     }
-    return total1s;//return total;
+    return total1s;
 }
 
 /*
@@ -117,13 +126,13 @@ int NumBitsSet( uint32_t input ) {
  */
 unsigned char GetByte( uint32_t input, int b )
 {
-    uint32_t shiftedByte = (input >> (b * 8));//declaring new variable that holds input shifted to right//
-    // by b * 8 to change from 3 to MSB, 0 to LSB
-    unsigned char result = shiftedByte & 0xFF; //filters all bits but retains LSB 8 bits;
+    /*declaring new variable that holds input shifted to right//
+    // by b * 8 to change from 3 to MSB, 0 to LSB*/
+    uint32_t shiftedByte = (input >> (b * 8));
+    //filters all bits but retains LSB 8 bits;
+    unsigned char result = shiftedByte & 0xFF;
     return result;
 }
-
-
 /*
  * SetByte() sets the specified byte in the input to the specified value, and returns the result.
  *
@@ -144,20 +153,18 @@ unsigned char GetByte( uint32_t input, int b )
  */
 uint32_t SetByte( uint32_t input, uint8_t value, int b )
 {
-    // b * 8 calculates where byte b starts;
-    // byte specified by b is set to 0xFF (1111 1111) and isolated to the left;
-    // ~flips all 0s to into 1s and all 1s into 0; bitwise operator; 0000 0000 1111 1111;
-    //input &= performs bitwise and operation between input and inverted mask;
-    //in sum here input becomes itself but specified byte by b is 0;
-    input &= ~(0xFF << (b * 8)); // AABB00DD; AABBCCDD & 0 0 1 0 --> AABB00DD;
-    //
+    /* b * 8 calculates where byte b starts;
+     byte specified by b is set to 0xFF (1111 1111) and isolated to the left;
+     ~flips all 0s to into 1s and all 1s into 0; bitwise operator; 0000 0000 1111 1111;
+    input &= performs bitwise and operation between input and inverted mask;
+    in sum here input becomes itself but specified byte by b is 0;*/
+    input &= ~(0xFF << (b * 8));
+
     // b * 8 calculates where bytes b starts, shifts value to left to byte position;
-    // input |= bitwise OR operation between input and shifted value, sets bits input to shifted-
-    // value; SetByte(0xAABBCCDD, 0x55, 1);
-    input |= static_cast<uint32_t>(value) << (b * 8); //AABB00DD | 0 0 55 0 --> AABB55DD;
+    // input |= bitwise OR operation between input and shifted value, sets bits input to shifted value;
+    input |= static_cast<uint32_t>(value) << (b * 8);
     return input;
 }
-
 
 /*
  * Negate() computes the negation of an integer.
@@ -186,9 +193,10 @@ uint32_t SetByte( uint32_t input, uint8_t value, int b )
 int Negate( int input )
 {
   // Note, it may help to do the challenge question (see below) before implementing this one...
-
+//invert all bits using not operator;
     uint32_t negate = ~input;
-    return negate;
+    // use two's complement method by inverting bits and adding 1 into it;
+    return negate + 1;
 }
 
 
@@ -199,9 +207,12 @@ int Negate( int input )
  * This function should return x + 1 but should only make use of bitwise operators and == or !=
 */
 int Increment( uint32_t x ){
-    uint32_t rightMostUnsetBit = (~x) & (x + 1); //Find rightmost unset (0) bit
-    x |= rightMostUnsetBit; //Set the rightmost unset bit to 1;
-    x &= ~(rightMostUnsetBit - 1);// Clear all bits to the right;
+    // find rightmost unset bit;
+    uint32_t rightMostUnsetBit = (~x) & (x + 1);
+    //Set the rightmost unset bit to 1;
+    x |= rightMostUnsetBit;
+    // Clear all bits to the right;
+    x &= ~(rightMostUnsetBit - 1);
     return x;
 }
 

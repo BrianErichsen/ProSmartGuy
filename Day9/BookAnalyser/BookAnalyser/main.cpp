@@ -10,11 +10,20 @@
 #include <vector>
 #include <string>
 #include "words.hpp"
-using namespace std;
+
 
 int main(int argc, const char * argv[]) {
-    string filename(argv[1]);
-    string word(argv[2]);
+    using namespace std;
+    
+    std::string filename, word;
+    if(argc  == 2){
+        filename = argv[1];
+        word = argv[2];
+    }
+    else{
+        filename = "Google.txt";
+        word = "someword";
+    }
 //    string word;
     string singleWord; //initialises singleWord sting;
     vector<string> allWords;//initialises allWords;
@@ -24,11 +33,11 @@ int main(int argc, const char * argv[]) {
     
   ifstream fin(filename);
 //    ifstream fin("/Users/brianerichsenfagundes/Desktop/Moby.txt");
-    
+    //prints an error msg and quits the program;
     if (fin.fail()) {
         cout << "Failed to open file!";
         system("PAUSE");
-        return 0; //prints an error msg and quits the program;
+        return 0;
     }
     while (fin >> singleWord) {
         allWords.push_back(singleWord);
@@ -39,7 +48,7 @@ int main(int argc, const char * argv[]) {
     vector<int> keywordIndex = keyWordPositions(allWords, word);
      
     cout << "Title: " << getTitle(allWords) << endl;
-    cout << "Author: " << getAuthor(allWords) << endl;
+    cout << getAuthor(allWords) << endl;
     cout << "Total number of words in the file: " << allWords.size() << endl;
     cout << "The total number of characters in the file: " << charNum(allWords) << endl;
     cout << "The shortest word is " << shortestWord(allWords) << " and the longest word is " <<
