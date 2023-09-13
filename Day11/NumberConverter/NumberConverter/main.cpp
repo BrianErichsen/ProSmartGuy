@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
     cin >> digits >> base;
     cout << stringToInt(digits, base) << endl;
     cout << intToDecimalString(10) << endl;
-    cout << intToBinaryString(77777) << endl;
-    cout << intToHexadecimalString(999) << endl;
+    cout << intToBinaryString(100) << endl;
+    cout << intToHexadecimalString(61453) << endl;
     return 0;
 }

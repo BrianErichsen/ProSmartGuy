@@ -207,9 +207,9 @@ int Negate( int input )
  * This function should return x + 1 but should only make use of bitwise operators and == or !=
 */
 int Increment( uint32_t x ){
-    // find rightmost unset bit;
+    // find rightmost unset bit that now becomes 1;
     uint32_t rightMostUnsetBit = (~x) & (x + 1);
-    //Set the rightmost unset bit to 1;
+    //Set x's rightmost unset bit to 1;
     x |= rightMostUnsetBit;
     // Clear all bits to the right;
     x &= ~(rightMostUnsetBit - 1);
