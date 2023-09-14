@@ -22,15 +22,17 @@ private:
 /*---------------------- beguinning of public */
 public:
     MyVector();
-    MyVector(size_t b);
+    MyVector(size_t capacity);
+    MyVector makeVector(size_t size);
     //Destructor
     ~MyVector();
     // function that returns size and does not alter internal state of object
-    MyVector makeVector(size_t size);
     void push_back (int val);
     size_t getSize() const;
     void deleteVector();
-    void set(int val, size_t pos);
+    int get(size_t pos);
+    void popBack();
+    size_t getCapacity() const;
 };
 void growMyVector (MyVector& vec);
 #endif /* MyVector_hpp */
