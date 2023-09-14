@@ -33,6 +33,10 @@ public:
     int get(size_t pos);
     void popBack();
     size_t getCapacity() const;
+    void set(int val, size_t pos);
+    void freeVector ();
+    void printVec() const;
 };
+void testMyVector();
 void growMyVector (MyVector& vec);
 #endif /* MyVector_hpp */
