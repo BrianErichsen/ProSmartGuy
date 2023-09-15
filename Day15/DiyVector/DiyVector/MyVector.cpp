@@ -10,34 +10,66 @@
 MyVector::MyVector() {
     size_ = 0;
     capacity_ = 10;
-    data = new int[capacity_];
+    data = new int[capacity_]; // new T for temolate;
 }
 MyVector::MyVector(size_t b) {
+    if (capacity_ > 0) {
+        size_ = 0;
+        capacity_ = b;
+        data = new int[capacity_];
+    }
+}
+MyVector::MyVector (int* inputdata, size_t size) {
     size_ = 0;
-    capacity_ = b;
+    capacity_ = 10;
     data = new int[capacity_];
+    if (inputdata != nullptr) {
+        for (int i = 0; i < size; i++) {
+            push_back(inputdata[i]);
+        }
+    }
+}
+MyVector::MyVector(const std::vector<int>& inputData) {
+    size_ = 0;
+    capacity_ = 10;
+    data = new int[capacity_];
+    if (inputData.size() > 0) {
+        for (const int& num : inputData) {
+            push_back(num);
+        }
+    }
 }
 MyVector::~MyVector() {
     std::cout << "Hello from the destructor!" << std::endl;
     size_ = 0;
     capacity_ = 0;
     delete[] data;
+    data = nullptr;
 }
 size_t MyVector::getSize() const {
     return size_;
 }
 void MyVector::growMyVector () {
+    //Creates array temp
     int* temp = new int[capacity_ * 2];
+    //Copies data into temp
     for (int i = 0; i < size_; i++) {
         temp[i] = data[i];
     }
+    //Delete data
     delete[] data;
+    //Point data at whatever temp is pointing at
     data = temp;
+    // Set temp to null
     temp = nullptr;
+    // Update capacity
     capacity_ *= 2;
 }
 void MyVector::push_back (int val) {
-    if (size_ + 1 == capacity_) {
+    if (data == nullptr) {
+        MyVector();
+    }
+    if (size_ + 1 >= capacity_) {
         growMyVector();
     }
     data[size_] = val;
@@ -47,18 +79,12 @@ void MyVector::deleteVector() {
     size_ = 0;
     delete [] data;
 }
-MyVector MyVector::makeVector(size_t size) {
-    capacity_ = 2 * size_;
-    size_ = size;
-    data = new int[capacity_];
-    return *this;
-}
 void MyVector::popBack() {
     if (size_ > 0) {
         size_--;
     }
 }
-int MyVector::get(size_t pos) {
+int MyVector::get(size_t pos) const {
     assert (pos < size_ && "Invalid position");
     assert (data != nullptr && "Vector is empty");
     return data[pos];
@@ -82,45 +108,103 @@ void MyVector::freeVector () {
 void MyVector::printVec() const {
     using namespace std;
     for (size_t i = 0; i < size_; i++){
-        cout << data[i] << " " << endl;
+        cout << data[i] << " ";
+    }
+    cout << endl;
+}
+MyVector operator+(const MyVector& lhs, const MyVector& rhs) {
+    assert(lhs.getSize() == rhs.getSize() && "Size mismatch in operator+");
+    MyVector result;
+    size_t size = lhs.getSize();
+    for (size_t i = 0; i < size; i++) {
+        result.push_back(lhs.get(i) + rhs.get(i));
+    }
+    return result;
+}
+MyVector MyVector::operator+(const MyVector& rhs) {
+    assert((size_ == rhs.getSize()) && "Size mismatch in operator+");
+    MyVector result;
+    size_t size = size_;
+    for (size_t i = 0; i < size; i++) {
+        result.push_back(data[i] + rhs.get(i));
+    }
+    return result;
+}
+//    if (rhs.getSize() == 0)
+//        return *this;
+//    MyVector result;
+//    // First add lhs to result
+//    for (size_t i = 0; i < size_; i++) {
+//        result.push_back(data[i]);
+//    }
+//    // Then concatenate rhs
+//    for (size_t i = 0; i < size_; i++) {
+//        result.push_back(rhs.get(i));
+//    }
+//    return result;
+//}
+MyVector& MyVector::operator+=(const MyVector& rhs) {
+    for (size_t i = 0; i < rhs.getSize(); i++) {
+        push_back(rhs.get(i));
+    }
+    return *this;
+}
+int& MyVector::operator[](size_t index) {
+    assert(index < size_ && "Out of bounds in operator[]!");
+    return data[index];
+}
+const int& MyVector::operator[](size_t index) const {
+    assert(index < size_ && "Out of bounds in operator[]!");
+    return data[index];
+}
+MyVector& MyVector::operator=(const MyVector& rhs) {
+    if (this != &rhs) {
+        delete [] data;
+        size_ = rhs.getSize();
+        capacity_ = 2 * size_;
+        if(capacity_ > 0) {
+            data = new int[capacity_];
+            for (size_t i = 0; i < rhs.getSize(); i++) {
+                data[i] = rhs[i];
+            }
+        }
+    }
+    return *this;
+}
+MyVector::MyVector(const MyVector& rhs) {
+    if (this != &rhs) {
+        delete [] data;
+        size_ = rhs.getSize();
+        capacity_ = 2 * size_;
+        if(capacity_ > 0) {
+            data = new int[capacity_];
+            for (size_t i = 0; i < rhs.getSize(); i++) {
+                data[i] = rhs[i];
+            }
+        }
     }
 }
-//void testMyVector() {
-//    // Create a MyVector object for testing
-//    MyVector vec;
-//
-//    // Test the default constructor and getSize function
-//    assert(vec.getSize() == 0);
-//
-//    // Test push_back and getSize functions
-//    vec.push_back(1);
-//    vec.push_back(2);
-//    vec.push_back(3);
-//    assert(vec.getSize() == 3);
-//
-//    // Test get function
-//    assert(vec.get(0) == 1);
-//    assert(vec.get(1) == 2);
-//    assert(vec.get(2) == 3);
-//
-//    // Test set function
-//    vec.set(10, 1);
-//    assert(vec.get(1) == 10);
-//
-//    // Test popBack function
-//    vec.popBack();
-//    assert(vec.getSize() == 2);
-//    assert(vec.get(2) != 3); // Ensure the last element is removed
-//    // Add more test cases for your functions as needed
-//
-//    // Test deleteVector function
-//    vec.deleteVector();
-//    assert(vec.getSize() == 0);
-//    // Make sure to add more comprehensive tests for various scenarios
-//
-//    // Test printVec function (manually inspect output)
-//    vec.printVec();
-//
-//    std::cout << "All tests passed!" << std::endl;
-//}
+//Test Function
+void testMyVector () {
+    using namespace std;
+    MyVector vec;
+    // Create a Vector with an initial capacity of 5
+    MyVector myVector(5);
+    // Test pushBack and get
+    vec.push_back(5);
+    vec.push_back(10);
+    assert(vec.get(0) == 5);
+    assert(vec.get(1) == 10);
+    // Test set and popBack
+    vec.set(2, 15);
+    vec.popBack();
+    assert(vec.get(0) == 5);
+    assert(vec.getSize() == 1);
+    // Test growVector
+    vec.push_back(20);
+    vec.push_back(25);
+    
+    // Test free the vector
+    myVector.freeVector();
+}
 

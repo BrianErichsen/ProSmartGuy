@@ -21,16 +21,36 @@ private:
     void growMyVector ();
 /*---------------------- beguinning of public */
 public:
-    MyVector();
+    MyVector(); // constructor
+    
+    //another constructor (equivalent to reserve)
     MyVector(size_t capacity);
-    MyVector makeVector(size_t size);
+    
+   //Takes an vector and create a MyVector
+    MyVector(const std::vector<int>& inputData);
+    
+    // Takes an array in and create a vector out of that
+    MyVector (int* inputdata, size_t size);
+    
+    // Copy constructor
+    MyVector(const MyVector& rhs);
+    
     //Destructor
     ~MyVector();
-    // function that returns size and does not alter internal state of object
+    
+    //Operators
+    MyVector operator+(const MyVector& rhs);
+    MyVector& operator+=(const MyVector& rhs);
+    int& operator[](size_t index);
+    const int& operator[] (size_t index) const;
+    MyVector& operator=(const MyVector& rhs);
+    
+    //Users class methods
     void push_back (int val);
+    // Gets size and does not alter internal state of object
     size_t getSize() const;
     void deleteVector();
-    int get(size_t pos);
+    int get(size_t pos) const;
     void popBack();
     size_t getCapacity() const;
     void set(int val, size_t pos);
@@ -38,5 +58,5 @@ public:
     void printVec() const;
 };
 void testMyVector();
-void growMyVector (MyVector& vec);
+MyVector operator+(const MyVector& lhs, const MyVector& rhs);
 #endif /* MyVector_hpp */

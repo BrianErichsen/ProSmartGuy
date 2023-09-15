@@ -10,7 +10,7 @@
 //  main.cpp
 //  BitManipulation
 //
-//  Created by Brian Erichsen Fagundes on 9/7/23.
+//  Created by Brian Erichsen Fagundes on 9/7/23 and Mina Akbari
 /*
   Author: Daniel Kopta, Ben Jones
   
