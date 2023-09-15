@@ -184,6 +184,73 @@ MyVector::MyVector(const MyVector& rhs) {
         }
     }
 }
+bool MyVector::operator==(const MyVector& rhs) const {
+    if (size_ != rhs.getSize()) {
+        // if they have different sizes, they are not equal by default
+        return false;
+    }
+    //If any element is differnet, then they are not equal
+    for (size_t i = 0; i < rhs.getSize(); i++) {
+        if (data[i] != rhs[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+bool MyVector::operator!=(const MyVector& rhs) const {
+    if (size_ != rhs.getSize()) {
+        // if they have different sizes, they are not equal
+        return true;
+    }
+    //If any element is differnet, then they are not equal
+    for (size_t i = 0; i < rhs.getSize(); i++) {
+        if (data[i] != rhs[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+// compares if lhs is lower than rhs
+bool MyVector::operator<(const MyVector& rhs) const {
+    size_t size = size_;
+    //if size of lhs is lower than rhs, then returns true
+    if (rhs.getSize() > size) {
+        return true;
+    }
+    //compares each other's data lexicographically
+    //Iterates through each element until finds different values for data
+    // then compares if lhs data is lower than rhs
+    for (size_t i = 0; i < size; ++i) {
+        if (data[i] != rhs[i] && data[i] < rhs[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+bool MyVector::operator<=(const MyVector& rhs) const {
+    // returns true if lhs and rhs are either equals or if lhs is lower than rhs
+    return (*this == rhs) || (*this < rhs);
+}
+bool MyVector::operator>(const MyVector& rhs) const {
+    size_t size = size_;
+    //If size of lhs is > than rhs, then returns true
+    if (rhs.getSize() < size) {
+        return true;
+    }
+    //Does a lexicographic comparison and when data is different but rhs data is > than lhs
+    // then returns true
+    for (size_t i = 0; i < size; ++i) {
+            if (data[i] != rhs && data[i] > rhs[i]) {
+                return true;
+            }
+    }
+    return false;
+}
+//if lhs is == to rhs or if lhs is > than rhs then it returns true
+bool MyVector::operator>=(const MyVector& rhs) const {
+    return (*this == rhs) || (*this > rhs);
+}
+
 //Test Function
 void testMyVector () {
     using namespace std;

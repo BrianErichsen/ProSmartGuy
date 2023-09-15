@@ -44,7 +44,12 @@ public:
     int& operator[](size_t index);
     const int& operator[] (size_t index) const;
     MyVector& operator=(const MyVector& rhs);
-    
+    bool operator==(const MyVector& rhs) const;
+    bool operator!=(const MyVector& rhs) const;
+    bool operator<(const MyVector& rhs) const;
+    bool operator<=(const MyVector& rhs) const;
+    bool operator>(const MyVector& rhs) const;
+    bool operator>=(const MyVector& rhs) const;
     //Users class methods
     void push_back (int val);
     // Gets size and does not alter internal state of object

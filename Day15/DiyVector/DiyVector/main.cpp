@@ -18,19 +18,25 @@ int main(int argc, const char* argv[]) {
     v.push_back(4);
     v.push_back(5);
     MyVector v1;
-    v1.push_back(6);
-    v1.push_back(7);
-    v1.push_back(8);
-    v1.push_back(9);
-    v1.push_back(10);
-    v.set(420, 0);
-    std::vector<int> a = {8, 9, 10, 11, 12};
-    MyVector v4(a);
-    v4.printVec();
-    MyVector v3 = v + v1;
-    v3.printVec();
-    cout << v.getSize() << " " << v.getCapacity() << " ";
-    v.printVec();
+    v1.push_back(1);
+    v1.push_back(2);
+    v1.push_back(3);
+    v1.push_back(4);
+    v1.push_back(5);
+    if (v > v1) {
+        cout << "Yes, they are equal";
+    }
+    else
+        cout << "Nah, they are not equal";
+    
+//    v.set(420, 0);
+//    std::vector<int> a = {8, 9, 10, 11, 12};
+//    MyVector v4(a);
+//    v4.printVec();
+//    MyVector v3 = v + v1;
+//    v3.printVec();
+//    cout << v.getSize() << " " << v.getCapacity() << " ";
+//    v.printVec();
     
     cout << "I love learning this!" << endl;
         
