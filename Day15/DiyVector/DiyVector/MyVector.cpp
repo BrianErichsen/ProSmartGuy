@@ -80,9 +80,8 @@ void MyVector::deleteVector() {
     delete [] data;
 }
 void MyVector::popBack() {
-    if (size_ > 0) {
+    assert(size_ != 0 && "Vector is empty");
         size_--;
-    }
 }
 int MyVector::get(size_t pos) const {
     assert (pos < size_ && "Invalid position");
@@ -158,6 +157,9 @@ const int& MyVector::operator[](size_t index) const {
     return data[index];
 }
 MyVector& MyVector::operator=(const MyVector& rhs) {
+    if (this == &rhs) {
+        return *this;
+    }
     if (this != &rhs) {
         delete [] data;
         size_ = rhs.getSize();
@@ -198,17 +200,7 @@ bool MyVector::operator==(const MyVector& rhs) const {
     return true;
 }
 bool MyVector::operator!=(const MyVector& rhs) const {
-    if (size_ != rhs.getSize()) {
-        // if they have different sizes, they are not equal
-        return true;
-    }
-    //If any element is differnet, then they are not equal
-    for (size_t i = 0; i < rhs.getSize(); i++) {
-        if (data[i] != rhs[i]) {
-            return true;
-        }
-    }
-    return false;
+    return !(*this == rhs);
 }
 // compares if lhs is lower than rhs
 bool MyVector::operator<(const MyVector& rhs) const {
