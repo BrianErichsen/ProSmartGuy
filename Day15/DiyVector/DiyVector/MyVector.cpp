@@ -34,7 +34,7 @@ void testMyVector () {
     MyVector<string> str;
     str.push_back("Hi");
     str.push_back("you!");
-    
+
     MyVector<string> str1;
     str1.push_back("My");
     str1.push_back("cat!");

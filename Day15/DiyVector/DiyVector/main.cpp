@@ -12,17 +12,13 @@ using namespace std;
     
 int main(int argc, const char* argv[]) {
     testMyVector();
+   
+    MyVector<int> t;
+    t.push_back(2);
+    t.push_back(3);
+    for (int i : t) {
+        cout << i << " ";
+    }
     
-//    // testing concatenation
-//    MyVector<string> str;
-//    str.push_back("Hi");
-//    str.push_back("you!");
-//
-//    MyVector<string> str1;
-//    str1.push_back("My");
-//    str1.push_back("cat!");
-//    MyVector<string> TT = str + str1;
-
-//    TT.printVec();
     return 0;
 }

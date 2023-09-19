@@ -51,6 +51,12 @@ public:
     bool operator<=(const MyVector& rhs) const;
     bool operator>(const MyVector& rhs) const;
     bool operator>=(const MyVector& rhs) const;
+    
+    //Iterator Support
+    T* begin() {return data;}
+    T* end() {return data + size_;}
+    const T* begin() const {return data;}
+    const T* end() const {return data + size_;}
     //Users class methods
     void push_back (T val);
     // Gets size and does not alter internal state of object
@@ -81,7 +87,7 @@ MyVector<T>::MyVector(size_t b) {
 template<typename T>
 MyVector<T>::MyVector (T* inputdata, size_t size) {
     size_ = 0;
-    capacity_ = 10;
+    capacity_ = size;
     data = new T[capacity_];
     if (inputdata != nullptr) {
         for (int i = 0; i < size; i++) {
@@ -174,14 +180,14 @@ void MyVector<T>::freeVector () {
     delete[] data;
     data = nullptr;
 }
-template <typename T>
-void MyVector<T>::printVec() const {
-    using namespace std;
-    for (size_t i = 0; i < size_; i++){
-        cout << data[i] << " ";
-    }
-    cout << endl;
-}
+// template <typename T>
+// void MyVector<T>::printVec() const {
+//     using namespace std;
+//     for (size_t i = 0; i < size_; i++){
+//         cout << data[i] << " ";
+//     }
+//     cout << endl;
+// }
 //MyVector operator+(const MyVector& lhs, const MyVector& rhs) {
 //    assert(lhs.getSize() == rhs.getSize() && "Size mismatch in operator+");
 //    MyVector result;
@@ -242,10 +248,10 @@ MyVector<T>& MyVector<T>::operator=(const MyVector<T>& rhs) {
     }
     return *this;
 }
+//I added a : initialiser list that happens
+//even before the constuctor is executed;
 template<typename T>
-MyVector<T>::MyVector(const MyVector<T>& rhs) {
-    if (this != &rhs) {
-        delete [] data;
+MyVector<T>::MyVector(const MyVector<T>& rhs) : data(nullptr) {
         size_ = rhs.getSize();
         capacity_ = 2 * size_;
         
@@ -255,7 +261,6 @@ MyVector<T>::MyVector(const MyVector<T>& rhs) {
                 data[i] = rhs[i];
             }
         }
-    }
 }
 template<typename T>
 bool MyVector<T>::operator==(const MyVector<T>& rhs) const {

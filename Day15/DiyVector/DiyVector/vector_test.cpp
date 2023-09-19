@@ -3,7 +3,7 @@
 #include <cassert>
 TEST_CASE("vector grows to 1000")
 {
-    MyVector vector;
+    MyVector<int> vector;
     REQUIRE(vector.getSize() == 0);
 
     vector.push_back(1);
@@ -19,9 +19,9 @@ TEST_CASE("vector grows to 1000")
     REQUIRE(vector.getSize() == 1000);
 }
 TEST_CASE("vec assert") {
-    MyVector vec;
+    MyVector<int> vec;
     // Create a Vector with an initial capacity of 5
-    MyVector myVector(5);
+    MyVector<int> myVector(5);
     // Test pushBack and get
     vec.push_back(5);
     vec.push_back(10);
