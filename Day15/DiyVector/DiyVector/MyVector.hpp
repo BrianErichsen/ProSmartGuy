@@ -81,7 +81,7 @@ MyVector<T>::MyVector(size_t b) {
     if (capacity_ > 0) {
         size_ = 0;
         capacity_ = b;
-        data = new int[capacity_];
+        data = new T[capacity_];
     }
 }
 template<typename T>
@@ -134,6 +134,7 @@ void MyVector<T>::growMyVector () {
     // Update capacity
     capacity_ *= 2;
 }
+//Works dynamically with grow vector; checks for when to grow;
 template<typename T>
 void MyVector<T>::push_back (T val) {
     if (data == nullptr) {
@@ -145,26 +146,31 @@ void MyVector<T>::push_back (T val) {
     data[size_] = val;
     size_++;
 }
+//Part of the Destructor
 template<typename T>
 void MyVector<T>::deleteVector() {
     size_ = 0;
     delete [] data;
 }
+//Removes last item from vector
 template<typename T>
 void MyVector<T>::popBack() {
     assert(size_ != 0 && "Vector is empty");
         size_--;
 }
+//Gets data to the given index
 template <typename T>
 T MyVector<T>::get(size_t pos) const {
     assert (pos < size_ && "Invalid position");
     assert (data != nullptr && "Vector is empty");
     return data[pos];
 }
+//Returns Vector capacity
 template <typename T>
 size_t MyVector<T>::getCapacity() const {
     return capacity_;
 }
+//Sets any position in MyVector to specific item
 template <typename T>
 void MyVector<T>::set(T val, size_t pos) {
     if (pos < size_) {
@@ -180,23 +186,16 @@ void MyVector<T>::freeVector () {
     delete[] data;
     data = nullptr;
 }
-// template <typename T>
-// void MyVector<T>::printVec() const {
-//     using namespace std;
-//     for (size_t i = 0; i < size_; i++){
-//         cout << data[i] << " ";
-//     }
-//     cout << endl;
-// }
-//MyVector operator+(const MyVector& lhs, const MyVector& rhs) {
-//    assert(lhs.getSize() == rhs.getSize() && "Size mismatch in operator+");
-//    MyVector result;
-//    size_t size = lhs.getSize();
-//    for (size_t i = 0; i < size; i++) {
-//        result.push_back(lhs.get(i) + rhs.get(i));
-//    }
-//    return result;
-//}
+//User method to print vector
+ template <typename T>
+ void MyVector<T>::printVec() const {
+     using namespace std;
+     for (size_t i = 0; i < size_; i++){
+         cout << data[i] << " ";
+     }
+     cout << endl;
+ }
+//+ operator
 template <typename T>
 MyVector<T> MyVector<T>::operator+(const MyVector<T>& rhs) const {
     if (rhs.getSize() == 0)
@@ -212,6 +211,7 @@ MyVector<T> MyVector<T>::operator+(const MyVector<T>& rhs) const {
     }
     return result;
 }
+//+= operator
 template<typename T>
 MyVector<T>& MyVector<T>::operator+=(const MyVector<T>& rhs) {
     for (size_t i = 0; i < rhs.getSize(); i++) {
@@ -219,6 +219,7 @@ MyVector<T>& MyVector<T>::operator+=(const MyVector<T>& rhs) {
     }
     return *this;
 }
+//Indexes operators
 template<typename T>
 T& MyVector<T>::operator[](size_t index) {
     assert(index < size_ && "Out of bounds in operator[]!");
@@ -229,6 +230,7 @@ const T& MyVector<T>::operator[](size_t index) const {
     assert(index < size_ && "Out of bounds in operator[]!");
     return data[index];
 }
+//Copy method
 template<typename T>
 MyVector<T>& MyVector<T>::operator=(const MyVector<T>& rhs) {
     if (this == &rhs) {
@@ -250,6 +252,7 @@ MyVector<T>& MyVector<T>::operator=(const MyVector<T>& rhs) {
 }
 //I added a : initialiser list that happens
 //even before the constuctor is executed;
+//Copy constructor
 template<typename T>
 MyVector<T>::MyVector(const MyVector<T>& rhs) : data(nullptr) {
         size_ = rhs.getSize();
@@ -262,6 +265,7 @@ MyVector<T>::MyVector(const MyVector<T>& rhs) : data(nullptr) {
             }
         }
 }
+/* Bool operators functions----------------------------*/
 template<typename T>
 bool MyVector<T>::operator==(const MyVector<T>& rhs) const {
     if (size_ != rhs.getSize()) {
@@ -288,6 +292,10 @@ bool MyVector<T>::operator<(const MyVector<T>& rhs) const {
     if (rhs.getSize() > size) {
         return true;
     }
+    //If size of lhs is lower than rhs, then returns true
+    if (size_ < rhs.getSize()) {
+        return true;
+    }
     //compares each other's data lexicographically
     //Iterates through each element until finds different values for data
     // then compares if lhs data is lower than rhs
@@ -310,10 +318,13 @@ bool MyVector<T>::operator>(const MyVector<T>& rhs) const {
     if (rhs.getSize() < size) {
         return true;
     }
+    if (size > rhs.getSize()) {
+        return true;
+    }
     //Does a lexicographic comparison and when data is different but rhs data is > than lhs
     // then returns true
     for (size_t i = 0; i < size; ++i) {
-            if (data[i] != rhs && data[i] > rhs[i]) {
+            if (data[i] != rhs.data[i] && data[i] > rhs[i]) {
                 return true;
             }
     }

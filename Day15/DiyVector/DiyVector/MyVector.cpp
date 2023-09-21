@@ -40,8 +40,13 @@ void testMyVector () {
     str1.push_back("cat!");
     MyVector<string> TT = str + str1;
     assert(TT.get(3) == "cat!");
-    //Tests != comparison
+    //Tests all bool comparison operators
     assert(TT != str);
+    assert(str < TT);
+    assert(TT > str);
+    MyVector QQ(TT);
+    assert (QQ >= TT);
+    assert(QQ <= TT);
     
     cout << "All tests passed!" << endl;
 }

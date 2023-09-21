@@ -8,17 +8,25 @@
 #include <iostream>
 #include <string>
 #include "MyVector.hpp"
-using namespace std;
+#include <algorithm>
     
 int main(int argc, const char* argv[]) {
+//    using namespace std;
     testMyVector();
-   
-    MyVector<int> t;
-    t.push_back(2);
-    t.push_back(3);
-    for (int i : t) {
-        cout << i << " ";
-    }
-    
+//
+//    MyVector<int> t;
+//    t.push_back(2);
+//    t.push_back(3);
+//    for (int i : t) {
+//        cout << i << " ";
+//    }
+//    MyVector<int> p;
+//    p.push_back(10);
+//    p.push_back(9);
+//    p.push_back(8);
+//
+//    sort(p.begin(), p.end());
+//    p.printVec();
+
     return 0;
 }
