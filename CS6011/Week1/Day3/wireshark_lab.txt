@@ -1,0 +1,19 @@
+10.17.145.31 my ip address IPv4;
+fe80::b46a:a7ff:fe7c:f2d4%llw0 for IPv6;
+Data - data type stream of bytes
+Internet Protocol Version 4" section - what is the source address, the destination address? Depends of who pings, in my ping since I pinged my classmates IP that means source is me and destination is my class mate;
+By opening the data type we see any very long hex number that corresponds to bytes.
+How long does it take a ping packet to travel to your classmate's machine and back? About 10 ms to 100 ms; round-trip min/avg/max/stddev = 7.510/63.456/123.989/33.306 ms;
+If I ping ping www.louvre.fr then round-trip min/avg/max/stddev = 147.051/155.917/181.122/8.011 ms which means that it took longer because average was double time than pinging my classmate;
+When I ping google.com then round-trip min/avg/max/stddev = 18.654/22.982/27.256/3.437 ms the communication happens quite fast to compared to www.louvre.fr. 
+The data table shows the hex number in int representations of the hex;
+Did you see more than you expected in the output? Can you figure out what other data was sent/received? Data (bytes -- information) was sent to the server but server did not modify or capture any data; server answered '304 not modified' and yes the out was more than expected;
+
+curl is a tool for transferring data from or to a server.
+Now running the experiment with curl, This will render the complete source code of the homepage for the domain. If no protocol is specified curl will interpret this to HTTP.
+
+Finally, try going to http://github.com using Safari or Firefox (not Chrome! It does its own weird thing), and see what happens. (What URL actually show's up when GitHub is loaded? It's not exactly what you typed in.) Can you understand the output from Wireshark? Why can you only read the first couple of messages?
+
+When I tried to record while opening github.com with safari I was able to see that me, the client sent out communication to server and server was able reply to me. Is not what I typed in because it encrypts. And HTTPS and everything encrypts. That's why you are not able to actually read the first messages.
+
+
