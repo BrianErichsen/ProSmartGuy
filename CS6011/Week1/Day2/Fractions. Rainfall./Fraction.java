@@ -155,8 +155,8 @@ public class Fraction {
     //Main method
     public static void main(String[] args) {
         //Creates different Fraction for testing
-        Fraction a = new Fraction(50, 55);
-        Fraction b = new Fraction(49, 76);
+        Fraction a = new Fraction(50.0, 55.0);
+        Fraction b = new Fraction(49.0, 76.0);
 
         //Tests greatest common denominator function
         double result = a.GCD();
