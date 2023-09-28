@@ -1,0 +1,12 @@
+Month: June, Average Rainfall: 4.276
+Month: October, Average Rainfall: 2.7585
+Month: December, Average Rainfall: 4.6850000000000005
+Month: May, Average Rainfall: 3.5885
+Month: September, Average Rainfall: 3.8020000000000005
+Month: March, Average Rainfall: 4.801
+Month: July, Average Rainfall: 4.3615
+Month: January, Average Rainfall: 4.3020000000000005
+Month: February, Average Rainfall: 4.227000000000001
+Month: April, Average Rainfall: 3.5765000000000002
+Month: August, Average Rainfall: 4.078999999999999
+Month: November, Average Rainfall: 3.7269999999999994
