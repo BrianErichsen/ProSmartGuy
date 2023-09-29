@@ -17,6 +17,9 @@ public class Fraction {
     Fraction(double n, double d) {
         //handles if denom is negative and numerator is positive
         assert denominator != 0 : "Denominator should not be zero!";
+        if (d == 0) {
+            throw new IllegalArgumentException("Denominator should not be zero");
+        }
         if (d < 0 && n > 0) {
             d *= -1;
             n *= -1;
@@ -45,7 +48,7 @@ public class Fraction {
         return gcd;
     }
     //Returns a double from a single Fraction
-    private double absoluteValue() {
+    private double getTheRealNumber() {
         realnumber = numerator / denominator;
         return realnumber;
     }
@@ -59,14 +62,14 @@ public class Fraction {
         if (denominator == b.denominator) {
             result.denominator = b.denominator;
             result.numerator = numerator + b.numerator;
-            double realNumber = result.absoluteValue();
+            double realNumber = result.getTheRealNumber();
         }
         //When different denom is itself * rhs (b)
         //Nume is (itself_denom * rhs_denom) + (rhs_nume * itself_denom)
         if (denominator != b.denominator) {
             result.denominator = denominator * b.denominator;
             result.numerator = numerator * (b.denominator) + b.numerator * (denominator);
-            result.realnumber = result.absoluteValue();
+            result.realnumber = result.getTheRealNumber();
         }
         //simplifies fraction and returns result
         result.reduce();
@@ -92,14 +95,14 @@ public class Fraction {
         if (denominator == b.denominator) {
             result.denominator = b.denominator;
             result.numerator = numerator - b.numerator;
-            double realNumber = result.absoluteValue();
+            double realNumber = result.getTheRealNumber();
         }
         //When different denom is itself * rhs (b)
         //Nume is (itself_denom * rhs_denom) + (rhs_nume * itself_denom)
         if (denominator != b.denominator) {
             result.denominator = denominator * b.denominator;
             result.numerator = numerator * (b.denominator) - b.numerator * (denominator);
-            double realnumber = result.absoluteValue();
+            double realnumber = result.getTheRealNumber();
         }
         //simplifies fraction and returns result
         result.reduce();
@@ -110,7 +113,7 @@ public class Fraction {
         Fraction result = new Fraction();
         result.numerator = numerator * rhs.numerator;
         result.denominator = denominator * rhs.denominator;
-        result.realnumber = result.absoluteValue();
+        result.realnumber = result.getTheRealNumber();
         result.reduce();
         return result;
     }
@@ -121,7 +124,7 @@ public class Fraction {
         //same as multiplying lhs to reciprocal of rhs
         result.numerator = numerator * rhsInverse.numerator;
         result.denominator = denominator * rhsInverse.denominator;
-        result.realnumber = result.absoluteValue();
+        result.realnumber = result.getTheRealNumber();
         //Simplifies result and returns it
         result.reduce();
         return result;
@@ -130,7 +133,7 @@ public class Fraction {
         Fraction reciprocal = new Fraction(numerator, denominator);
         reciprocal.numerator = denominator;
         reciprocal.denominator = numerator;
-        reciprocal.realnumber = reciprocal.absoluteValue();
+        reciprocal.realnumber = reciprocal.getTheRealNumber();
         return reciprocal;
     }
     public void reduce() {
@@ -150,6 +153,13 @@ public class Fraction {
             a = temp;
         }
         return a;
+    }
+    public static void test() {
+        try {
+            Fraction c = new Fraction(50, 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Denominator should not be zero");
+        }
     }
 
     //Main method
@@ -182,5 +192,7 @@ public class Fraction {
         // Test / operator
         Fraction result6 = a.dividedBy(b);
         System.out.println(result6.realnumber);
+        //For testing my exception statement
+        test();
     }
 }
