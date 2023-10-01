@@ -51,6 +51,7 @@ public class WebServer {
                 String requestURI = requestParts[1];
 
                 if ("GET".equals(httpMethod)) {
+                    requestURI = sanitizeURI(requestURI);
                     //cheks if the client requested the root path "/"
                     if ("/".equals(requestURI)) {
                         //Sets default file to index.html
@@ -72,6 +73,15 @@ public class WebServer {
                 e.printStackTrace();
             }
         }
+    }
+    private static String sanitizeURI(String requestURI) {
+        //remove parent directory (e.g. ..) from URI - prevents path manipulation from client
+        //removes backslashes
+        String sanitizeURI = requestURI.replaceAll("\\.\\.", "");
+        //Normalize URI by replacing backslahses with forward slashes
+        sanitizeURI = requestURI.replace("\\", "/");
+
+        return sanitizeURI;
     }
 
     private static void serveFile(PrintWriter outStream, String requestURI) throws IOException {
