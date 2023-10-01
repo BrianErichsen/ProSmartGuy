@@ -10,6 +10,15 @@ import java.util.Scanner;
 public class WebServer {
 
     public static void main(String[] args) {
+        try {
+            startServer();
+        } catch (IOException e) {
+            //Handles critical error: Unable to start the server
+            e.printStackTrace();
+            System.exit(1); // terminates the program
+        }
+    }
+    private static void startServer() throws IOException {
         try (ServerSocket server = new ServerSocket(8080)) {
             //continously
             while (true) {
@@ -26,6 +35,7 @@ public class WebServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
     }
 
     private static void handleClient(Socket client) {
@@ -51,12 +61,14 @@ public class WebServer {
                 }
             }
         } catch (IOException e) {
+            //Handles non critical error: Log error and continue handling other clients
             e.printStackTrace();
         } finally {
             try {
                 //Closes the client socket
                 client.close();
             } catch (IOException e) {
+                //Handle non-critical error: Log the error and continue
                 e.printStackTrace();
             }
         }
@@ -106,16 +118,4 @@ public class WebServer {
             return "application/octet-stream"; // Default to binary data
         }
     }
-
-// //In case client did request any file
-// private static void serveDefaultMessage(PrintWriter outStream) {
-//     //Message that I want to appear on localhost:8080
-//     String defaultMessage = "<html><body><h1>Welcome to my server!!69</h1></body></html>";
-//     //Send the HTTP response headers
-//     outStream.print("Content-type: text/html\r\n");
-//     outStream.print("\r\n"); // End of headers
-//     //Sends message
-//     outStream.print(defaultMessage);
-//     outStream.flush();
-// }
 }
