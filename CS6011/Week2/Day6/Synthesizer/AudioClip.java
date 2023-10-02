@@ -11,6 +11,7 @@ class AudioClip {
     private static final double DURATION = 2.0;
     //Sample rate in samples per second
     private static final int SAMPLE_RATE = 44100;
+    private static final int TOTAL_SAMPLES = (int) (DURATION * SAMPLE_RATE);
     //Public Sample Rate to be used in different classes
     public int intSAMPLE_RATE = 44100;
     //Byte array
@@ -35,7 +36,7 @@ class AudioClip {
                 c.loop(2);
 
                 //Wait for the sound to finish
-                while (c.isRunning()) {
+                while (c.getFramePosition() < AudioClip.TOTAL_SAMPLES || c.isActive() || c.isRunning()) {
                     //Do nothing while we wait for the note to play
                 }
                 //Close the clip when done
