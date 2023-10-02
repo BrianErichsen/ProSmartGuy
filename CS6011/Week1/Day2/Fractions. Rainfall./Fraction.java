@@ -1,9 +1,15 @@
-public class Fraction {
+//Created by Brian Erichsen Fagundes
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Fraction implements Comparable<Fraction> {
     //private member variables
-    private double numerator, denominator;
-    double lcd, gcd;
-    double quotient, remainder;
-    //this one takes care of double toDouble()
+    private long numerator, denominator;
+    long lcd, gcd;
+    long quotient, remainder;
+    //this one takes care of long toDouble()
     double realnumber;
 
     //default constructor
@@ -14,7 +20,7 @@ public class Fraction {
         gcd = 1;
     }
     //Constructor that sets fraction (numerator and denominator)
-    Fraction(double n, double d) {
+    Fraction(long n, long d) {
         //handles if denom is negative and numerator is positive
         assert denominator != 0 : "Denominator should not be zero!";
         if (d == 0) {
@@ -37,20 +43,28 @@ public class Fraction {
         remainder = numerator % denominator;
     }
     //Computes the greatest common denominator of a fraction
-    double GCD () {
-        double gcd = numerator;
-        double remainder = denominator;
+    long GCD () {
+        long gcd = numerator;
+        long remainder = denominator;
         while (remainder != 0) {
-            double temp = remainder;
+            long temp = remainder;
             remainder = gcd % remainder;
             gcd = temp;
         }
         return gcd;
     }
-    //Returns a double from a single Fraction
+    //Returns a long from a single Fraction
     private double getTheRealNumber() {
-        realnumber = numerator / denominator;
+        double numeratorDouble = numerator;
+        realnumber = numeratorDouble / denominator;
         return realnumber;
+    }
+    public int compareTo(Fraction otherFraction) {
+        //Calculates the cross product of fractions for comparison
+        long crossProduct1 = this.numerator * otherFraction.denominator;
+        long crossProduct2 = otherFraction.numerator * this.denominator;
+
+        return Long.compare(crossProduct1, crossProduct2);
     }
 
     /*Operators --------------------------------------------------------------*/
@@ -143,12 +157,12 @@ public class Fraction {
     }
     // Private methods used internally by Fraction class
     // computes least common denominator from 2 different fractions
-    public static double LCD(double denom1, double denom2) {
+    public static long LCD(long denom1, long denom2) {
         return (denom1 * denom2) / GCD(denom1, denom2);
     }
-    public static double GCD(double a, double b) {
+    public static long GCD(long a, long b) {
         while (b != 0) {
-            double temp = b;
+            long temp = b;
             b = a % b;
             a = temp;
         }
@@ -160,20 +174,16 @@ public class Fraction {
         } catch (IllegalArgumentException e) {
             System.out.println("Denominator should not be zero");
         }
-    }
-
-    //Main method
-    public static void main(String[] args) {
         //Creates different Fraction for testing
-        Fraction a = new Fraction(50.0, 55.0);
-        Fraction b = new Fraction(49.0, 76.0);
+        Fraction a = new Fraction(50, 55);
+        Fraction b = new Fraction(49, 76);
 
         //Tests greatest common denominator function
-        double result = a.GCD();
+        long result = a.GCD();
         System.out.println(result + "\n");
 
         //Tests LCD function
-        // double result2 = LCD(a.denominator, b.denominator);
+        // long result2 = LCD(a.denominator, b.denominator);
         // System.out.println(result2 + "\n");
 
         //Test + operator
@@ -192,6 +202,22 @@ public class Fraction {
         // Test / operator
         Fraction result6 = a.dividedBy(b);
         System.out.println(result6.realnumber);
+    }
+
+    //Main method
+    public static void main(String[] args) {
+
+        List<Fraction> fraction = new ArrayList<>();
+        fraction.add(new Fraction(3, 4));
+        fraction.add(new Fraction(1, 2));
+        fraction.add(new Fraction (2, 3));
+
+        //Sort the list of fractions in ascending order
+        Collections.sort(fraction);
+        //Prints the sorted list
+        for (Fraction fractions : fraction) {
+            System.out.println(fractions.realnumber);
+        }
         //For testing my exception statement
         test();
     }
