@@ -21,7 +21,7 @@ class AudioClip {
             AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
 
             //Create a SineWave instance with desired frequency
-            AudioComponent gen = new SineWave(200);
+            AudioComponent gen = new SineWave(440);
             AudioClip clip = gen.getClip();
 
             try {
@@ -35,7 +35,7 @@ class AudioClip {
                 c.start();
                 c.loop(2);
 
-                //Wait for the sound to finish
+                //Wait for the sound to finish Makes sure you don't quit before the sound plays
                 while (c.getFramePosition() < AudioClip.TOTAL_SAMPLES || c.isActive() || c.isRunning()) {
                     //Do nothing while we wait for the note to play
                 }
