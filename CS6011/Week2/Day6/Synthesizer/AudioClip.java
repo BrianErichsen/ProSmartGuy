@@ -25,7 +25,7 @@ class AudioClip {
     public int getSample(int index) {
         //Ensures that index is within bounds
         //Since each sample takes 2 bytes, then we divide data by 2 to get number
-        //of valid samples
+        //of valid samples || index >= data.length / 2
         if (index < 0 || index >= data.length / 2) {
             throw new IllegalArgumentException("Index out of bounds");
         }

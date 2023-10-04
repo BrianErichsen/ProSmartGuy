@@ -10,7 +10,7 @@ public class Main {
 
         //Create a SineWave instance with desired frequency
         AudioComponent gen = new SineWave(440);
-        AudioComponent volumeAdjuster = new VolumeAdjuster(gen, 0.1);
+        AudioComponent volumeAdjuster = new VolumeAdjuster(gen, 1.0);
         AudioClip clip = gen.getClip();
 
         try {
@@ -34,5 +34,42 @@ public class Main {
             } catch (LineUnavailableException e) {
                 e.printStackTrace();
             }
+        // //Creates an audioFormat matching the desired audio format
+        // AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
+
+        // //Create a SineWave instance with desired frequency
+        // AudioComponent sineWave1 = new SineWave(440); //for note A
+        // AudioComponent sineWave2 = new SineWave(329.63); //for note E : root and fifth
+        
+        // //Apply volume adjustment to each sine wave
+        // AudioComponent adjustedSineWave1 = new VolumeAdjuster(sineWave1, 0.5);
+        // AudioComponent adjustedSineWave2 = new VolumeAdjuster(sineWave2, 0.5);
+        
+        // //Creates a mixer to add the two adjusted sine waves
+        // Mixer mixer = new Mixer();
+        // mixer.connectInput(adjustedSineWave1, 0);
+        // mixer.connectInput(adjustedSineWave2, 1);
+
+        // try {
+        //     //Create a clip for audio playback
+        //     Clip c = AudioSystem.getClip();
+        //     //Open the Clip with specified format and audio data
+        //     c.open(format16, mixer.getClip().getData(), 0, mixer.getClip().getData().length);
+
+        //     //Start playing the clip
+        //     System.out.println("About to play ...");
+        //     c.start();
+        //     c.loop(2);
+
+        //     //Wait for the sound to finish Makes sure you don't quit before the sound plays
+        // while (c.getFramePosition() < AudioClip.TOTAL_SAMPLES || c.isActive() || c.isRunning()) {
+        //     //Do nothing while we wait for the note to play
+        //     }
+        //     //Close the clip when done
+        //     System.out.println("Done");
+        //     c.close();
+        //     } catch (LineUnavailableException e) {
+        //         e.printStackTrace();
+        //     }
     }// End of main braket
 }//End of class bracket

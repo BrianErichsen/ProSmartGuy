@@ -39,7 +39,7 @@ public class SineWave implements AudioComponent {
         return false;
     }
     @Override
-    public void connectInput(AudioComponent input) {
+    public void connectInput(AudioComponent input, int index) {
         //Sinewave
         assert false; //Sinewave does not accept inputs
     }

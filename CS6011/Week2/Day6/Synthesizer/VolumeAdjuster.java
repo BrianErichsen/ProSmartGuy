@@ -41,8 +41,7 @@ public class VolumeAdjuster implements AudioComponent {
         return true;
     }
     @Override
-    public void connectInput(AudioComponent input) {
+    public void connectInput(AudioComponent input, int index) {
         this.input = input;
     }
-
 }
