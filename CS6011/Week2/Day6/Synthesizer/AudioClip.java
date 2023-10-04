@@ -1,51 +1,16 @@
 //Created by Brian Erichsen Fagundes - on - 10/01/2023
 import java.util.Arrays;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-
 class AudioClip {
     //const duration in seconds
     private static final double DURATION = 2.0;
     //Sample rate in samples per second
     private static final int SAMPLE_RATE = 44100;
-    private static final int TOTAL_SAMPLES = (int) (DURATION * SAMPLE_RATE);
+    public static final int TOTAL_SAMPLES = (int) (DURATION * SAMPLE_RATE);
     //Public Sample Rate to be used in different classes
     public int intSAMPLE_RATE = 44100;
     //Byte array
     byte[] data;
-        public static void main(String[] args) {
-            //Creates an audioFormat matching the desired audio format
-            AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
-
-            //Create a SineWave instance with desired frequency
-            AudioComponent gen = new SineWave(440);
-            AudioClip clip = gen.getClip();
-
-            try {
-                //Create a clip for audio playback
-                Clip c = AudioSystem.getClip();
-                //Open the Clip with specified format and audio data
-                c.open(format16, clip.getData(), 0, clip.getData().length);
-
-                //Start playing the clip
-                System.out.println("About to play ...");
-                c.start();
-                c.loop(2);
-
-                //Wait for the sound to finish Makes sure you don't quit before the sound plays
-                while (c.getFramePosition() < AudioClip.TOTAL_SAMPLES || c.isActive() || c.isRunning()) {
-                    //Do nothing while we wait for the note to play
-                }
-                //Close the clip when done
-                System.out.println("Done");
-                c.close();
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            }
-    }// End of Main bracket
     //--------------------------------------------------------------------------
     //Constructor
     public AudioClip() {
