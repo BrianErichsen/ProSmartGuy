@@ -22,14 +22,15 @@ public class Mixer implements AudioComponent {
     }
     @Override
     public boolean hasInput() {
-        //Mixer accepts input
+        //Mixer accepts input //hack to set it to false actually
         return true;
     }
     //Helper method to add the two audio clips together
     private AudioClip addClips(AudioClip clip1, AudioClip clip2) {
-        //Finds the minimal length of the two clips
-        int length = Math.min(clip1.getData().length, clip2.getData().length);
+        //Length represents total samples that i will be iterated over
+        int length = 44100 * 2;
         //Creates new object result which will hold the audio samples
+        //Length should be total samples instead of size
         AudioClip result = new AudioClip();
         for (int i = 0; i < length; i++) {
             //retrieves sample value at position i and stores in sample
