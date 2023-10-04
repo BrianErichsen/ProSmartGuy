@@ -5,7 +5,7 @@ import javax.sound.sampled.LineUnavailableException;
 
 public class Main {
     public static void main(String[] args) {
-        // //Creates an audioFormat matching the desired audio format
+        // // //Creates an audioFormat matching the desired audio format
         // AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
 
         // //Create a SineWave instance with desired frequency
@@ -38,7 +38,7 @@ public class Main {
         // Creates an audioFormat matching the desired audio format
         AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
 
-        //Create a SineWave instance with desired frequency
+        // //Create a SineWave instance with desired frequency
         AudioComponent sineWave1 = new SineWave(440); //for note A
         AudioComponent sineWave2 = new SineWave(329.63); //for note E : root and fifth
         

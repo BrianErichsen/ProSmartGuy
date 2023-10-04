@@ -11,13 +11,17 @@ public class Mixer implements AudioComponent {
 
     @Override
     public AudioClip getClip() {
-        //Creates a new empty clip to store the result
-        AudioClip result = new AudioClip();
-        //Iterates through all connected inputs and add their clips together
+        //Creates an array to hold the input clips
+        AudioClip[] inputClips = new AudioClip[inputs.size()];
+
+        //Iterates through all connected inputs and get their clips
+        int index = 0;
         for (AudioComponent input : inputs) {
-            AudioClip inputClip = input.getClip();
-            result = addClips(result, inputClip);
+            inputClips[index++] = input.getClip();
         }
+        //Uses the helper method addClips to combine all input clips
+        AudioClip result = addClips(inputClips);
+        
         return result;
     }
     @Override
@@ -26,26 +30,27 @@ public class Mixer implements AudioComponent {
         return true;
     }
     //Helper method to add the two audio clips together
-    private AudioClip addClips(AudioClip clip1, AudioClip clip2) {
+    private AudioClip addClips(AudioClip... clips) {
         //Length represents total samples that i will be iterated over
         int length = 44100 * 2;
         //Creates new object result which will hold the audio samples
         //Length should be total samples instead of size
         AudioClip result = new AudioClip();
         for (int i = 0; i < length; i++) {
-            //retrieves sample value at position i and stores in sample
-            int sample1 = clip1.getSample(i);
-            int sample2 = clip2.getSample(i);
-            //Sums the two audio samples at the same position in time
-            int sum = sample1 + sample2;
+            int sum = 0;
+            for (AudioClip clip : clips) {
+                int sample = clip.getSample(i);
+                sum += sample;
+            }
 
         //Clamps the result for a valid range of 16 bit audio sample
-        if (sum > Short.MAX_VALUE) {
+            if (sum > Short.MAX_VALUE) {
             sum = Short.MAX_VALUE;
-        } else if (sum < Short.MIN_VALUE) {
+            } else if (sum < Short.MIN_VALUE) {
             sum = Short.MIN_VALUE;
-        }
-        result.setSample(i, sum);
+            }
+
+            result.setSample(i, sum);
     }
     return result;
     }
