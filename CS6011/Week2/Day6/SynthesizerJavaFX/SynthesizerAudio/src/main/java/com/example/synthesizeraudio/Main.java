@@ -1,3 +1,5 @@
+package com.example.synthesizeraudio;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
