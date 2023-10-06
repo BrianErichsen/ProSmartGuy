@@ -1,4 +1,5 @@
 package com.example.synthesizeraudio;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
@@ -37,7 +38,13 @@ public class AudioComponentWidget extends Pane {
         Slider freqSlider = new Slider(200, 400, 300);
         baseLayout.getChildren().add(freqSlider);
         baseLayout.getChildren().add(rightSide);
+        this.getChildren().add(baseLayout);
+
         this.setLayoutX(50.0);
         this.setLayoutY(50.0);
+    }
+    private void closeWidget(ActionEvent e) {
+        parent_.getChildren().remove(this);
+//        SynthesizeApplication.widgets_;
     }
 }
