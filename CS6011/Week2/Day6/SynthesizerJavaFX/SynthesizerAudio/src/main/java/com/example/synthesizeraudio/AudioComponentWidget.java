@@ -13,32 +13,31 @@ import java.awt.*;
 import static java.awt.Color.*;
 
 public class AudioComponentWidget extends Pane {
-//    AudioComponent ac_;
-//    AnchorPane parent_;
-//    //Constructor
-//    AudioComponentWidget (AudioComponent ac, AnchorPane parent) {
-//        ac_ = ac;
-//        parent_ = parent;
-//
-//        HBox baseLayout = new HBox();
-//        baseLayout.setStyle("-fx-border-color: black; -fx-border-image-width: 5");
-//
-//        VBox rightSide = new VBox();
-//        Button closeBtn = new Button("x");
-//        Circle output = new Circle(10);
-//        output.setFill(Color.AQUA);
-//
-//        rightSide.getChildren().add(closeBtn);
-//        rightSide.setAlignment(Pos.CENTER);
-//        rightSide.setPadding(new Insets(5));
-//        rightSide.setSpacing(5);
-//
-//
-//        Slider freqSlider = new Slider(200, 400, 300);
-//        baseLayout.getChildren().add(freqSlider);
-//        baseLayout.getChildren().add(rightSide);
-//        this.setLayoutX(50.0);
-//        this.setLayoutY(50.0);
+    AudioComponent ac_;
+    AnchorPane parent_;
+    //Constructor
+    AudioComponentWidget (AudioComponent ac, AnchorPane parent) {
+        ac_ = ac;
+        parent_ = parent;
 
-//    }
+        HBox baseLayout = new HBox();
+        baseLayout.setStyle("-fx-border-color: black; -fx-border-image-width: 5");
+
+        VBox rightSide = new VBox();
+        Button closeBtn = new Button("x");
+        Circle output = new Circle(10);
+//        output.setFill(Color.AQUA);
+
+//        rightSide.getChildren().add(closeBtn);
+        rightSide.setAlignment(Pos.CENTER);
+        rightSide.setPadding(new Insets(5));
+        rightSide.setSpacing(5);
+
+
+        Slider freqSlider = new Slider(200, 400, 300);
+        baseLayout.getChildren().add(freqSlider);
+        baseLayout.getChildren().add(rightSide);
+        this.setLayoutX(50.0);
+        this.setLayoutY(50.0);
+    }
 }
