@@ -37,6 +37,9 @@ class AudioClip {
         //Extracts the lower and upper 8 bits and combine them into an int
         byte lowerByte = data[2 * index];
         byte upperByte = data[2 * index + 1];
+        System.out.println(upperByte + " - First");
+        upperByte <<= 8;
+        System.out.println(upperByte + " - Second");
         //upperByte >> 8 ?
         //upperByte << 8 makes room for the lowerbyte; or operator with
         //masked lower byte returning combinied upper and lower bytes;
