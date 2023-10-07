@@ -39,8 +39,16 @@ public class SineWave implements AudioComponent {
         return false;
     }
     @Override
-    public void connectInput(AudioComponent input, int index) {
+    public void connectInput(AudioComponent input) {
         //Sinewave
         assert false; //Sinewave does not accept inputs
+    }
+
+    public void setFrequency(double frequency) {
+        this.frequency = frequency;
+    }
+
+    public double getFrequency() {
+        return frequency;
     }
 }

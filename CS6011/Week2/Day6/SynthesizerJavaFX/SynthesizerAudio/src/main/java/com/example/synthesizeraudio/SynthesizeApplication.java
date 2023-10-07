@@ -25,7 +25,8 @@ import java.util.ArrayList;
 
 public class SynthesizeApplication extends Application {
     AnchorPane mainCenter;
-    public static ArrayList<AudioComponentWidget> widgets_ = new ArrayList<>();
+    public static Circle speaker;
+    public static ArrayList<AudioComponentWidget> Connected_widgets_ = new ArrayList<>();
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane mainLayout = new BorderPane();
@@ -66,8 +67,14 @@ public class SynthesizeApplication extends Application {
         try {
             Clip c = AudioSystem.getClip();
             AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
-            byte[] data = widgets_.get(0).ac_.getClip().getData();
-            c.open(format16, data, 0, data.length);
+//            byte[] data = widgets_.get(0).ac_.getClip().getData();
+            Mixer mixer = new Mixer();
+            for (AudioComponentWidget w : Connected_widgets_) {
+                AudioComponent ac = w.ac_;
+                mixer.connectInput(ac);
+            }
+            AudioClip clip = mixer.getClip();
+            c.open(format16, clip.getData(), 0, clip.getData().length);
             //Starts playing the sound
             c.start();
             AudioListener listener = new AudioListener(c);
@@ -81,7 +88,7 @@ public class SynthesizeApplication extends Application {
         AudioComponent sinewave = new SineWave(200);
         AudioComponentWidget acw = new AudioComponentWidget(sinewave, mainCenter );
         mainCenter.getChildren().add(acw);
-        widgets_.add(acw);
+        Connected_widgets_.add(acw);
         // create new object AudioComponentWidget and show it!
     }
     public static void main(String[] args) {

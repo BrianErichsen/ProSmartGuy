@@ -59,7 +59,7 @@ public class Mixer implements AudioComponent {
     }
     @Override
     //ConnectInput specifies an index for the input to add
-    public void connectInput(AudioComponent input, int index) {
-        inputs.add(index, input);
+    public void connectInput(AudioComponent input) {
+        inputs.add(input);
     }
 }

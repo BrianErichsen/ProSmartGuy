@@ -26,11 +26,8 @@ public class VariableFrequencySineWave implements AudioComponent {
     }
 
     @Override
-    public void connectInput(AudioComponent input, int index) {
+    public void connectInput(AudioComponent input) {
     //VariableFrequencySine should only have one input at time
-        if (index != 0) {
-            throw new IllegalArgumentException("VFSineWave only accepts one input at index 0");
-        }
         this.input = input;
     }
 }

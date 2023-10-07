@@ -32,7 +32,7 @@ public class LinearRamp implements AudioComponent {
         return false;
     }
     @Override
-    public void connectInput(AudioComponent input, int index) {
+    public void connectInput(AudioComponent input) {
     assert false;//LinearRamp does accept inputs
     }
 }

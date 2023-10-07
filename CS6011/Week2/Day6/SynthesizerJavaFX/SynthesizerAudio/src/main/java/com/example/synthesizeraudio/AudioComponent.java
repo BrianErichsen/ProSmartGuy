@@ -6,5 +6,5 @@ public interface AudioComponent {
     //Checks if can connect something to this as an input
     boolean hasInput();
     //Connect to another device to this input
-    void connectInput(AudioComponent input, int index);
+    void connectInput(AudioComponent input);
 }

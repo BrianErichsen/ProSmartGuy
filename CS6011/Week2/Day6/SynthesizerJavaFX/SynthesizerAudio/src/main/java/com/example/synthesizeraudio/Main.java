@@ -22,13 +22,13 @@ public class Main {
         
         //Creates a mixer to add the two adjusted sine waves
         Mixer mixer = new Mixer();
-        mixer.connectInput(adjustedSineWave1, 0);
-        mixer.connectInput(adjustedSineWave2, 1);
-        mixer.connectInput(adjustedSineWave3, 2);
+        mixer.connectInput(adjustedSineWave1);
+        mixer.connectInput(adjustedSineWave2);
+        mixer.connectInput(adjustedSineWave3);
 
         LinearRamp ramp = new LinearRamp(2000, 50);
         VariableFrequencySineWave vfsineWave = new VariableFrequencySineWave();
-        vfsineWave.connectInput(ramp, 0);
+        vfsineWave.connectInput(ramp);
 
         try {
             //Create a clip for audio playback
