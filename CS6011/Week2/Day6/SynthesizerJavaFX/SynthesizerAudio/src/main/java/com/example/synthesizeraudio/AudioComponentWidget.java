@@ -66,42 +66,49 @@ public class AudioComponentWidget extends Pane {
     }
 
     private void endConn(MouseEvent e, Circle output) {
-        Circle speaker = SynthesizeApplication.speaker;
-        Bounds speakerBounds = speaker.localToScene(speaker.getBoundsInLocal());
-        double distance = Math.sqrt(Math.pow(speakerBounds.getCenterX() - e.getSceneX(), 2.0) +
-                Math.pow(speakerBounds.getCenterY() - e.getSceneY(), 2.0));
+        if (line_ != null) {
+            Circle speaker = SynthesizeApplication.speaker;
+            Bounds speakerBounds = speaker.localToScene(speaker.getBoundsInLocal());
+            double distance = Math.sqrt(Math.pow(speakerBounds.getCenterX() - e.getSceneX(), 2.0) +
+                    Math.pow(speakerBounds.getCenterY() - e.getSceneY(), 2.0));
 
-        if (distance < 10) {
-            SynthesizeApplication.Connected_widgets_.add(this);
-        }
-        else
-        {
-            parent_.getChildren().remove(line_);
+            if (distance < 10) {
+                SynthesizeApplication.Connected_widgets_.add(this);
+            } else {
+                parent_.getChildren().remove(line_);
+            }
             line_ = null;
         }
     }
-
     private void moveConn(MouseEvent e, Circle output) {
         Bounds parentBounds = parent_.getBoundsInParent();
         line_.setEndX(e.getSceneX() - parentBounds.getMinX());
         line_.setEndY(e.getSceneY() - parentBounds.getMinY());
     }
+    private void updateConnectingLine(MouseEvent e) {
+        if (line_ != null) {
+            Bounds parentBounds = parent_.getBoundsInParent();
+
+            double endX = e.getSceneX() - parentBounds.getMinX();
+            double endY = e.getSceneY() - parentBounds.getMinY();
+
+            line_.setEndX(endX);
+            line_.setEndY(endY);
+        }
+    }
 
     private void startConn(MouseEvent e, Circle output) {
-        if (line_ != null) {
-            parent_.getChildren().remove(line_);
-        }
-        Bounds parentBounds = parent_.getBoundsInParent();
-        Bounds bounds = output.localToScene(output.getBoundsInLocal());
 
-        Line line_ = new Line();
+        Bounds parentBounds = parent_.getBoundsInParent();
+        Bounds outputBounds = output.localToScene(output.getBoundsInLocal());
+
+        double startX = outputBounds.getCenterX() - parentBounds.getMinX();
+        double startY = outputBounds.getCenterY() - parentBounds.getMinY();
+
+        line_ = new Line(startX, startY, startX, startY);
         line_.setStrokeWidth(5);
 
-        line_.setStartX(bounds.getCenterX() - parentBounds.getMinX());
-        line_.setStartY(bounds.getCenterY() - parentBounds.getMinY());
-
-        line_.setEndX(e.getSceneX());
-        line_.setEndY(e.getSceneY());
+        output.setOnMouseDragged(event -> updateConnectingLine(event));
 
         parent_.getChildren().add(line_);
     }
@@ -125,6 +132,7 @@ public class AudioComponentWidget extends Pane {
     }
     private void closeWidget(ActionEvent e) {
         parent_.getChildren().remove(this);
+        SynthesizeApplication.widgets_.remove(this);
         SynthesizeApplication.Connected_widgets_.remove(this);
         parent_.getChildren().remove(line_);
     }

@@ -2,6 +2,7 @@ package com.example.synthesizeraudio;
 
 
 //import com.example.SynthesizerAudio.AudioListener;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 public class SynthesizeApplication extends Application {
     AnchorPane mainCenter;
     public static Circle speaker;
+    public static ArrayList<AudioComponentWidget> widgets_ = new ArrayList<>();
     public static ArrayList<AudioComponentWidget> Connected_widgets_ = new ArrayList<>();
     @Override
     public void start(Stage stage) throws IOException {

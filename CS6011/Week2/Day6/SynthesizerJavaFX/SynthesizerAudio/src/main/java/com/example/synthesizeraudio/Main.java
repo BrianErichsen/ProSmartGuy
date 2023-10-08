@@ -26,7 +26,7 @@ public class Main {
         mixer.connectInput(adjustedSineWave2);
         mixer.connectInput(adjustedSineWave3);
 
-        LinearRamp ramp = new LinearRamp(2000, 50);
+        LinearRamp ramp = new LinearRamp(50, 2000);
         VariableFrequencySineWave vfsineWave = new VariableFrequencySineWave();
         vfsineWave.connectInput(ramp);
 
