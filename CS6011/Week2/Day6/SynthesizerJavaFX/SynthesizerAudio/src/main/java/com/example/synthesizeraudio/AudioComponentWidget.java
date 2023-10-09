@@ -50,7 +50,7 @@ public class AudioComponentWidget extends Pane {
         //left side
         VBox leftside = new VBox();
         Label freqLabel = new Label("SineWave");
-        Slider freqSlider = new Slider(200, 400, 300);
+        Slider freqSlider = new Slider(200, 1200, 400);
         leftside.getChildren().add(freqLabel);
         leftside.getChildren().add(freqSlider);
         leftside.setOnMousePressed(e->moveWidget(e));
@@ -66,17 +66,18 @@ public class AudioComponentWidget extends Pane {
     }
 
     private void endConn(MouseEvent e, Circle output) {
-        if (line_ != null) {
-            Circle speaker = SynthesizeApplication.speaker;
-            Bounds speakerBounds = speaker.localToScene(speaker.getBoundsInLocal());
-            double distance = Math.sqrt(Math.pow(speakerBounds.getCenterX() - e.getSceneX(), 2.0) +
-                    Math.pow(speakerBounds.getCenterY() - e.getSceneY(), 2.0));
 
-            if (distance < 10) {
-                SynthesizeApplication.Connected_widgets_.add(this);
-            } else {
-                parent_.getChildren().remove(line_);
-            }
+        Circle speaker = SynthesizeApplication.speaker;
+        Bounds speakerBounds = speaker.localToScene(speaker.getBoundsInLocal());
+
+        double distance = Math.sqrt(Math.pow(speakerBounds.getCenterX() - e.getSceneX(), 2.0) +
+                Math.pow(speakerBounds.getCenterY() - e.getSceneY(), 2.0));
+
+        if (distance < 10) {
+            SynthesizeApplication.Connected_widgets_.add(this);//adds to others opened widgets
+            //Connected_widgets_ array
+        } else {
+            parent_.getChildren().remove(line_);
             line_ = null;
         }
     }
@@ -85,30 +86,38 @@ public class AudioComponentWidget extends Pane {
         line_.setEndX(e.getSceneX() - parentBounds.getMinX());
         line_.setEndY(e.getSceneY() - parentBounds.getMinY());
     }
-    private void updateConnectingLine(MouseEvent e) {
-        if (line_ != null) {
-            Bounds parentBounds = parent_.getBoundsInParent();
-
-            double endX = e.getSceneX() - parentBounds.getMinX();
-            double endY = e.getSceneY() - parentBounds.getMinY();
-
-            line_.setEndX(endX);
-            line_.setEndY(endY);
-        }
-    }
+//    private void updateConnectingLine(MouseEvent e) {
+//        if (line_ != null) {
+//            Bounds parentBounds = parent_.getBoundsInParent();
+//
+//            double endX = e.getSceneX() - parentBounds.getMinX();
+//            double endY = e.getSceneY() - parentBounds.getMinY();
+//
+//            line_.setEndX(endX);
+//            line_.setEndY(endY);
+//        }
+//    }
 
     private void startConn(MouseEvent e, Circle output) {
-
+        if (line_ != null) {
+            parent_.getChildren().remove(line_);
+        }
         Bounds parentBounds = parent_.getBoundsInParent();
         Bounds outputBounds = output.localToScene(output.getBoundsInLocal());
 
-        double startX = outputBounds.getCenterX() - parentBounds.getMinX();
-        double startY = outputBounds.getCenterY() - parentBounds.getMinY();
-
-        line_ = new Line(startX, startY, startX, startY);
+//        double startX = outputBounds.getCenterX() - parentBounds.getMinX();
+//        double startY = outputBounds.getCenterY() - parentBounds.getMinY();
+//
+//        line_ = new Line(startX, startY, startX, startY);
+        line_ = new Line();
         line_.setStrokeWidth(5);
 
-        output.setOnMouseDragged(event -> updateConnectingLine(event));
+        line_.setStartX(outputBounds.getCenterX() - parentBounds.getMinX());
+        line_.setStartY(outputBounds.getCenterX() - parentBounds.getMinY());
+
+        line_.setEndX(e.getSceneX());
+        line_.setStartY(e.getSceneY());
+//        output.setOnMouseDragged(event -> updateConnectingLine(event));
 
         parent_.getChildren().add(line_);
     }
@@ -135,5 +144,8 @@ public class AudioComponentWidget extends Pane {
         SynthesizeApplication.widgets_.remove(this);
         SynthesizeApplication.Connected_widgets_.remove(this);
         parent_.getChildren().remove(line_);
+    }
+    public AudioComponent getAudioComponent() {
+        return ac_;
     }
 }
