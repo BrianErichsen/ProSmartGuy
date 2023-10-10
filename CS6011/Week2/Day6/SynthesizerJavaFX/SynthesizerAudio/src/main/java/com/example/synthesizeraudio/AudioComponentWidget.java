@@ -86,18 +86,6 @@ public class AudioComponentWidget extends Pane {
         line_.setEndX(e.getSceneX() - parentBounds.getMinX());
         line_.setEndY(e.getSceneY() - parentBounds.getMinY());
     }
-//    private void updateConnectingLine(MouseEvent e) {
-//        if (line_ != null) {
-//            Bounds parentBounds = parent_.getBoundsInParent();
-//
-//            double endX = e.getSceneX() - parentBounds.getMinX();
-//            double endY = e.getSceneY() - parentBounds.getMinY();
-//
-//            line_.setEndX(endX);
-//            line_.setEndY(endY);
-//        }
-//    }
-
     private void startConn(MouseEvent e, Circle output) {
         if (line_ != null) {
             parent_.getChildren().remove(line_);
