@@ -25,6 +25,7 @@ public class AudioComponentWidget extends Pane {
     AudioComponentWidget (AudioComponent ac, AnchorPane parent) {
         ac_ = ac;
         parent_ = parent;
+        line_ = null;
 
         HBox baseLayout = new HBox();
         baseLayout.setStyle("-fx-border-color: black; -fx-border-image-width: 5");
@@ -50,7 +51,7 @@ public class AudioComponentWidget extends Pane {
         //left side
         VBox leftside = new VBox();
         Label freqLabel = new Label("SineWave");
-        Slider freqSlider = new Slider(200, 1200, 400);
+        Slider freqSlider = new Slider(200, 700, 350);
         leftside.getChildren().add(freqLabel);
         leftside.getChildren().add(freqSlider);
         leftside.setOnMousePressed(e->moveWidget(e));

@@ -107,6 +107,27 @@ public class SynthesizeApplication extends Application {
         Scene scene = new Scene(mainLayout, 600, 400);
         stage.setTitle("Sound Maker");
         stage.setScene(scene);
+        scene.setOnKeyPressed(event -> {
+            KeyCode key = event.getCode();
+
+            switch (key) {
+                case A:
+                    playNote(noteA); break;
+                case S:
+                    playNote(noteB); break;
+                case D:
+                    playNote(noteC); break;
+                case F:
+                    playNote(noteD); break;
+                case G:
+                    playNote(noteE); break;
+                case H:
+                    playNote(noteF); break;
+                case J:
+                    playNote(noteG); break;
+            }
+
+        });
         stage.show();
     }
 
