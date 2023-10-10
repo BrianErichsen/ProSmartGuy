@@ -46,4 +46,7 @@ public class VolumeAdjuster implements AudioComponent {
     public void connectInput(AudioComponent input) {
         this.input = input;
     }
+    public void getVolume (int volume) {
+        volumeScale = volume;
+    }
 }

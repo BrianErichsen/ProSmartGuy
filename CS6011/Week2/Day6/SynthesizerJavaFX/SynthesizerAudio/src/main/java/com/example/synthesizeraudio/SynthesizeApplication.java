@@ -203,9 +203,9 @@ public class SynthesizeApplication extends Application {
         AudioComponentWidget a = new AudioComponentWidget(noteComponnet, mainCenter);
         Connected_widgets_.add(a);
         //Sets a time limit for the note to be connected into Connected_widgets
-        Duration duration = Duration.seconds(2);// Up to 2 seconds
+        Duration duration = Duration.seconds(1);// Up to 1 seconds
         Timeline timeline = new Timeline(new KeyFrame(duration, e -> {
-            Connected_widgets_.remove(a);//removes note input after 2 seconds
+            Connected_widgets_.remove(a);//removes note input after 1 seconds
         }));
                 timeline.setCycleCount(1);//1 so doesn't loop more times
                 timeline.play();
