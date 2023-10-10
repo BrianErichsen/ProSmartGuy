@@ -75,6 +75,7 @@ public class AudioComponentWidget extends Pane {
 
         if (distance < 10) {
             SynthesizeApplication.Connected_widgets_.add(this);//adds to others opened widgets
+            System.out.println("Connected at this point");
             //Connected_widgets_ array
         } else {
             parent_.getChildren().remove(line_);
@@ -87,9 +88,9 @@ public class AudioComponentWidget extends Pane {
         line_.setEndY(e.getSceneY() - parentBounds.getMinY());
     }
     private void startConn(MouseEvent e, Circle output) {
-        if (line_ != null) {
-            parent_.getChildren().remove(line_);
-        }
+//        if (line_ != null) {
+//            parent_.getChildren().remove(line_);
+//        }
         Bounds parentBounds = parent_.getBoundsInParent();
         Bounds outputBounds = output.localToScene(output.getBoundsInLocal());
 
@@ -101,7 +102,7 @@ public class AudioComponentWidget extends Pane {
         line_.setStrokeWidth(5);
 
         line_.setStartX(outputBounds.getCenterX() - parentBounds.getMinX());
-        line_.setStartY(outputBounds.getCenterX() - parentBounds.getMinY());
+        line_.setStartY(outputBounds.getCenterY() - parentBounds.getMinY());
 
         line_.setEndX(e.getSceneX());
         line_.setStartY(e.getSceneY());

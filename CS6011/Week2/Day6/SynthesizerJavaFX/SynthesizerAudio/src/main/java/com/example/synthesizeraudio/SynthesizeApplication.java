@@ -76,6 +76,7 @@ public class SynthesizeApplication extends Application {
         //Sets style
         mainCenter.setStyle("-fx-background-color: #f1e6be");
         //Creates a circle to represent the speaker
+        speaker = new Circle(400, 200, 15);
         Circle speaker = new Circle(400,200,15);
         speaker.setFill(Color.DARKBLUE);
         mainCenter.getChildren().add(speaker);
@@ -153,7 +154,7 @@ public class SynthesizeApplication extends Application {
         AudioComponent sinewave = new SineWave(200);
         AudioComponentWidget acw = new AudioComponentWidget(sinewave, mainCenter );
         mainCenter.getChildren().add(acw);
-        Connected_widgets_.add(acw);
+//        Connected_widgets_.add(acw);
         widgets_.add(acw);
         // create new object AudioComponentWidget and show it!
     }
