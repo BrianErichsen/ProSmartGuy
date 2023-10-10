@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -112,7 +113,8 @@ public class SynthesizeApplication extends Application {
 
             switch (key) {
                 case A:
-                    playNote(noteA); break;
+                    playNote(noteA);
+                    break;
                 case S:
                     playNote(noteB); break;
                 case D:
@@ -126,13 +128,36 @@ public class SynthesizeApplication extends Application {
                 case J:
                     playNote(noteG); break;
             }
-
+        playAudio(event);
         });
         stage.show();
     }
 
 
     private void playAudio(ActionEvent e) {
+        try {
+            Clip c = AudioSystem.getClip();
+            AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
+            byte[] data = Connected_widgets_.get(0).ac_.getClip().getData();
+
+            Mixer mixer = new Mixer();
+            for (AudioComponentWidget w : Connected_widgets_) {
+                AudioComponent ac = w.ac_;
+                mixer.connectInput(ac);
+            }
+            AudioClip clip = mixer.getClip();
+            c.open(format16, clip.getData(), 0, clip.getData().length);
+            //Starts playing the sound
+            c.start();
+            AudioListener listener = new AudioListener(c);
+            //replaces the while loop for playing
+            c.addLineListener(listener);
+        } catch (LineUnavailableException k){
+            System.out.println(k.getMessage());
+        }
+    }
+    //Using the method overload
+    private void playAudio(KeyEvent e) {
         try {
             Clip c = AudioSystem.getClip();
             AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
