@@ -1,6 +1,6 @@
 package com.example.synthesizeraudio;
 
-
+//Created by Brian Erichsen Fagundes - Synthesizer App - October 2023;
 //import com.example.SynthesizerAudio.AudioListener;
 
 import javafx.animation.KeyFrame;
@@ -43,6 +43,9 @@ public class SynthesizeApplication extends Application {
     public static ArrayList<AudioComponentWidget> widgets_ = new ArrayList<>();
     //Array list that takes all the connected widgets; the ones that are making sound
     public static ArrayList<AudioComponentWidget> Connected_widgets_ = new ArrayList<>();
+    /* beginning of Volume widgets-----------------------------------------------------*/
+    public static VolumeAdjusterWidget acw;
+    public static VolumeAdjuster changeVolume;
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane mainLayout = new BorderPane();
@@ -87,7 +90,8 @@ public class SynthesizeApplication extends Application {
         Circle speaker = new Circle(400,200,15);
         speaker.setFill(Color.DARKBLUE);
         mainCenter.getChildren().add(speaker);
-
+        //Creates volume widget
+//        createVolume();
         mainLayout.setCenter(mainCenter);
         mainLayout.setRight(rightpanel);
 
@@ -140,6 +144,8 @@ public class SynthesizeApplication extends Application {
         });
         stage.show();
     }
+    /*-------------------------------------------------------------------
+    Beginning of Methods                ------------------               -*/
 
 
     private void playAudio(ActionEvent e) {
@@ -222,6 +228,12 @@ public class SynthesizeApplication extends Application {
 //        Connected_widgets_.add(acw);
         //Connects new created Widget into the array list of all current widgets
         widgets_.add(acw);
+    }
+    private void createVolume() {
+        //Creates new volume widget
+        acw = new VolumeAdjusterWidget(changeVolume, mainCenter);
+        //Adds the widget to the mainCenter pane
+        mainCenter.getChildren().add(acw);
     }
     public static void main(String[] args) {
         launch();
