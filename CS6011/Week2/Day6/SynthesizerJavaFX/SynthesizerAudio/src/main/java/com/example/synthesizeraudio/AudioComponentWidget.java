@@ -117,13 +117,13 @@ public class AudioComponentWidget extends Pane {
         parent_.getChildren().add(line_);
     }
 
-    private void moveWidget(MouseEvent e) {
+    public void moveWidget(MouseEvent e) {
         double delX = e.getSceneX() - mouseXpos;
         double delY = e.getSceneY() - mouseYpos;
 
         this.relocate(delX + widgetXpos, delY + widgetYPos);
     }
-    private void getPosInf(MouseEvent e) {
+    public void getPosInf(MouseEvent e) {
         mouseXpos = e.getSceneX();
         mouseYpos = e.getSceneY();
         widgetXpos = this.getLayoutX();

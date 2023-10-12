@@ -44,7 +44,7 @@ public class SynthesizeApplication extends Application {
     //Array list that takes all the connected widgets; the ones that are making sound
     public static ArrayList<AudioComponentWidget> Connected_widgets_ = new ArrayList<>();
     /* beginning of Volume widgets-----------------------------------------------------*/
-    public static VolumeAdjusterWidget acw;
+//    public static VolumeAdjusterWidget acw;
     public static VolumeAdjuster changeVolume;
     @Override
     public void start(Stage stage) throws IOException {
@@ -67,11 +67,11 @@ public class SynthesizeApplication extends Application {
         notes.add(noteG);
 
         //Right Panel
-        VBox rightpanel = new VBox();
+        VBox rightPanel = new VBox();
 
         //Style of the panel
-        rightpanel.setStyle("-fx-background-color: lightblue");
-        rightpanel.setPadding(new Insets(4));
+        rightPanel.setStyle("-fx-background-color: lightblue");
+        rightPanel.setPadding(new Insets(4));
 
         //SineWave Buttom
         Button sinewaveBtn = new Button("SineWave");
@@ -79,7 +79,15 @@ public class SynthesizeApplication extends Application {
         sinewaveBtn.setStyle("fx-base: coral");
         //Does the intented action when buttom is clicked
         sinewaveBtn.setOnAction(e->createComponent(e));
-        rightpanel.getChildren().add(sinewaveBtn);
+        rightPanel.getChildren().add(sinewaveBtn);
+
+        //Volume button that opens that the volume widget
+        Button volumeButton = new Button("Volume");
+        volumeButton.setStyle("fx-base: coral");
+        //Does the intented action when buttom is clicked
+//        volumeButton.setOnAction(e->createVolume(e));
+        rightPanel.getChildren().add(volumeButton);
+
 
         //Center Panel which contains the specified Speaker
         mainCenter = new AnchorPane();
@@ -93,10 +101,9 @@ public class SynthesizeApplication extends Application {
         //Creates volume widget
 //        createVolume();
         mainLayout.setCenter(mainCenter);
-        mainLayout.setRight(rightpanel);
+        mainLayout.setRight(rightPanel);
 
 //        Bottom Panel
-
         //Sets the style of the bottom panel
         bottomPanel.setStyle("-fx-background-color: #00c4ff");
         //Creates the play button
@@ -115,6 +122,8 @@ public class SynthesizeApplication extends Application {
         bottomPanel.getChildren().addAll(playBtn, noteAButton, noteBButton,
                 noteCButton, noteDButton, noteEButton, noteFButton, noteGButton);
 
+
+        /*Specifies Border Pane */
         Scene scene = new Scene(mainLayout, 600, 400);
         stage.setTitle("Sound Maker");
         stage.setScene(scene);
@@ -144,6 +153,10 @@ public class SynthesizeApplication extends Application {
         });
         stage.show();
     }
+
+//    private void createVolume() {
+//        acw = new VolumeAdjusterWidget(changeVolume, mainCenter)
+//    }
     /*-------------------------------------------------------------------
     Beginning of Methods                ------------------               -*/
 
@@ -160,6 +173,11 @@ public class SynthesizeApplication extends Application {
                 AudioComponent ac = w.ac_;
                 mixer.connectInput(ac);
             }
+            //---------------Volume
+//            double volumeScale = acw.slider_.getValue();
+//            VolumeAdjuster volumeAdjuster = new VolumeAdjuster(null, volumeScale);
+//            volumeAdjuster.connectInput(mixer);
+            //-----------------
             AudioClip clip = mixer.getClip();
             c.open(format16, clip.getData(), 0, clip.getData().length);
             //Starts playing the sound
@@ -229,12 +247,13 @@ public class SynthesizeApplication extends Application {
         //Connects new created Widget into the array list of all current widgets
         widgets_.add(acw);
     }
-    private void createVolume() {
-        //Creates new volume widget
-        acw = new VolumeAdjusterWidget(changeVolume, mainCenter);
-        //Adds the widget to the mainCenter pane
-        mainCenter.getChildren().add(acw);
-    }
+//    private void createVolume() {
+//        //Creates new volume widget
+//        AudioComponent volumeAdjuster = new VolumeAdjuster(50)
+//        acw = new VolumeAdjusterWidget(changeVolume, mainCenter);
+//        //Adds the widget to the mainCenter pane
+//        mainCenter.getChildren().add(acw);
+//    }
     public static void main(String[] args) {
         launch();
     }
