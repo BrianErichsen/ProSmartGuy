@@ -16,14 +16,15 @@ public class VolumeAdjusterWidget extends AudioComponentWidget {
         super(ac, parent);
 
         //removes unnecessary boxes for this widget but keeping right side for connection and x button
-        baseLayout.getChildren().remove(leftSide);
+        baseLayout.getChildren().removeAll(leftSide);
 //        baseLayout.getChildren().add(slider_);
         //Creates new left side of the widget
-        VBox leftSide = new VBox();
+        VBox newLeftSide = new VBox();
 
 //        customLayout.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");
         //Creates specific label for this widget
-        volumeLabel = new Label("Volume: " + getFormattedVolume());
+//        + getFormattedVolume()
+        volumeLabel = new Label("Volume");
         //Sets style of the label
 //        volumeLabel.setStyle("fx-font-size: 14px; -fx-text-fill: #333");//Color and Size
 //        volumeLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");//Background and padding
@@ -32,33 +33,25 @@ public class VolumeAdjusterWidget extends AudioComponentWidget {
 //        baseLayout.getChildren().add(volumeLabel);
         //Creates a slider for volume
         volumeSlider = new Slider(0.0f, 10f, 1);
-        leftSide.getChildren().add(volumeLabel);
-        leftSide.getChildren().add(volumeSlider);
+        newLeftSide.getChildren().add(volumeLabel);
+        newLeftSide.getChildren().add(volumeSlider);
 
         //Move the widget as mouse is pressed
-        leftSide.setOnMousePressed(e ->moveWidget(e));
-        leftSide.setOnMouseDragged(e-> getPosInf(e));
+        newLeftSide.setOnMousePressed(e ->moveWidget(e));
+        newLeftSide.setOnMouseDragged(e-> getPosInf(e));
 
         volumeSlider.setOnMouseDragged(e -> setVolume(e, volumeSlider, volumeLabel));
-        baseLayout.getChildren().add(leftSide);
+        baseLayout.getChildren().add(newLeftSide);
         // not the right side because right side is already done by parent
 
-//        this.getChildren().add(baseLayout);
 //        //Sets where the initial position is
         this.setLayoutX(50.0);
         this.setLayoutY(50.0);
-
-//        volumeSlider.setOnMouseDragged(e -> setVolume(e, volumeSlider, volumeLabel));
-//        leftSide.getChildren().addAll(volumeLabel, volumeSlider);
-//        this.setLayoutX(400);
-//        this.setLayoutY(500);
-
     }
     private void setVolume(MouseEvent e, Slider volumeSlider, Label volumeLabel) {
         AudioComponent ac_ = getAudioComponent();
         //Gets the value of the volume slider
         float sliderValue = (float) volumeSlider.getValue();
-        volumeLabel.setText("Volume: " + getFormattedVolume());
         ((VolumeAdjuster) ac_).setVolume((int) sliderValue);
     }
     //    private void setFrequency(MouseEvent e, Slider freqSlider, Label freqLabel) {
@@ -67,7 +60,7 @@ public class VolumeAdjusterWidget extends AudioComponentWidget {
     //        freqLabel.setText("SineWave " + val + " Hz");
     //    }
     private String getFormattedVolume() {
-        float sliderValue = (float) slider_.getValue();
+        float sliderValue = (float) volumeSlider.getValue();
         //Returns the volume value to 2 decimal points as a string
         return String.format("%.2f", sliderValue);
     }

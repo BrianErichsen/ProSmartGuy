@@ -45,7 +45,8 @@ public class SynthesizeApplication extends Application {
     public static ArrayList<AudioComponentWidget> Connected_widgets_ = new ArrayList<>();
     /* beginning of Volume widgets-----------------------------------------------------*/
 //    public static VolumeAdjusterWidget acw;
-    public static VolumeAdjuster changeVolume;
+//    public static VolumeAdjuster changeVolume;
+    private SineWave sineWave;
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane mainLayout = new BorderPane();
@@ -85,7 +86,7 @@ public class SynthesizeApplication extends Application {
         Button volumeButton = new Button("Volume");
         volumeButton.setStyle("fx-base: coral");
         //Does the intented action when buttom is clicked
-//        volumeButton.setOnAction(e->createVolume(e));
+        volumeButton.setOnAction(e->createVolume(e));
         rightPanel.getChildren().add(volumeButton);
 
 
@@ -236,8 +237,8 @@ public class SynthesizeApplication extends Application {
     }
     //Creates new Widget
     private void createComponent(ActionEvent e) {
-        AudioComponent sinewave = new SineWave(200);
-        AudioComponentWidget acw = new AudioComponentWidget(sinewave, mainCenter );
+        sineWave = new SineWave(200);
+        AudioComponentWidget acw = new AudioComponentWidget(sineWave, mainCenter );
         //Sets the initial position for (x and y) for the widget
         acw.setLayoutX(widgets_.size() * 50);
         acw.setLayoutY(widgets_.size() * 50);
@@ -247,13 +248,17 @@ public class SynthesizeApplication extends Application {
         //Connects new created Widget into the array list of all current widgets
         widgets_.add(acw);
     }
-//    private void createVolume() {
-//        //Creates new volume widget
-//        AudioComponent volumeAdjuster = new VolumeAdjuster(50)
-//        acw = new VolumeAdjusterWidget(changeVolume, mainCenter);
-//        //Adds the widget to the mainCenter pane
-//        mainCenter.getChildren().add(acw);
-//    }
+    private void createVolume(ActionEvent e) {
+        if (sineWave != null) {
+            double initialVolumeScale = 1.0;
+            AudioComponent volumeAdjuster = new VolumeAdjuster(sineWave, initialVolumeScale);
+            VolumeAdjusterWidget acw = new VolumeAdjusterWidget(volumeAdjuster, mainCenter);
+            acw.setLayoutX(widgets_.size() * 50);
+            acw.setLayoutY(widgets_.size() * 50);
+            mainCenter.getChildren().add(acw);
+            widgets_.add(acw);
+        }
+    }
     public static void main(String[] args) {
         launch();
     }

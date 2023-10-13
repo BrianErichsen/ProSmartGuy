@@ -33,7 +33,7 @@ public class AudioComponentWidget extends Pane {
         parent_ = parent;
         line_ = null;
         //Sets the HBox baseLayout
-        HBox baseLayout = new HBox();
+        baseLayout = new HBox();
         baseLayout.setStyle("-fx-border-color: black; -fx-border-image-width: 5");
 
         //Sets the VBox rightSide
