@@ -250,7 +250,7 @@ public class SynthesizeApplication extends Application {
     }
     private void createVolume(ActionEvent e) {
         if (sineWave != null) {
-            double initialVolumeScale = 1.0;
+            var initialVolumeScale = 1.0;
             AudioComponent volumeAdjuster = new VolumeAdjuster(sineWave, initialVolumeScale);
             VolumeAdjusterWidget acw = new VolumeAdjusterWidget(volumeAdjuster, mainCenter);
             acw.setLayoutX(widgets_.size() * 50);

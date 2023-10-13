@@ -132,9 +132,12 @@ public class AudioComponentWidget extends Pane {
         widgetYPos = this.getLayoutY();
     }
     private void setFrequency(MouseEvent e, Slider freqSlider, Label freqLabel) {
-        ((SineWave)ac_).setFrequency(freqSlider.getValue());
-        int val = (int) freqSlider.getValue();
-        freqLabel.setText("SineWave " + val + " Hz");
+        if (ac_ instanceof SineWave) {
+            ((SineWave) ac_).setFrequency(freqSlider.getValue());
+            int val = (int) freqSlider.getValue();
+            freqLabel.setText("SineWave " + val + " Hz");
+        } else {
+        }
     }
     private void closeWidget(ActionEvent e) {
         parent_.getChildren().remove(this);
