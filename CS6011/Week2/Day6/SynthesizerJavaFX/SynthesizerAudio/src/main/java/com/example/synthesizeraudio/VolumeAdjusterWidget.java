@@ -4,7 +4,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 
 
 public class VolumeAdjusterWidget extends AudioComponentWidget {
@@ -16,32 +15,52 @@ public class VolumeAdjusterWidget extends AudioComponentWidget {
         super(ac, parent);
 
         //removes unnecessary boxes for this widget but keeping right side for connection and x button
-        baseLayout.getChildren().removeAll(leftSide);
-//        baseLayout.getChildren().add(slider_);
+//        baseLayout.getChildren().removeAll(leftSide);
         //Creates new left side of the widget
-        VBox newLeftSide = new VBox();
+//        VBox newLeftSide = new VBox();
+
+
+
+
+
+        //Removes the freqLabel and freqSlider from the leftSide VBox
+        leftSide.getChildren().remove(freqLabel);
+        leftSide.getChildren().remove(freqSlider);
+
+        //Constructs the volumeLabel
+        volumeLabel = new Label("Volume");
+        volumeLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");
+
+        //Constructs the volumeSlider
+        volumeSlider = new Slider(0.0f, 10f, 1);
+        leftSide.getChildren().add(volumeLabel);
+        leftSide.getChildren().add(freqSlider);
+        //Move widget as mouse is pressed is already handled by parent
+        //Adds the slider that controls the volume
+
+
+
 
 //        customLayout.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");
         //Creates specific label for this widget
 //        + getFormattedVolume()
-        volumeLabel = new Label("Volume");
         //Sets style of the label
 //        volumeLabel.setStyle("fx-font-size: 14px; -fx-text-fill: #333");//Color and Size
 //        volumeLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");//Background and padding
-        volumeLabel.setStyle("-fx-effect: dropshadow(gaussian, #333, 5, 0, 0, 1)");//Text Shadow
+//        volumeLabel.setStyle("-fx-effect: dropshadow(gaussian, #333, 5, 0, 0, 1)");//Text Shadow
         //Adding the volume label into the leftSide VBox of this widget
 //        baseLayout.getChildren().add(volumeLabel);
         //Creates a slider for volume
-        volumeSlider = new Slider(0.0f, 10f, 1);
-        newLeftSide.getChildren().add(volumeLabel);
-        newLeftSide.getChildren().add(volumeSlider);
+//        volumeSlider = new Slider(0.0f, 10f, 1);
+//        newLeftSide.getChildren().add(volumeLabel);
+//        newLeftSide.getChildren().add(volumeSlider);
 
         //Move the widget as mouse is pressed
-        newLeftSide.setOnMousePressed(e ->moveWidget(e));
-        newLeftSide.setOnMouseDragged(e-> getPosInf(e));
+        leftSide.setOnMousePressed(e ->moveWidget(e));
+        leftSide.setOnMouseDragged(e-> getPosInf(e));
 
+        //Adds the slider that constrols the volume
         volumeSlider.setOnMouseDragged(e -> setVolume(e, volumeSlider, volumeLabel));
-        baseLayout.getChildren().add(newLeftSide);
         // not the right side because right side is already done by parent
 
 //        //Sets where the initial position is

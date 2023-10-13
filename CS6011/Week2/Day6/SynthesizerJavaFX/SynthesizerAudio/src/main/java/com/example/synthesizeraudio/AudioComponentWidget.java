@@ -26,6 +26,8 @@ public class AudioComponentWidget extends Pane {
     HBox baseLayout;
     VBox rightSide;
     VBox leftSide;
+    public final Label freqLabel;
+    public final Slider freqSlider;
 
     //Constructor
     AudioComponentWidget (AudioComponent ac, AnchorPane parent) {
@@ -56,9 +58,9 @@ public class AudioComponentWidget extends Pane {
         rightSide.setSpacing(5);
 
         //left side
-        VBox leftSide = new VBox();
-        Label freqLabel = new Label("SineWave");
-        Slider freqSlider = new Slider(200, 700, 350);
+        leftSide = new VBox();
+        freqLabel = new Label("SineWave");
+        freqSlider = new Slider(200, 700, 350);
         leftSide.getChildren().add(freqLabel);
         leftSide.getChildren().add(freqSlider);
 
