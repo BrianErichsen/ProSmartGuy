@@ -31,6 +31,7 @@ import java.util.List;
 
 
 public class SynthesizeApplication extends Application {
+    private static VolumeAdjusterWidget acw;
     //Using array list to hold all the specific notes together
     private List<MusicalNote> notes = new ArrayList<>();
     //Declaring specific musical notes to be used on the GUI
@@ -99,8 +100,6 @@ public class SynthesizeApplication extends Application {
         Circle speaker = new Circle(400,200,15);
         speaker.setFill(Color.DARKBLUE);
         mainCenter.getChildren().add(speaker);
-        //Creates volume widget
-//        createVolume();
         mainLayout.setCenter(mainCenter);
         mainLayout.setRight(rightPanel);
 
@@ -154,10 +153,6 @@ public class SynthesizeApplication extends Application {
         });
         stage.show();
     }
-
-//    private void createVolume() {
-//        acw = new VolumeAdjusterWidget(changeVolume, mainCenter)
-//    }
     /*-------------------------------------------------------------------
     Beginning of Methods                ------------------               -*/
 
@@ -175,17 +170,27 @@ public class SynthesizeApplication extends Application {
                 mixer.connectInput(ac);
             }
             //---------------Volume
-//            double volumeScale = acw.slider_.getValue();
-//            VolumeAdjuster volumeAdjuster = new VolumeAdjuster(null, volumeScale);
-//            volumeAdjuster.connectInput(mixer);
-            //-----------------
-            AudioClip clip = mixer.getClip();
-            c.open(format16, clip.getData(), 0, clip.getData().length);
-            //Starts playing the sound
-            c.start();
-            AudioListener listener = new AudioListener(c);
-            //replaces the while loop for playing
-            c.addLineListener(listener);
+            if (acw != null) {
+                double volumeScale = acw.slider_.getValue();
+                VolumeAdjuster volumeAdjuster = new VolumeAdjuster(mixer, volumeScale);
+                mixer.connectInput(volumeAdjuster);
+                AudioClip clip = mixer.getClip();
+                c.open(format16, clip.getData(), 0, clip.getData().length);
+                //Starts playing the sound
+                c.start();
+                AudioListener listener = new AudioListener(c);
+                //replaces the while loop for playing
+                c.addLineListener(listener);
+            } else {
+                //-----------------
+                AudioClip clip = mixer.getClip();
+                c.open(format16, clip.getData(), 0, clip.getData().length);
+                //Starts playing the sound
+                c.start();
+                AudioListener listener = new AudioListener(c);
+                //replaces the while loop for playing
+                c.addLineListener(listener);
+            }
         } catch (LineUnavailableException k){
             System.out.println(k.getMessage());
         }
@@ -257,6 +262,7 @@ public class SynthesizeApplication extends Application {
             acw.setLayoutY(widgets_.size() * 50);
             mainCenter.getChildren().add(acw);
             widgets_.add(acw);
+            SynthesizeApplication.acw = acw;
         }
     }
     public static void main(String[] args) {

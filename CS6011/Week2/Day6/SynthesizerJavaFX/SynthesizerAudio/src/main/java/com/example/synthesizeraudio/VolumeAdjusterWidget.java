@@ -23,7 +23,8 @@ public class VolumeAdjusterWidget extends AudioComponentWidget {
         volumeLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");
 
         //Constructs the volumeSlider
-        volumeSlider = new Slider(0.0f, 10f, 1);
+        slider_ = new Slider(0.0f, 10f, 1);
+        volumeSlider = slider_;
         leftSide.getChildren().add(volumeLabel);
         leftSide.getChildren().add(freqSlider);
         //Move widget as mouse is pressed is already handled by parent
@@ -34,30 +35,19 @@ public class VolumeAdjusterWidget extends AudioComponentWidget {
         leftSide.setOnMouseDragged(e-> getPosInf(e));
 
         //Adds the slider that constrols the volume
-        volumeSlider.setOnMouseDragged(e -> setVolume(e, volumeSlider, volumeLabel));
+        volumeSlider.setOnMouseDragged(e -> setVolume(e));
         // not the right side because right side is already done by parent
+        volumeSlider.setOnMouseDragged(this::setVolume);
 
 //        //Sets where the initial position is
         this.setLayoutX(50.0);
         this.setLayoutY(50.0);
     }
-    private void setVolume(MouseEvent e, Slider volumeSlider, Label volumeLabel) {
-        int val = (int) volumeSlider.getValue();
-        volumeLabel.setText("Volume" + String.valueOf(val));
-        ((VolumeAdjuster) ac_).setVolume(freqSlider.getValue());
+    private void setVolume(MouseEvent e) {
+        AudioComponent ac = getAudioComponent();
+        float sliderValue = (float) volumeSlider.getValue();
+        ((VolumeAdjuster) ac).volumeProperty().set((int) sliderValue);
     }
-
-        /// This is what I think as well
-//        AudioComponent ac_ = getAudioComponent();
-//        //Gets the value of the volume slider
-//        float sliderValue = (float) volumeSlider.getValue();
-//        ((VolumeAdjuster) ac_).setVolume((int) sliderValue);
-
-    //    private void setFrequency(MouseEvent e, Slider freqSlider, Label freqLabel) {
-    //        ((SineWave)ac_).setFrequency(freqSlider.getValue());
-    //        int val = (int) freqSlider.getValue();
-    //        freqLabel.setText("SineWave " + val + " Hz");
-    //    }
     private String getFormattedVolume() {
         double sliderValue = (double) volumeSlider.getValue();
         //Returns the volume value to 2 decimal points as a string
