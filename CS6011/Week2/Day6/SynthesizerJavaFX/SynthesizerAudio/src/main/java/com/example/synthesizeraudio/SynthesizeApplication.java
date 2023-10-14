@@ -160,9 +160,10 @@ public class SynthesizeApplication extends Application {
 
 
     private void playAudio(ActionEvent e) {
+        Clip c = null;
         try {
             //Using JavaFX library get clip to get Clip c to actually play intended audio
-            Clip c = AudioSystem.getClip();
+            c = AudioSystem.getClip();
             AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
             byte[] data = Connected_widgets_.get(0).ac_.getClip().getData();
             try (InputStream dataStream = new ByteArrayInputStream(data)) {
@@ -181,25 +182,20 @@ public class SynthesizeApplication extends Application {
                 double volumeScale = acw.slider_.getValue();
                 VolumeAdjuster volumeAdjuster = new VolumeAdjuster(mixer, volumeScale);
                 mixer.connectInput(volumeAdjuster);
-                AudioClip clip = mixer.getClip();
-                c.open(format16, clip.getData(), 0, clip.getData().length);
-                //Starts playing the sound
-                c.start();
-                AudioListener listener = new AudioListener(c);
-                //replaces the while loop for playing
-                c.addLineListener(listener);
-            } else {
-                //-----------------
-                AudioClip clip = mixer.getClip();
-                c.open(format16, clip.getData(), 0, clip.getData().length);
-                //Starts playing the sound
-                c.start();
-                AudioListener listener = new AudioListener(c);
-                //replaces the while loop for playing
-                c.addLineListener(listener);
             }
-        } catch (LineUnavailableException k){
+            //-----------------
+            AudioClip clip = mixer.getClip();
+            c.open(format16, clip.getData(), 0, clip.getData().length);
+            //Starts playing the sound
+            c.start();
+            AudioListener listener = new AudioListener(c);
+            //replaces the while loop for playing
+            c.addLineListener(listener);
+
+        } catch (LineUnavailableException k) {
             System.out.println(k.getMessage());
+        } finally {
+//            c.close();
         }
     }
     //Using the method overload so that we may also hear the notes with only hitting the keys
