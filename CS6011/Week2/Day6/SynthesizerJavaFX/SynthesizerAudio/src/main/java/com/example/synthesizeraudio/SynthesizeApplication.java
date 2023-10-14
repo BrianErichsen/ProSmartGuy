@@ -25,7 +25,9 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,6 +165,11 @@ public class SynthesizeApplication extends Application {
             Clip c = AudioSystem.getClip();
             AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
             byte[] data = Connected_widgets_.get(0).ac_.getClip().getData();
+            try (InputStream dataStream = new ByteArrayInputStream(data)) {
+
+            } catch (IOException k) {
+                k.printStackTrace();
+            }
 
             Mixer mixer = new Mixer();
             for (AudioComponentWidget w : Connected_widgets_) {
