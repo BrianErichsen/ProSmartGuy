@@ -48,9 +48,4 @@
 //        float sliderValue = (float) volumeSlider.getValue();
 //        ((VolumeAdjuster) ac).volumeProperty().set((int) sliderValue);
 //    }
-//    private String getFormattedVolume() {
-//        double sliderValue = (double) volumeSlider.getValue();
-//        //Returns the volume value to 2 decimal points as a string
-//        return String.format("%.2f", sliderValue);
-//    }
 //}

@@ -33,7 +33,7 @@ public class AudioComponentWidget extends Pane {
     private final Label volumeLabel;
 
     //Constructor
-    AudioComponentWidget (AudioComponent ac, AudioComponent volume, AnchorPane parent) {
+    AudioComponentWidget (AudioComponent ac, VolumeAdjuster volume, AnchorPane parent) {
         ac_ = ac;
         volume_ = volume;
         parent_ = parent;
@@ -64,6 +64,7 @@ public class AudioComponentWidget extends Pane {
         //left side; and adding the frequency Label and frequency Slider
         leftSide = new VBox();
         freqLabel = new Label("SineWave");
+        freqLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");
         freqSlider = new Slider(200, 700, 350);
         leftSide.getChildren().add(freqLabel);
         leftSide.getChildren().add(freqSlider);
@@ -84,9 +85,9 @@ public class AudioComponentWidget extends Pane {
         //Adds the slider that controls the fequency
         freqSlider.setOnMouseDragged(e->setFrequency(e, freqSlider, freqLabel));
         //Adds the setVolume method for the volume Slider
-        volumeSlider.setOnMouseDragged(e -> setVolume(e));
+        volumeSlider.setOnMouseDragged(e -> setVolume(e, volumeSlider, volumeLabel));
         // not the right side because right side is already done by parent
-        volumeSlider.setOnMouseDragged(this::setVolume);
+//        volumeSlider.setOnMouseDragged(this::setVolume);
         baseLayout.getChildren().add(leftSide);
         baseLayout.getChildren().add(rightSide);
         this.getChildren().add(baseLayout);
@@ -157,10 +158,11 @@ public class AudioComponentWidget extends Pane {
             //for the VolumeAdjusterWidget constructor
         }
     }
-        private void setVolume(MouseEvent e) {
-        if (volume_ instanceof  VolumeAdjuster) {
+        private void setVolume(MouseEvent e, Slider volumeSlider, Label volumeLabel) {
+        if (volume_ instanceof VolumeAdjuster) {
             double sliderValue = (double) volumeSlider.getValue();
             ((VolumeAdjuster) volume_).volumeProperty().set((int) sliderValue);
+            volumeLabel.setText("volume: " + sliderValue);
         }
     }
     private void closeWidget(ActionEvent e) {

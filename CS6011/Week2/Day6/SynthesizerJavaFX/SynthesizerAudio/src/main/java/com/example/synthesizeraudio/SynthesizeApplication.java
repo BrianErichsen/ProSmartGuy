@@ -46,7 +46,7 @@ public class SynthesizeApplication extends Application {
     public static ArrayList<AudioComponentWidget> Connected_widgets_ = new ArrayList<>();
     /* beginning of Volume widgets-----------------------------------------------------*/
 //    public static VolumeAdjusterWidget acw;
-    public static VolumeAdjuster volume;
+    public static VolumeAdjuster adjustedSineWave;
     private SineWave sineWave;
     @Override
     public void start(Stage stage) throws IOException {
@@ -173,11 +173,16 @@ public class SynthesizeApplication extends Application {
             Mixer mixer = new Mixer();
             for (AudioComponentWidget w : Connected_widgets_) {
                 AudioComponent ac = w.ac_;
-                if (ac instanceof VolumeAdjuster) {
+                VolumeAdjuster instanceVolume = (VolumeAdjuster) w.volume_;
+
+                if (instanceVolume instanceof VolumeAdjuster) {
                     double sliderValue = (double) w.slider_.getValue();
-                    ((VolumeAdjuster) ac).volumeProperty().set((int) sliderValue);
+                    ((VolumeAdjuster) instanceVolume).volumeProperty().set((int) sliderValue);
+                    System.out.println(sliderValue);
                 }
-                mixer.connectInput(ac);
+                //Only needs the volume_ input to be added to it
+                mixer.connectInput(w.volume_);
+//                mixer.connectInput(ac);
             }
             AudioClip clip = mixer.getClip();
             c.open(format16, clip.getData(), 0, clip.getData().length);
@@ -239,8 +244,8 @@ public class SynthesizeApplication extends Application {
     //Creates new Widget
     private void createComponent(ActionEvent e) {
         sineWave = new SineWave(200);
-        AudioComponent volume = new VolumeAdjuster(sineWave, 1.0);
-        AudioComponentWidget acw = new AudioComponentWidget(sineWave, volume, mainCenter);
+        VolumeAdjuster adjustedSineWave = new VolumeAdjuster(sineWave, 1.0);
+        AudioComponentWidget acw = new AudioComponentWidget(sineWave, adjustedSineWave, mainCenter);
         //Creates as well a VolumeAdjuster component where it's initial volume is 1.0
         //Sets the initial position for (x and y) for the widget
         acw.setLayoutX(widgets_.size() * 50);
