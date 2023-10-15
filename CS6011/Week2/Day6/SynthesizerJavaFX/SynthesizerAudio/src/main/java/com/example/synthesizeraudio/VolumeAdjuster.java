@@ -47,7 +47,7 @@ public class VolumeAdjuster implements AudioComponent {
 //        originalData = null;
         return result;
     }
-    private void refreshAudio() {
+    public void refreshAudio() {
         AudioClip inputAudio = input.getClip();
         double volumeScale = (double) volumeProperty.get();
         AudioClip adjustedAudio = adjustVolume(inputAudio, volumeScale);

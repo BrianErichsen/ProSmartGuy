@@ -183,7 +183,9 @@ public class SynthesizeApplication extends Application {
                 //Only needs the volume_ input to be added to it
                 mixer.connectInput(w.volume_);
 //                mixer.connectInput(ac);
+                instanceVolume.refreshAudio();
             }
+            //AudioClip clip gets the AudioClip from the mixer while c holds AudioClip from the library
             AudioClip clip = mixer.getClip();
             c.open(format16, clip.getData(), 0, clip.getData().length);
             //Starts playing the sound
@@ -201,7 +203,7 @@ public class SynthesizeApplication extends Application {
         try {
             Clip c = AudioSystem.getClip();
             AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
-            byte[] data = Connected_widgets_.get(0).ac_.getClip().getData();
+//            byte[] data = Connected_widgets_.get(0).ac_.getClip().getData();
 
             Mixer mixer = new Mixer();
             for (AudioComponentWidget w : Connected_widgets_) {
@@ -209,6 +211,7 @@ public class SynthesizeApplication extends Application {
                 mixer.connectInput(ac);
             }
             AudioClip clip = mixer.getClip();
+
             c.open(format16, clip.getData(), 0, clip.getData().length);
             //Starts playing the sound
             c.start();
@@ -244,7 +247,8 @@ public class SynthesizeApplication extends Application {
     //Creates new Widget
     private void createComponent(ActionEvent e) {
         sineWave = new SineWave(200);
-        VolumeAdjuster adjustedSineWave = new VolumeAdjuster(sineWave, 1.0);
+        VolumeAdjuster adjustedSineWave = new VolumeAdjuster(sineWave, 1.0); //Here if you change it
+        // it does alter the ouput volume
         AudioComponentWidget acw = new AudioComponentWidget(sineWave, adjustedSineWave, mainCenter);
         //Creates as well a VolumeAdjuster component where it's initial volume is 1.0
         //Sets the initial position for (x and y) for the widget

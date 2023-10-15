@@ -73,7 +73,7 @@ public class AudioComponentWidget extends Pane {
         volumeLabel = new Label("Volume");
         volumeLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");
         //Constructs the volumeSlider
-        slider_ = new Slider(0.0, 2.0, 0.2);
+        slider_ = new Slider(0.0, 2.0, 0.1);
         volumeSlider = slider_;
         leftSide.getChildren().add(volumeLabel);
         leftSide.getChildren().add(volumeSlider);
@@ -155,7 +155,6 @@ public class AudioComponentWidget extends Pane {
             ((SineWave) ac_).setFrequency(freqSlider.getValue());
             int val = (int) freqSlider.getValue();
             freqLabel.setText("SineWave " + val + " Hz");
-            //for the VolumeAdjusterWidget constructor
         }
     }
         private void setVolume(MouseEvent e, Slider volumeSlider, Label volumeLabel) {
