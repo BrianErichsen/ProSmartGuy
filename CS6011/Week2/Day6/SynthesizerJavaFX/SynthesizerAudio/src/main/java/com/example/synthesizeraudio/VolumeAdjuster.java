@@ -26,6 +26,8 @@ public class VolumeAdjuster implements AudioComponent {
         AudioClip result = new AudioClip();
         //Gets the byte from original clip // Array of bytes
         byte[] originalData = original.getData();
+        //Sets what is volumeScale in the new audio
+        volumeScale = volumeProperty.get() / 2.0;
         
         //Adjust volume of each sample and store it in result clip
         for (int i = 0; i < originalData.length / 2; i++) {
