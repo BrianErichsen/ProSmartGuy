@@ -16,9 +16,9 @@ public class Main {
         AudioComponent sineWave3 = new SineWave(523.25); //for C so we have a Am
         
         //Apply volume adjustment to each sine wave
-        AudioComponent adjustedSineWave1 = new VolumeAdjuster(sineWave1, 0.5);
-        AudioComponent adjustedSineWave2 = new VolumeAdjuster(sineWave2, 0.5);
-        AudioComponent adjustedSineWave3 = new VolumeAdjuster(sineWave2, 0.5);
+        AudioComponent adjustedSineWave1 = new VolumeAdjuster(sineWave1, 0.0);
+        AudioComponent adjustedSineWave2 = new VolumeAdjuster(sineWave2, 2.0);
+        AudioComponent adjustedSineWave3 = new VolumeAdjuster(sineWave2, 0.0);
         
         //Creates a mixer to add the two adjusted sine waves
         Mixer mixer = new Mixer();
@@ -34,7 +34,7 @@ public class Main {
             //Create a clip for audio playback
             Clip c = AudioSystem.getClip();
             //Open the Clip with specified format and audio data
-            c.open(format16, vfsineWave.getClip().getData(), 0, vfsineWave.getClip().getData().length);
+            c.open(format16, mixer.getClip().getData(), 0, mixer.getClip().getData().length);
 
             //Start playing the clip
             System.out.println("About to play ...");

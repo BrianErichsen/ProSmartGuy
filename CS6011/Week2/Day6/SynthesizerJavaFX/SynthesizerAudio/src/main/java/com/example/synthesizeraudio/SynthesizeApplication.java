@@ -25,15 +25,13 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class SynthesizeApplication extends Application {
-    private static VolumeAdjusterWidget acw;
+//    private static VolumeAdjusterWidget acw;
     //Using array list to hold all the specific notes together
     private List<MusicalNote> notes = new ArrayList<>();
     //Declaring specific musical notes to be used on the GUI
@@ -48,7 +46,7 @@ public class SynthesizeApplication extends Application {
     public static ArrayList<AudioComponentWidget> Connected_widgets_ = new ArrayList<>();
     /* beginning of Volume widgets-----------------------------------------------------*/
 //    public static VolumeAdjusterWidget acw;
-//    public static VolumeAdjuster changeVolume;
+    public static VolumeAdjuster volume;
     private SineWave sineWave;
     @Override
     public void start(Stage stage) throws IOException {
@@ -86,11 +84,11 @@ public class SynthesizeApplication extends Application {
         rightPanel.getChildren().add(sinewaveBtn);
 
         //Volume button that opens that the volume widget
-        Button volumeButton = new Button("Volume");
-        volumeButton.setStyle("fx-base: coral");
-        //Does the intented action when buttom is clicked
-        volumeButton.setOnAction(e->createVolume(e));
-        rightPanel.getChildren().add(volumeButton);
+//        Button volumeButton = new Button("Volume");
+//        volumeButton.setStyle("fx-base: coral");
+//        //Does the intented action when buttom is clicked
+////        volumeButton.setOnAction(e->createVolume(e));
+//        rightPanel.getChildren().add(volumeButton);
 
 
         //Center Panel which contains the specified Speaker
@@ -165,25 +163,22 @@ public class SynthesizeApplication extends Application {
             //Using JavaFX library get clip to get Clip c to actually play intended audio
             c = AudioSystem.getClip();
             AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
-            byte[] data = Connected_widgets_.get(0).ac_.getClip().getData();
-            try (InputStream dataStream = new ByteArrayInputStream(data)) {
-
-            } catch (IOException k) {
-                k.printStackTrace();
-            }
+//            byte[] data = Connected_widgets_.get(0).ac_.getClip().getData();
+//            try (InputStream dataStream = new ByteArrayInputStream(data)) {
+//
+//            } catch (IOException k) {
+//                k.printStackTrace();
+//            }
 
             Mixer mixer = new Mixer();
             for (AudioComponentWidget w : Connected_widgets_) {
                 AudioComponent ac = w.ac_;
+                if (ac instanceof VolumeAdjuster) {
+                    double sliderValue = (double) w.slider_.getValue();
+                    ((VolumeAdjuster) ac).volumeProperty().set((int) sliderValue);
+                }
                 mixer.connectInput(ac);
             }
-            //---------------Volume
-            if (acw != null) {
-                double volumeScale = acw.slider_.getValue();
-                VolumeAdjuster volumeAdjuster = new VolumeAdjuster(mixer, volumeScale);
-                mixer.connectInput(volumeAdjuster);
-            }
-            //-----------------
             AudioClip clip = mixer.getClip();
             c.open(format16, clip.getData(), 0, clip.getData().length);
             //Starts playing the sound
@@ -194,8 +189,6 @@ public class SynthesizeApplication extends Application {
 
         } catch (LineUnavailableException k) {
             System.out.println(k.getMessage());
-        } finally {
-//            c.close();
         }
     }
     //Using the method overload so that we may also hear the notes with only hitting the keys
@@ -233,7 +226,7 @@ public class SynthesizeApplication extends Application {
         //creates new SineWave that has the frequency of the specified note
         AudioComponent noteComponnet = new SineWave(note.getFrequency());
         //Creates the new AudioComponentWidget and adds it to Connected_widgets
-        AudioComponentWidget a = new AudioComponentWidget(noteComponnet, mainCenter);
+        AudioComponentWidget a = new AudioComponentWidget(noteComponnet, null, mainCenter);
         Connected_widgets_.add(a);
         //Sets a time limit for the note to be connected into Connected_widgets
         Duration duration = Duration.seconds(1);// Up to 1 seconds
@@ -246,28 +239,29 @@ public class SynthesizeApplication extends Application {
     //Creates new Widget
     private void createComponent(ActionEvent e) {
         sineWave = new SineWave(200);
-        AudioComponentWidget acw = new AudioComponentWidget(sineWave, mainCenter );
+        AudioComponent volume = new VolumeAdjuster(sineWave, 1.0);
+        AudioComponentWidget acw = new AudioComponentWidget(sineWave, volume, mainCenter);
+        //Creates as well a VolumeAdjuster component where it's initial volume is 1.0
         //Sets the initial position for (x and y) for the widget
         acw.setLayoutX(widgets_.size() * 50);
         acw.setLayoutY(widgets_.size() * 50);
         //Adds it GUI
         mainCenter.getChildren().add(acw);
-//        Connected_widgets_.add(acw);
         //Connects new created Widget into the array list of all current widgets
         widgets_.add(acw);
     }
-    private void createVolume(ActionEvent e) {
-        if (sineWave != null) {
-            var initialVolumeScale = 1.0;
-            AudioComponent volumeAdjuster = new VolumeAdjuster(sineWave, initialVolumeScale);
-            VolumeAdjusterWidget acw = new VolumeAdjusterWidget(volumeAdjuster, mainCenter);
-            acw.setLayoutX(widgets_.size() * 50);
-            acw.setLayoutY(widgets_.size() * 50);
-            mainCenter.getChildren().add(acw);
-            widgets_.add(acw);
-            SynthesizeApplication.acw = acw;
-        }
-    }
+//    private void createVolume(ActionEvent e) {
+//        if (sineWave != null) {
+//            var initialVolumeScale = 1.0;
+//            AudioComponent volumeAdjuster = new VolumeAdjuster(sineWave, initialVolumeScale);
+//            VolumeAdjusterWidget acw = new VolumeAdjusterWidget(volumeAdjuster, mainCenter);
+//            acw.setLayoutX(widgets_.size() * 50);
+//            acw.setLayoutY(widgets_.size() * 50);
+//            mainCenter.getChildren().add(acw);
+//            widgets_.add(acw);
+//            SynthesizeApplication.acw = acw;
+//        }
+//    }
     public static void main(String[] args) {
         launch();
     }

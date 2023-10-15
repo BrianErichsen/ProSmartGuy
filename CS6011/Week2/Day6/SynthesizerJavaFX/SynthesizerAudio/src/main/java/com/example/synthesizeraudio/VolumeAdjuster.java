@@ -39,10 +39,12 @@ public class VolumeAdjuster implements AudioComponent {
             } else if (adjustedSample < Short.MIN_VALUE) {
                 adjustedSample = Short.MIN_VALUE;
             }
-
             //Sets adjustedSample in result clip
             result.setSample(i, adjustedSample);
         }
+        //Assigns the old original AudioClip to null to prevent memory leaks
+//        original = null;
+//        originalData = null;
         return result;
     }
     private void refreshAudio() {

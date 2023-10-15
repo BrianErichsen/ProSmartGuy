@@ -18,6 +18,7 @@ import javafx.scene.shape.Line;
 
 public class AudioComponentWidget extends Pane {
     AudioComponent ac_;
+    AudioComponent volume_;
     AnchorPane parent_;
     double mouseXpos, mouseYpos, widgetXpos, widgetYPos;
     Line line_;
@@ -28,10 +29,13 @@ public class AudioComponentWidget extends Pane {
     VBox leftSide;
     public final Label freqLabel;
     public final Slider freqSlider;
+    private final Slider volumeSlider;
+    private final Label volumeLabel;
 
     //Constructor
-    AudioComponentWidget (AudioComponent ac, AnchorPane parent) {
+    AudioComponentWidget (AudioComponent ac, AudioComponent volume, AnchorPane parent) {
         ac_ = ac;
+        volume_ = volume;
         parent_ = parent;
         line_ = null;
         //Sets the HBox baseLayout
@@ -39,7 +43,7 @@ public class AudioComponentWidget extends Pane {
         baseLayout.setStyle("-fx-border-color: black; -fx-border-image-width: 5");
 
         //Sets the VBox rightSide
-        VBox rightSide = new VBox();
+        rightSide = new VBox();
         Button closeBtn = new Button("x");
         closeBtn.setOnAction(e->closeWidget(e));
         Circle output = new Circle(10);
@@ -57,12 +61,21 @@ public class AudioComponentWidget extends Pane {
         rightSide.setPadding(new Insets(5));
         rightSide.setSpacing(5);
 
-        //left side
+        //left side; and adding the frequency Label and frequency Slider
         leftSide = new VBox();
         freqLabel = new Label("SineWave");
         freqSlider = new Slider(200, 700, 350);
         leftSide.getChildren().add(freqLabel);
         leftSide.getChildren().add(freqSlider);
+
+        //Adding the volume slider and volume label
+        volumeLabel = new Label("Volume");
+        volumeLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");
+        //Constructs the volumeSlider
+        slider_ = new Slider(0.0, 2.0, 0.2);
+        volumeSlider = slider_;
+        leftSide.getChildren().add(volumeLabel);
+        leftSide.getChildren().add(volumeSlider);
 
         //Move widget as mouse is pressed
         leftSide.setOnMousePressed(e->moveWidget(e));
@@ -70,6 +83,10 @@ public class AudioComponentWidget extends Pane {
 
         //Adds the slider that controls the fequency
         freqSlider.setOnMouseDragged(e->setFrequency(e, freqSlider, freqLabel));
+        //Adds the setVolume method for the volume Slider
+        volumeSlider.setOnMouseDragged(e -> setVolume(e));
+        // not the right side because right side is already done by parent
+        volumeSlider.setOnMouseDragged(this::setVolume);
         baseLayout.getChildren().add(leftSide);
         baseLayout.getChildren().add(rightSide);
         this.getChildren().add(baseLayout);
@@ -87,6 +104,7 @@ public class AudioComponentWidget extends Pane {
                 Math.pow(speakerBounds.getCenterY() - e.getSceneY(), 2.0));
 
         if (distance < 10) {
+//            SynthesizeApplication.Connected_widgets_.add(volume_);
             SynthesizeApplication.Connected_widgets_.add(this);//adds to others opened widgets
             System.out.println("Connected at this point");
             //Connected_widgets_ array
@@ -136,7 +154,13 @@ public class AudioComponentWidget extends Pane {
             ((SineWave) ac_).setFrequency(freqSlider.getValue());
             int val = (int) freqSlider.getValue();
             freqLabel.setText("SineWave " + val + " Hz");
-        } else {
+            //for the VolumeAdjusterWidget constructor
+        }
+    }
+        private void setVolume(MouseEvent e) {
+        if (volume_ instanceof  VolumeAdjuster) {
+            double sliderValue = (double) volumeSlider.getValue();
+            ((VolumeAdjuster) volume_).volumeProperty().set((int) sliderValue);
         }
     }
     private void closeWidget(ActionEvent e) {
