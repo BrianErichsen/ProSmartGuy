@@ -73,7 +73,7 @@ public class AudioComponentWidget extends Pane {
         volumeLabel = new Label("Volume");
         volumeLabel.setStyle("-fx-background-color: lightgray; -fx-padding: 5px");
         //Constructs the volumeSlider
-        slider_ = new Slider(0.0, 2.0, 0.1);
+        slider_ = new Slider(0.0, 2.0, 1.0);
         volumeSlider = slider_;
         leftSide.getChildren().add(volumeLabel);
         leftSide.getChildren().add(volumeSlider);
@@ -160,7 +160,7 @@ public class AudioComponentWidget extends Pane {
         private void setVolume(MouseEvent e, Slider volumeSlider, Label volumeLabel) {
         if (volume_ instanceof VolumeAdjuster) {
             double sliderValue = (double) volumeSlider.getValue();
-            ((VolumeAdjuster) volume_).volumeProperty().set((int) sliderValue);
+            ((VolumeAdjuster) volume_).volumeProperty().set((double) sliderValue);
             volumeLabel.setText("volume: " + sliderValue);
         }
     }

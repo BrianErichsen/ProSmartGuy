@@ -1,20 +1,21 @@
 package com.example.synthesizeraudio;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 //Have input components connected; creates a clip, clip from input and modi-
     //fy it
 public class VolumeAdjuster implements AudioComponent {
-    private final IntegerProperty volumeProperty = new SimpleIntegerProperty();
+    private final DoubleProperty volumeProperty = new SimpleDoubleProperty();
     private AudioComponent input;
     private double volumeScale;
 
     public VolumeAdjuster(AudioComponent input, double volumeScale) {
         this.input = input;
         this.volumeScale = volumeScale;
-        volumeProperty.set((int) volumeScale);
+        volumeProperty.set( volumeScale);
         volumeProperty.addListener(((observable, oldValue, newValue) ->  {
+//            volumeScale = newValue.doubleValue();
             refreshAudio();
         }));
     }
@@ -33,7 +34,7 @@ public class VolumeAdjuster implements AudioComponent {
         for (int i = 0; i < originalData.length / 2; i++) {
             int sample = original.getSample(i);
             //Adjust the sample with volume scale
-            int adjustedSample = (int) (sample * volumeScale);
+            double adjustedSample = (sample * volumeScale);
 
             //Caps the adjusted sample to valid range of 16 bits
             if (adjustedSample > Short.MAX_VALUE) {
@@ -42,7 +43,7 @@ public class VolumeAdjuster implements AudioComponent {
                 adjustedSample = Short.MIN_VALUE;
             }
             //Sets adjustedSample in result clip
-            result.setSample(i, adjustedSample);
+            result.setSample(i, (int) adjustedSample);
         }
         //Assigns the old original AudioClip to null to prevent memory leaks
 //        original = null;
@@ -86,7 +87,7 @@ public class VolumeAdjuster implements AudioComponent {
         return result;
     }
 
-    public IntegerProperty volumeProperty() {
+    public DoubleProperty volumeProperty() {
         return volumeProperty;
     }
     @Override

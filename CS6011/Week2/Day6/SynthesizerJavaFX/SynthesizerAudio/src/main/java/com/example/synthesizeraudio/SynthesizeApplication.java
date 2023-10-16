@@ -177,7 +177,7 @@ public class SynthesizeApplication extends Application {
 
                 if (instanceVolume instanceof VolumeAdjuster) {
                     double sliderValue = (double) w.slider_.getValue();
-                    ((VolumeAdjuster) instanceVolume).volumeProperty().set((int) sliderValue);
+                    ((VolumeAdjuster) instanceVolume).volumeProperty().set((double) sliderValue);
                     System.out.println(sliderValue);
                 }
                 //Only needs the volume_ input to be added to it
@@ -259,18 +259,6 @@ public class SynthesizeApplication extends Application {
         //Connects new created Widget into the array list of all current widgets
         widgets_.add(acw);
     }
-//    private void createVolume(ActionEvent e) {
-//        if (sineWave != null) {
-//            var initialVolumeScale = 1.0;
-//            AudioComponent volumeAdjuster = new VolumeAdjuster(sineWave, initialVolumeScale);
-//            VolumeAdjusterWidget acw = new VolumeAdjusterWidget(volumeAdjuster, mainCenter);
-//            acw.setLayoutX(widgets_.size() * 50);
-//            acw.setLayoutY(widgets_.size() * 50);
-//            mainCenter.getChildren().add(acw);
-//            widgets_.add(acw);
-//            SynthesizeApplication.acw = acw;
-//        }
-//    }
     public static void main(String[] args) {
         launch();
     }
