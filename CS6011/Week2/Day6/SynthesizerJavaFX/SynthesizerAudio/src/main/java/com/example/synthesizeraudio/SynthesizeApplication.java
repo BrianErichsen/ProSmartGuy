@@ -183,7 +183,7 @@ public class SynthesizeApplication extends Application {
                 //Only needs the volume_ input to be added to it
                 mixer.connectInput(w.volume_);
 //                mixer.connectInput(ac);
-                instanceVolume.refreshAudio();
+//                instanceVolume.refreshAudio();
             }
             //AudioClip clip gets the AudioClip from the mixer while c holds AudioClip from the library
             AudioClip clip = mixer.getClip();
