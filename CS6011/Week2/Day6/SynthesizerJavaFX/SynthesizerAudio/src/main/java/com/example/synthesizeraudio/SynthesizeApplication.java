@@ -48,6 +48,7 @@ public class SynthesizeApplication extends Application {
 //    public static VolumeAdjusterWidget acw;
     public static VolumeAdjuster adjustedSineWave;
     private SineWave sineWave;
+    public static Mixer allInput;
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane mainLayout = new BorderPane();
@@ -175,8 +176,6 @@ public class SynthesizeApplication extends Application {
 //            } catch (IOException k) {
 //                k.printStackTrace();
 //            }
-
-            Mixer mixer = new Mixer();
             for (AudioComponentWidget w : Connected_widgets_) {
                 AudioComponent ac = w.ac_;
                 VolumeAdjuster instanceVolume = (VolumeAdjuster) w.volume_;
@@ -186,13 +185,15 @@ public class SynthesizeApplication extends Application {
                     ((VolumeAdjuster) instanceVolume).volumeProperty().set((double) sliderValue);
                     System.out.println(sliderValue);
                 }
+                if (AudioComponentWidgetBase.isConnectedToSpeaker == true) {
+                    allInput.connectInput(w.volume_);
+                }
                 //Only needs the volume_ input to be added to it
-                mixer.connectInput(w.volume_);
 //                mixer.connectInput(ac);
 //                instanceVolume.refreshAudio();
             }
             //AudioClip clip gets the AudioClip from the mixer while c holds AudioClip from the library
-            AudioClip clip = mixer.getClip();
+            AudioClip clip = allInput.getClip();
             c.open(format16, clip.getData(), 0, clip.getData().length);
             //Starts playing the sound
             c.start();
@@ -267,7 +268,7 @@ public class SynthesizeApplication extends Application {
     }
     //Creates new instace of mixer where the other widgets can be connected into
     private void createMixer(ActionEvent e) {
-        Mixer allInput = new Mixer();
+        allInput = new Mixer();
         VolumeAdjuster adjustedMix = new VolumeAdjuster(allInput, 1.0);
         AudioComponentWidgetBase acwb = new AudioComponentWidgetBase(allInput, adjustedMix, mainCenter );
         acwb.setLayoutX(widgets_.size() * 50);

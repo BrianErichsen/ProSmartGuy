@@ -15,6 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
+import java.text.DecimalFormat;
+
 public class AudioComponentWidgetBase extends AudioComponentWidget {
         AudioComponent ac_;
         AudioComponent volume_;
@@ -26,9 +28,12 @@ public class AudioComponentWidgetBase extends AudioComponentWidget {
         HBox baseLayout;
         VBox rightSide;
         VBox leftSide;
+        static Circle widgetInput;
 
         private final Slider volumeSlider;
         private final Label volumeLabel;
+
+        public static Boolean isConnectedToSpeaker;
 
         //Constructor
         AudioComponentWidgetBase (AudioComponent ac, VolumeAdjuster volume, AnchorPane parent) {
@@ -36,6 +41,8 @@ public class AudioComponentWidgetBase extends AudioComponentWidget {
             volume_ = volume;
             parent_ = parent;
             line_ = null;
+            isConnectedToSpeaker = false;
+
             //Sets the HBox baseLayout
             baseLayout = new HBox();
             baseLayout.setStyle("-fx-border-color: black; -fx-border-image-width: 5");
@@ -70,6 +77,10 @@ public class AudioComponentWidgetBase extends AudioComponentWidget {
             volumeSlider = slider_;
             leftSide.getChildren().add(volumeLabel);
             leftSide.getChildren().add(volumeSlider);
+            //Created a new circle that will be the input circle for different SineWaves widgets
+            widgetInput = new Circle(10);
+            widgetInput.setFill(Color.RED);
+            leftSide.getChildren().add(widgetInput);
 
             //Move widget as mouse is pressed
             leftSide.setOnMousePressed(e->moveWidget(e));
@@ -88,7 +99,6 @@ public class AudioComponentWidgetBase extends AudioComponentWidget {
         }
 
         private void endConn(MouseEvent e, Circle output) {
-
             Circle speaker = SynthesizeApplication.speaker;
             Bounds speakerBounds = speaker.localToScene(speaker.getBoundsInLocal());
 
@@ -97,7 +107,7 @@ public class AudioComponentWidgetBase extends AudioComponentWidget {
 
             if (distance < 10) {
 //            SynthesizeApplication.Connected_widgets_.add(volume_);
-//                SynthesizeApplication.Connected_widgets_.add(this);//adds to others opened widgets
+                isConnectedToSpeaker = true;
                 System.out.println("Connected at this point");
                 //Connected_widgets_ array
             } else {
@@ -141,13 +151,15 @@ public class AudioComponentWidgetBase extends AudioComponentWidget {
             widgetXpos = this.getLayoutX();
             widgetYPos = this.getLayoutY();
         }
-        private void setVolume(MouseEvent e, Slider volumeSlider, Label volumeLabel) {
-            if (volume_ instanceof VolumeAdjuster) {
-                double sliderValue = (double) volumeSlider.getValue();
-                ((VolumeAdjuster) volume_).volumeProperty().set((double) sliderValue);
-                volumeLabel.setText("volume: " + sliderValue);
-            }
+    private void setVolume(MouseEvent e, Slider volumeSlider, Label volumeLabel) {
+        if (volume_ instanceof VolumeAdjuster) {
+            double sliderValue = (double) volumeSlider.getValue();
+            ((VolumeAdjuster) volume_).volumeProperty().set((double) sliderValue);
+            DecimalFormat df = new DecimalFormat("#.##");
+            String formattedNumber = df.format(sliderValue);
+            volumeLabel.setText("volume: " + formattedNumber);
         }
+    }
         private void closeWidget(ActionEvent e) {
             parent_.getChildren().remove(this);
             SynthesizeApplication.widgets_.remove(this);

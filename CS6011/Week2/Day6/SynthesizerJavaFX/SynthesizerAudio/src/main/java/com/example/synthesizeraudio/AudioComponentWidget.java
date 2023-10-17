@@ -16,6 +16,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
+import java.text.DecimalFormat;
+
 public class AudioComponentWidget extends Pane {
     AudioComponent ac_;
     AudioComponent volume_;
@@ -106,15 +108,15 @@ public class AudioComponentWidget extends Pane {
 
     private void endConn(MouseEvent e, Circle output) {
 
-        Circle speaker = SynthesizeApplication.speaker;
-        Bounds speakerBounds = speaker.localToScene(speaker.getBoundsInLocal());
+        Circle mixerInput = AudioComponentWidgetBase.widgetInput;
+        Bounds mixerBounds = mixerInput.localToScene(mixerInput.getBoundsInLocal());
 
-        double distance = Math.sqrt(Math.pow(speakerBounds.getCenterX() - e.getSceneX(), 2.0) +
-                Math.pow(speakerBounds.getCenterY() - e.getSceneY(), 2.0));
+        double distance = Math.sqrt(Math.pow(mixerBounds.getCenterX() - e.getSceneX(), 2.0) +
+                Math.pow(mixerBounds.getCenterY() - e.getSceneY(), 2.0));
 
         if (distance < 10) {
-//            SynthesizeApplication.Connected_widgets_.add(volume_);
-            SynthesizeApplication.Connected_widgets_.add(this);//adds to others opened widgets
+//            SynthesizeApplication.Connected_widgets_.add(this);//adds to others opened widgets
+            SynthesizeApplication.Connected_widgets_.add(this);
             System.out.println("Connected at this point");
             //Connected_widgets_ array
         } else {
@@ -169,7 +171,9 @@ public class AudioComponentWidget extends Pane {
         if (volume_ instanceof VolumeAdjuster) {
             double sliderValue = (double) volumeSlider.getValue();
             ((VolumeAdjuster) volume_).volumeProperty().set((double) sliderValue);
-            volumeLabel.setText("volume: " + sliderValue);
+            DecimalFormat df = new DecimalFormat("#.##");
+            String formattedNumber = df.format(sliderValue);
+            volumeLabel.setText("volume: " + formattedNumber);
         }
     }
     private void closeWidget(ActionEvent e) {
