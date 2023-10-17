@@ -32,7 +32,15 @@ public class AudioComponentWidget extends Pane {
     private final Slider volumeSlider;
     private final Label volumeLabel;
 
-    //Constructor
+    //Constructor that takes no arguments to the child class
+    AudioComponentWidget() {
+        freqLabel = null;
+        freqSlider = null;
+        volumeSlider = null;
+        volumeLabel = null;
+        //do nothing due to ACWB class
+    }
+    //Constructor that takes arguments
     AudioComponentWidget (AudioComponent ac, VolumeAdjuster volume, AnchorPane parent) {
         ac_ = ac;
         volume_ = volume;

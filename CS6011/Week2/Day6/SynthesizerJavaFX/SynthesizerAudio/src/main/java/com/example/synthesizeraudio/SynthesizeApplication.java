@@ -82,6 +82,11 @@ public class SynthesizeApplication extends Application {
         //Does the intented action when buttom is clicked
         sinewaveBtn.setOnAction(e->createComponent(e));
         rightPanel.getChildren().add(sinewaveBtn);
+        //Mixer widget button
+        Button mixerButton = new Button("Mixer");
+        mixerButton.setStyle("-fx-base: coral ");
+        mixerButton.setOnAction(e -> createMixer(e));
+        rightPanel.getChildren().add(mixerButton);
 
         //Volume button that opens that the volume widget
 //        Button volumeButton = new Button("Volume");
@@ -153,6 +158,7 @@ public class SynthesizeApplication extends Application {
         });
         stage.show();
     }
+
     /*-------------------------------------------------------------------
     Beginning of Methods                ------------------               -*/
 
@@ -258,6 +264,16 @@ public class SynthesizeApplication extends Application {
         mainCenter.getChildren().add(acw);
         //Connects new created Widget into the array list of all current widgets
         widgets_.add(acw);
+    }
+    //Creates new instace of mixer where the other widgets can be connected into
+    private void createMixer(ActionEvent e) {
+        Mixer allInput = new Mixer();
+        VolumeAdjuster adjustedMix = new VolumeAdjuster(allInput, 1.0);
+        AudioComponentWidgetBase acwb = new AudioComponentWidgetBase(allInput, adjustedMix, mainCenter );
+        acwb.setLayoutX(widgets_.size() * 50);
+        acwb.setLayoutY(widgets_.size() * 50);
+        mainCenter.getChildren().add(acwb);
+        widgets_.add(acwb);
     }
     public static void main(String[] args) {
         launch();
