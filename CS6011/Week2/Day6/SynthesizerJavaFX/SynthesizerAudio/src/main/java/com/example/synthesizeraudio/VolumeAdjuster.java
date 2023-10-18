@@ -50,43 +50,6 @@ public class VolumeAdjuster implements AudioComponent {
 //        originalData = null;
         return result;
     }
-//    public void refreshAudio() {
-//        AudioClip inputAudio = input.getClip();
-//        double volumeScale = (double) volumeProperty.get();
-//        AudioClip adjustedAudio = adjustVolume(inputAudio, volumeScale);
-//    }
-
-//    private AudioClip adjustVolume(AudioClip inputAudio, double volumeScale) {
-//        //Makes sure that input audio is not null
-//        if (inputAudio == null) {
-//            return null;
-//        }
-//        //Gets the original audio
-//        AudioClip original = input.getClip();
-//        //Creates new audio clip to store adjusted audio
-//        AudioClip result = new AudioClip();
-//        //Gets the byte from original clip // Array of bytes
-//        byte[] originalData = original.getData();
-//
-//        //Adjust volume of each sample and store it in result clip
-//        for (int i = 0; i < originalData.length / 2; i++) {
-//            int sample = original.getSample(i);
-//            //Adjust the sample with volume scale
-//            int adjustedSample = (int) (sample * volumeScale);
-//
-//            //Caps the adjusted sample to valid range of 16 bits
-//            if (adjustedSample > Short.MAX_VALUE) {
-//                adjustedSample = Short.MAX_VALUE;
-//            } else if (adjustedSample < Short.MIN_VALUE) {
-//                adjustedSample = Short.MIN_VALUE;
-//            }
-//
-//            //Sets adjustedSample in result clip
-//            result.setSample(i, adjustedSample);
-//        }
-//        return result;
-//    }
-
     public DoubleProperty volumeProperty() {
         return volumeProperty;
     }

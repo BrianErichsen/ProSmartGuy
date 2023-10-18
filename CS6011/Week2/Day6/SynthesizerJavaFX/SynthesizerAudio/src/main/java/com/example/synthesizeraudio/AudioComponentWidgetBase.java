@@ -23,16 +23,14 @@ public class AudioComponentWidgetBase extends AudioComponentWidget {
         AnchorPane parent_;
         double mouseXpos, mouseYpos, widgetXpos, widgetYPos;
         Line line_;
-        Slider slider_;
+         Slider slider_;
 
         HBox baseLayout;
         VBox rightSide;
         VBox leftSide;
         static Circle widgetInput;
-
         private final Slider volumeSlider;
         private final Label volumeLabel;
-
         public static Boolean isConnectedToSpeaker;
 
         //Constructor
@@ -108,6 +106,7 @@ public class AudioComponentWidgetBase extends AudioComponentWidget {
             if (distance < 10) {
 //            SynthesizeApplication.Connected_widgets_.add(volume_);
                 isConnectedToSpeaker = true;
+                SynthesizeApplication.mixers_widgets.add(this);
                 System.out.println("Connected at this point");
                 //Connected_widgets_ array
             } else {

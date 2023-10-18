@@ -25,7 +25,6 @@ public class AudioComponentWidget extends Pane {
     double mouseXpos, mouseYpos, widgetXpos, widgetYPos;
     Line line_;
     Slider slider_;
-
     HBox baseLayout;
     VBox rightSide;
     VBox leftSide;

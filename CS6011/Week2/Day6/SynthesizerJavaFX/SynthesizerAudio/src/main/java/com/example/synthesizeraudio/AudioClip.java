@@ -1,7 +1,7 @@
 package com.example.synthesizeraudio;//Created by Brian Erichsen Fagundes - on - 10/01/2023
 import java.util.Arrays;
 
-class AudioClip {
+class AudioClip  {
     //const duration in seconds
     private static final double DURATION = 2.0;
     //Sample rate in samples per second

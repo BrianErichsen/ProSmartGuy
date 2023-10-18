@@ -26,6 +26,8 @@ public class Main {
         mixer.connectInput(adjustedSineWave2);
         mixer.connectInput(adjustedSineWave3);
 
+        VolumeAdjuster allmixer = new VolumeAdjuster(mixer, 0.1);
+
         LinearRamp ramp = new LinearRamp(50, 2000);
         VariableFrequencySineWave vfsineWave = new VariableFrequencySineWave();
         vfsineWave.connectInput(ramp);
@@ -34,7 +36,7 @@ public class Main {
             //Create a clip for audio playback
             Clip c = AudioSystem.getClip();
             //Open the Clip with specified format and audio data
-            c.open(format16, mixer.getClip().getData(), 0, mixer.getClip().getData().length);
+            c.open(format16, allmixer.getClip().getData(), 0, allmixer.getClip().getData().length);
 
             //Start playing the clip
             System.out.println("About to play ...");

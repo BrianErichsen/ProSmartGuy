@@ -44,11 +44,9 @@ public class SynthesizeApplication extends Application {
     public static ArrayList<AudioComponentWidget> widgets_ = new ArrayList<>();
     //Array list that takes all the connected widgets; the ones that are making sound
     public static ArrayList<AudioComponentWidget> Connected_widgets_ = new ArrayList<>();
-    /* beginning of Volume widgets-----------------------------------------------------*/
-//    public static VolumeAdjusterWidget acw;
-    public static VolumeAdjuster adjustedSineWave;
+    public static ArrayList<AudioComponentWidgetBase> mixers_widgets = new ArrayList<>();
     private SineWave sineWave;
-    public static Mixer allInput;
+    public  Mixer allInput;
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane mainLayout = new BorderPane();
@@ -88,14 +86,6 @@ public class SynthesizeApplication extends Application {
         mixerButton.setStyle("-fx-base: coral ");
         mixerButton.setOnAction(e -> createMixer(e));
         rightPanel.getChildren().add(mixerButton);
-
-        //Volume button that opens that the volume widget
-//        Button volumeButton = new Button("Volume");
-//        volumeButton.setStyle("fx-base: coral");
-//        //Does the intented action when buttom is clicked
-////        volumeButton.setOnAction(e->createVolume(e));
-//        rightPanel.getChildren().add(volumeButton);
-
 
         //Center Panel which contains the specified Speaker
         mainCenter = new AnchorPane();
@@ -170,37 +160,37 @@ public class SynthesizeApplication extends Application {
             //Using JavaFX library get clip to get Clip c to actually play intended audio
             c = AudioSystem.getClip();
             AudioFormat format16 = new AudioFormat(44100, 16, 1, true, false);
-//            byte[] data = Connected_widgets_.get(0).ac_.getClip().getData();
-//            try (InputStream dataStream = new ByteArrayInputStream(data)) {
-//
-//            } catch (IOException k) {
-//                k.printStackTrace();
-//            }
+
             for (AudioComponentWidget w : Connected_widgets_) {
                 AudioComponent ac = w.ac_;
                 VolumeAdjuster instanceVolume = (VolumeAdjuster) w.volume_;
-
                 if (instanceVolume instanceof VolumeAdjuster) {
-                    double sliderValue = (double) w.slider_.getValue();
-                    ((VolumeAdjuster) instanceVolume).volumeProperty().set((double) sliderValue);
+                    //sliderValue sees the slider value from the SineWaves values
+                    double sliderValue =  w.slider_.getValue();
+                    (instanceVolume).volumeProperty().set(sliderValue);
                     System.out.println(sliderValue);
+                    //mixerVolumeSlider sees the slider value from the mix component
                 }
-                if (AudioComponentWidgetBase.isConnectedToSpeaker == true) {
-                    allInput.connectInput(w.volume_);
+                if (AudioComponentWidgetBase.isConnectedToSpeaker) {
+                    for (AudioComponentWidgetBase k : mixers_widgets){
+                        allInput.connectInput(w.volume_);
+                        VolumeAdjuster mixerInstanceVolume = (VolumeAdjuster) k.volume_;
+                        double mixerVolumeSliderValue = k.slider_.getValue();
+                        (mixerInstanceVolume).volumeProperty().set(mixerVolumeSliderValue);
+                        System.out.println(mixerVolumeSliderValue);
+                    }
                 }
-                //Only needs the volume_ input to be added to it
-//                mixer.connectInput(ac);
-//                instanceVolume.refreshAudio();
             }
             //AudioClip clip gets the AudioClip from the mixer while c holds AudioClip from the library
-            AudioClip clip = allInput.getClip();
-            c.open(format16, clip.getData(), 0, clip.getData().length);
-            //Starts playing the sound
-            c.start();
-            AudioListener listener = new AudioListener(c);
-            //replaces the while loop for playing
-            c.addLineListener(listener);
-
+            if (allInput != null) {
+                AudioClip clip = allInput.getClip();
+                c.open(format16, clip.getData(), 0, clip.getData().length);
+                //Starts playing the sound
+                c.start();
+                AudioListener listener = new AudioListener(c);
+                //replaces the while loop for playing
+                c.addLineListener(listener);
+            }
         } catch (LineUnavailableException k) {
             System.out.println(k.getMessage());
         }
