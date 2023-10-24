@@ -1,5 +1,7 @@
 //Initialyzes websocket server connection
 const socket = new WebSocket('ws://' + location.host);
+//Global array to store usersInRoom users names
+const usersInRoom = [];
 
 //Tracks whether the use is in a room
 let inRoom = false;
@@ -15,7 +17,16 @@ function displayMessage(message) {
     messageDiv.textContent = `${message.user} ${message.message}`;
     //Appends message
     chatMessages.appendChild(messageDiv);
-} //'`
+}
+//Function that sends messages for join and leave rooms
+function displaySystemMessage(message) {
+
+    //Same beginning as displayMessages
+    const chatMessages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv = message;
+    chatMessages.appendChild(messageDiv);
+}
 //Sends message to server
 function sendMessage() {
     //Checkes if the user is in a room
@@ -77,9 +88,30 @@ socket.onmessage = (event) => {
     if (message.type === 'message') {
         displayMessage(message);
     } else if (message.type === 'join') {
-    //----------Still working------
+        //gets what to send as message
+        const joinedMessage = `${username.user} is joining ${message.room}`;
+        //Appends joinedMessage to chat window
+        displaySystemMessage(joinedMessage);
+        usersInRoom.push(message.user);
+        populateUserList(usersInRoom);
+
+
     } else if (message.type === 'leave') {
     //Still working--------
+    }
+    //function that populates user-list id list and updates it
+    function populateUserList(usersInRoom) {
+        const userList = document.getElementById('user-list');
+
+        //Clears existing list
+        userList.innerHTML = "";
+        //forEach is  provided method does goes forEach element of an array
+        usersInRoom.forEach(user => {
+            const listItem = document.createElement('li');
+            listItem.textContent = user;
+            userList.appendChild(listItem);
+        });
+
     }
 }
 // socket.onmessage = function(event) {
