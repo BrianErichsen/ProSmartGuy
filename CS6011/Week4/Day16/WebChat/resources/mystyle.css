@@ -6,11 +6,12 @@ h1 {
 }
 .user-input {
     display: flex;
-    justify-content: space-between;
     padding: 10px;
     background-color: aquamarine;
     border-bottom: 1px solid #ccc;
+    text-align: center;
 }
+
 .chat-room {
     display: flex;
     background-color: aquamarine;
