@@ -1,0 +1,19 @@
+body {
+    background-color: pink;
+}
+h1 {
+    text-align: center;
+}
+.user-input {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: aquamarine;
+    border-bottom: 1px solid #ccc;
+}
+.chat-room {
+    display: flex;
+    background-color: aquamarine;
+    margin: 20px;
+    padding: 10px;
+}

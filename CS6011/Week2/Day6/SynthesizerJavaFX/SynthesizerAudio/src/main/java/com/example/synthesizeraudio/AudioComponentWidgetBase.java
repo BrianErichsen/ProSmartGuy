@@ -81,8 +81,8 @@ public class AudioComponentWidgetBase extends AudioComponentWidget {
             leftSide.getChildren().add(widgetInput);
 
             //Move widget as mouse is pressed
-            leftSide.setOnMousePressed(e->moveWidget(e));
-            leftSide.setOnMouseDragged(e->getPosInf(e));
+            leftSide.setOnMouseDragged(e->moveWidget(e));
+            leftSide.setOnMousePressed(e->getPosInf(e));
 
             //Adds the setVolume method for the volume Slider
             volumeSlider.setOnMouseDragged(e -> setVolume(e, volumeSlider, volumeLabel));

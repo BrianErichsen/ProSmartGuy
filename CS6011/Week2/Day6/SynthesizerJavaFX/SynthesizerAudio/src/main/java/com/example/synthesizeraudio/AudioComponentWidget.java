@@ -88,8 +88,8 @@ public class AudioComponentWidget extends Pane {
         leftSide.getChildren().add(volumeSlider);
 
         //Move widget as mouse is pressed
-        leftSide.setOnMousePressed(e->moveWidget(e));
-        leftSide.setOnMouseDragged(e->getPosInf(e));
+        leftSide.setOnMouseDragged(e->moveWidget(e));
+        leftSide.setOnMousePressed(e->getPosInf(e));
 
         //Adds the slider that controls the fequency
         freqSlider.setOnMouseDragged(e->setFrequency(e, freqSlider, freqLabel));
