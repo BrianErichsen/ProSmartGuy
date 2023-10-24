@@ -24,7 +24,7 @@ function displaySystemMessage(message) {
     //Same beginning as displayMessages
     const chatMessages = document.getElementById('chat-messages');
     const messageDiv = document.createElement('div');
-    messageDiv = message;
+    messageDiv.textContent = message;
     chatMessages.appendChild(messageDiv);
 }
 //Sends message to server
@@ -89,17 +89,16 @@ socket.onmessage = (event) => {
         displayMessage(message);
     } else if (message.type === 'join') {
         //gets what to send as message
-        const joinedMessage = `${username.user} is joining ${message.room}`;
+        const joinedMessage = `${message.user} is joining ${message.room}`;
         //Appends joinedMessage to chat window
         displaySystemMessage(joinedMessage);
         usersInRoom.push(message.user);
         populateUserList(usersInRoom);
-
-
-    } else if (message.type === 'leave') {
+        } else if (message.type === 'leave') {
     //Still working--------
-    }
+        }
     //function that populates user-list id list and updates it
+    }
     function populateUserList(usersInRoom) {
         const userList = document.getElementById('user-list');
 
@@ -111,8 +110,6 @@ socket.onmessage = (event) => {
             listItem.textContent = user;
             userList.appendChild(listItem);
         });
-
-    }
 }
 // socket.onmessage = function(event) {
 //     var data = JSON.parse(event.data);
@@ -120,8 +117,9 @@ socket.onmessage = (event) => {
 //         displayMessage('div class="message"> + ' + message + '</div>');
 //         }
 // };
-
-
+socket.onopen = () => {
+    console.log('WebSocket connection is open.');
+};
 //Adds the event listener to the buttons for sending, joining, and leaving
 const sendButton = document.getElementById('send-button');
 sendButton.addEventListener('click', sendMessage);
