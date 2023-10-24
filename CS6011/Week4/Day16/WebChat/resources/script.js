@@ -66,6 +66,7 @@ socket.onmessage = (event) => {
         //
     }
 }
+//Displays messages in the chat window
 const sendButton = document.getElementById('send-button');
 sendButton.addEventListener('click', sendMessage);
 
