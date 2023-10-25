@@ -90,7 +90,8 @@ public class WebServer {
         File file = new File(requestedFilePath);
 
         if (file.exists() && file.isFile()) {
-            try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            try (FileInputStream fileInputStream = new FileInputStream(file);
+            OutputStream socketOut = outStream) {
 
                 // Determine the content type based on the file extension
                 String contentType = determineContentType(requestedFilePath);
@@ -103,13 +104,24 @@ public class WebServer {
                 //Sends the file content as bytes
                 byte[] buffer = new byte[1024];
                 int bytesRead;
+
+                /*Alternative one for testing */
+                while((bytesRead = fileInputStream.read(buffer)) != -1) {
+                    for (int i = 0; i < bytesRead; i++) {
+                        socketOut.write(buffer[i]);
+                        socketOut.flush();
+                        Thread.sleep(10);
+                    }
+                }
                 //Sets bytesRead to be = fileInputStream.read taking the bytes array
                 //reads until there is no more data to read
-                while((bytesRead = fileInputStream.read(buffer)) != -1) {
-                    outStream.write(buffer, 0, bytesRead);
-                }
-               //Flush the output stream
-                outStream.flush();
+            //     while((bytesRead = fileInputStream.read(buffer)) != -1) {
+            //         outStream.write(buffer, 0, bytesRead);
+            //     }
+            //    //Flush the output stream
+            //     outStream.flush();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         } else {
             // If the requested file does not exist, return a 404 Not Found response
