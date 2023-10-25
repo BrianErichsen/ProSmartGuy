@@ -29,7 +29,7 @@ public class WebServer {
                 Thread represents different threads of execution
                 Here the lambda takes no arguments and executes in newly created
                 thread*/
-                Thread clientThread = new Thread(() -> handleClient(client));
+                Thread clientThread = new Thread(new RequestHandler(client));
                 clientThread.start();
             }
         } catch (IOException e) {
