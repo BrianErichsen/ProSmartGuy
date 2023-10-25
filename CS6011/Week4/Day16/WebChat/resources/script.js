@@ -87,6 +87,7 @@ socket.onmessage = (event) => {
     //Displays the received messaged in the chat window
     if (message.type === 'message') {
         displayMessage(message);
+
     } else if (message.type === 'join') {
         //gets what to send as message
         const joinedMessage = `${message.user} is joining ${message.room}`;
@@ -94,11 +95,21 @@ socket.onmessage = (event) => {
         displaySystemMessage(joinedMessage);
         usersInRoom.push(message.user);
         populateUserList(usersInRoom);
+
         } else if (message.type === 'leave') {
-    //Still working--------
+            const LeftMessage = `${message.user} is leaving the room ${message.room}`;
+            displaySystemMessage(LeftMessage);
+            // Finds the index of specific user
+            const index = usersInRoom.indexOf(message.user);
+            if (index !== -1) {
+                //removes index item from list
+                usersInRoom.splice(index, 1);
+            }
+            populateUserList(usersInRoom);
+            }
+    
         }
     //function that populates user-list id list and updates it
-    }
     function populateUserList(usersInRoom) {
         const userList = document.getElementById('user-list');
 
@@ -111,6 +122,10 @@ socket.onmessage = (event) => {
             userList.appendChild(listItem);
         });
 }
+function getUserName() {
+    return document.getElementById('username').value;
+}
+
 // socket.onmessage = function(event) {
 //     var data = JSON.parse(event.data);
 //         if (message.type === 'message') {
@@ -129,6 +144,3 @@ joinButton.addEventListener('click', joinRoom);
 
 const leaveButton = document.getElementById('leave-button');
 leaveButton.addEventListener('click', leaveRoom);
-
-
-
