@@ -1,7 +1,7 @@
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -58,7 +58,7 @@ public class WebServer {
                         requestURI = "/index.html";
                     }
                     //serve the requested file or default file
-                    serveFile(outStream, requestURI);
+                    serveFile(client.getOutputStream(), requestURI);
                 }
             }
         } catch (IOException e) {
@@ -84,34 +84,38 @@ public class WebServer {
         return sanitizeURI;
     }
 
-    private static void serveFile(PrintWriter outStream, String requestURI) throws IOException {
+    private static void serveFile(OutputStream outStream, String requestURI) throws IOException {
         String rootDirectory = "/Users/brianerichsenfagundes/myGithubRepo/CS6011/Week4/Day17/ThreadedWebServer/resources/";
         String requestedFilePath = rootDirectory + requestURI;
         File file = new File(requestedFilePath);
 
         if (file.exists() && file.isFile()) {
-            try (BufferedReader fileReader = new BufferedReader(new FileReader(file))) {
-                String line;
+            try (FileInputStream fileInputStream = new FileInputStream(file)) {
 
                 // Determine the content type based on the file extension
                 String contentType = determineContentType(requestedFilePath);
 
                 // Send the HTTP response headers
-                outStream.print("HTTP/1.1 200 OK\r\n");
-                outStream.print("Content-type: " + contentType + "\r\n");
-                outStream.print("\r\n"); // End of headers
+                outStream.write(("HTTP/1.1 200 OK\r\n").getBytes());
+                outStream.write(("Content-type: " + contentType + "\r\n").getBytes());
+                outStream.write("\r\n".getBytes()); // End of headers
 
-                // Send the file content line by line
-                while ((line = fileReader.readLine()) != null) {
-                    outStream.println(line);
-                }//Flush the output stream
+                //Sends the file content as bytes
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                //Sets bytesRead to be = fileInputStream.read taking the bytes array
+                //reads until there is no more data to read
+                while((bytesRead = fileInputStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
+               //Flush the output stream
                 outStream.flush();
             }
         } else {
             // If the requested file does not exist, return a 404 Not Found response
-            outStream.print("HTTP/1.1 404 Not Found\r\n");
-            outStream.print("\r\n"); // End of headers
-            outStream.print("File not found");
+            outStream.write(("HTTP/1.1 404 Not Found\r\n").getBytes());
+            outStream.write(("\r\n").getBytes()); // End of headers
+            outStream.write(("File not found").getBytes());
             outStream.flush();
         }
     }
