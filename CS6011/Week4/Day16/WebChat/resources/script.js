@@ -52,8 +52,11 @@ function joinRoom() {
     const usernameInput = document.getElementById('username');
     const username = usernameInput.value;
 
+    //Validates the room name
+    const validRoomName = /^[a-z]+$/.test(roomName);
+
     //if value is different than 0; then it means that it is true
-    if (roomName && username) {
+    if (validRoomName && username) {
         //Sends a join message to the server
     socket.send(`join ${username} ${roomName}`);
     //Sets user to be in a room to be true
@@ -107,7 +110,6 @@ socket.onmessage = (event) => {
             }
             populateUserList(usersInRoom);
             }
-    
         }
     //function that populates user-list id list and updates it
     function populateUserList(usersInRoom) {
@@ -135,12 +137,14 @@ function getUserName() {
 socket.onopen = () => {
     console.log('WebSocket connection is open.');
 };
+
 //Adds the event listener to the buttons for sending, joining, and leaving
 const sendButton = document.getElementById('send-button');
 sendButton.addEventListener('click', sendMessage);
 
 const joinButton = document.getElementById('join-button');
 joinButton.addEventListener('click', joinRoom);
+
 
 const leaveButton = document.getElementById('leave-button');
 leaveButton.addEventListener('click', leaveRoom);
