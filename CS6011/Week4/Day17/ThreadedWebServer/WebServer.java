@@ -29,7 +29,9 @@ public class WebServer {
                 Thread represents different threads of execution
                 Here the lambda takes no arguments and executes in newly created
                 thread*/
-                Thread clientThread = new Thread(new RequestHandler(client));
+
+                //Add synchronized
+                Thread clientThread = new Thread(new ConnectionHandler(client));
                 clientThread.start();
             }
         } catch (IOException e) {
@@ -52,11 +54,20 @@ public class WebServer {
 
                 if ("GET".equals(httpMethod)) {
                     requestURI = sanitizeURI(requestURI);
-                    //cheks if the client requested the root path "/"
-                    if ("/".equals(requestURI)) {
+                    //checks if the client requested websocket
+                if ("/websocket".equals(requestURI)) {
+                        handleWebSocket(outStream);
+
+                if (requestLine.contains ("Upgrade: websocket")) {
+                    handleWebSocket(outStream);
+                }
+
+                     //cheks if the client requested the root path "/"
+                } else if ("/".equals(requestURI)) {
+                    //cheks if the client requested the root path "/"if ("/".equals(requestURI)) {
                         //Sets default file to index.html
                         requestURI = "/index.html";
-                    }
+                }
                     //serve the requested file or default file
                     serveFile(client.getOutputStream(), requestURI);
                 }
@@ -74,6 +85,16 @@ public class WebServer {
             }
         }
     }
+
+    private static void handleWebSocket(PrintWriter outStream) {
+        outStream.write("HTTP/1.1 101 Switching Protocols\r\n");
+        outStream.write("Upgrade: websocket\r\n");
+        outStream.write("Connection: Upgrade\r\n");
+        //
+        outStream.write("\r\n");
+        outStream.flush();
+    }
+
     private static String sanitizeURI(String requestURI) {
         //remove parent directory (e.g. ..) from URI - prevents path manipulation from client
         //removes backslashes
