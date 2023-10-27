@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+<body>
+    <h1> Welcome to the Chat Room </h1>
+    <div class="user-input">
+        <div>
+            <label for="username">User Name:</label>
+            <input type="text" id="username" placeholder="Enter your username">
+        </div>
+        <div>
+            <label for="roomname">Room Name:</label>
+            <input type="text" id="room-name" placeholder="Enter room name">
+        </div>
+        <button id="join-button">Join Room</button>
+    </div>
+    <div>
+        <span id="user-name-display"></span>
+        <span id="room-name-display"></span>
+    </div>
+    <div class="chat-room">
+        <div class="room-info">
+            <div>
+                <h3>People in Room</h3>
+                <!-- tag ul - unordered list-->
+                <ul id="user-list">
+                    <!-- Display users in the room here -->
+                </ul>
+            </div>
+            <div>
+                <h3>Chat Log</h3>
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Display chat messages here -->
+                </div>
+            </div>
+        </div>
+        <div class="user-actions">
+            <div class="message-input">
+                <input type="text" id="message-input" placeholder="Type your message...">
+                <button id="send-button">Send</button>
+            </div>
+            <button id="leave-button">Leave Room</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
