@@ -1,3 +1,4 @@
+package src;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -91,7 +92,7 @@ public class ConnectionHandler implements Runnable {
         }
     
         private static void serveFile(OutputStream outStream, String requestURI) throws IOException {
-            String rootDirectory = "/Users/brianerichsenfagundes/myGithubRepo/CS6011/Week4/Day17/ThreadedWebServer/resources/";
+            String rootDirectory = "/Users/brianerichsenfagundes/myGithubRepo/CS6011/Week4/Day18/HW10/resources/";
             String requestedFilePath = rootDirectory + requestURI;
             File file = new File(requestedFilePath);
     
