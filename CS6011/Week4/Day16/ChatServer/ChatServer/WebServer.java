@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class WebServer {
@@ -62,7 +61,7 @@ public class WebServer {
                         handleWebSocketHandShake(outStream);
 
                 if (requestLine.contains ("Upgrade: websocket")) {
-                    handleWebSocketHandShake(outStream);
+                    handleWebSocketCommunication(client);
                 }
 
                      //cheks if the client requested the root path "/"
@@ -123,11 +122,6 @@ public class WebServer {
     }
     private static void parseWebSocket(byte[] frameBytes) throws IOException {
         WebSocket.parseWebSocket(frameBytes);
-    }
-
-    private static void processTextFrame(byte[] payload, int payloadLength) {
-        String text = new String(Arrays.copyOfRange(payload, 6, payloadLength));
-        System.out.println("Received text: " + text);
     }
 
     private static String sanitizeURI(String requestURI) {

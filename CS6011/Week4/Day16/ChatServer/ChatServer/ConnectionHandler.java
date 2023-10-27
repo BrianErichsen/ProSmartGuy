@@ -16,8 +16,8 @@ public class ConnectionHandler implements Runnable {
     @Override
     public void run() {
         try {
-            handleCLient();
-            // handleClientRequest();
+            // handleCLient();
+            handleClientRequest();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
