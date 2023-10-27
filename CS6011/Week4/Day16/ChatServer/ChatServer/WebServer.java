@@ -114,12 +114,15 @@ public class WebServer {
                     if (b == (byte) 0x88) {
 
                     } else if (b == (byte) 0x81) {
-                        processTextFrame(messageBuffer.array(), messageBuffer.position());
+                        parseWebSocket(messageBuffer.array());
                         messageBuffer.clear();
                     }
                 }
             }
         }
+    }
+    private static void parseWebSocket(byte[] frameBytes) throws IOException {
+        WebSocket.parseWebSocket(frameBytes);
     }
 
     private static void processTextFrame(byte[] payload, int payloadLength) {

@@ -1,12 +1,8 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class ConnectionHandler implements Runnable {
@@ -19,7 +15,7 @@ public class ConnectionHandler implements Runnable {
     @Override
     public void run() {
         try {
-            handleCLient();
+            // handleCLient();
             handleClientRequest();
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,60 +28,60 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
-    private void handleCLient() throws IOException {
-        try (
-            Scanner scanner = new Scanner(client.getInputStream());
-            PrintWriter outStream = new PrintWriter(client.getOutputStream());
-        ) {
-            if (scanner.hasNextLine()) {
-                String requestLine = scanner.nextLine();
-                if (requestLine.contains("Upgrade: websocket")) {
-                    handleWebSocketHandShake(outStream);
-                    handleWebSocketCommunication(client);
-                }// else {
-                    //handleHttpRequest(requestLine, outStream);
-                    //}
-                }
-            }
-        }
+    // private void handleCLient() throws IOException {
+    //     try (
+    //         Scanner scanner = new Scanner(client.getInputStream());
+    //         PrintWriter outStream = new PrintWriter(client.getOutputStream());
+    //     ) {
+    //         if (scanner.hasNextLine()) {
+    //             String requestLine = scanner.nextLine();
+    //             if (requestLine.contains("Upgrade: websocket")) {
+    //                 handleWebSocketHandShake(outStream);
+    //                 handleWebSocketCommunication(client);
+    //             }// else {
+    //                 //handleHttpRequest(requestLine, outStream);
+    //                 //}
+    //             }
+    //         }
+    //     }
         
-    private static void handleWebSocketHandShake(PrintWriter outStream) {
-        outStream.write("HTTP/1.1 101 Switching Protocols\r\n");
-        outStream.write("Upgrade: websocket\r\n");
-        outStream.write("Connection: Upgrade\r\n");
-        //
-        outStream.write("\r\n");
-        outStream.flush();
-    }
+    // private static void handleWebSocketHandShake(PrintWriter outStream) {
+    //     outStream.write("HTTP/1.1 101 Switching Protocols\r\n");
+    //     outStream.write("Upgrade: websocket\r\n");
+    //     outStream.write("Connection: Upgrade\r\n");
+    //     //
+    //     outStream.write("\r\n");
+    //     outStream.flush();
+    // }
 
-    private static void handleWebSocketCommunication(Socket client) throws IOException {
-        try (
-            InputStream inputStream = client.getInputStream();
-            OutputStream outputStream = client.getOutputStream();
-        ) {
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            ByteBuffer messageBuffer = ByteBuffer.allocate(1024);
+    // private static void handleWebSocketCommunication(Socket client) throws IOException {
+    //     try (
+    //         InputStream inputStream = client.getInputStream();
+    //         OutputStream outputStream = client.getOutputStream();
+    //     ) {
+    //         byte[] buffer = new byte[1024];
+    //         int bytesRead;
+    //         ByteBuffer messageBuffer = ByteBuffer.allocate(1024);
 
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                for (int i = 0; i < bytesRead; i++) {
-                    byte b = buffer[1];
-                    messageBuffer.put(b);
+    //         while ((bytesRead = inputStream.read(buffer)) != -1) {
+    //             for (int i = 0; i < bytesRead; i++) {
+    //                 byte b = buffer[1];
+    //                 messageBuffer.put(b);
 
-                    if (b == (byte) 0x88) {
+    //                 if (b == (byte) 0x88) {
 
-                    } else if (b == (byte) 0x81) {
-                        processTextFrame(messageBuffer.array(), messageBuffer.position());
-                        messageBuffer.clear();
-                    }
-                }
-            }
-        }
-    }
-    private static void processTextFrame(byte[] payload, int payloadLength) {
-        String text = new String(Arrays.copyOfRange(payload, 6, payloadLength));
-        System.out.println("Received text: " + text);
-    }
+    //                 } else if (b == (byte) 0x81) {
+    //                     processTextFrame(messageBuffer.array(), messageBuffer.position());
+    //                     messageBuffer.clear();
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    // private static void processTextFrame(byte[] payload, int payloadLength) {
+    //     String text = new String(Arrays.copyOfRange(payload, 6, payloadLength));
+    //     System.out.println("Received text: " + text);
+    // }
     //for http request
     private void handleClientRequest() throws IOException {
         //Creates a scanner to read the client's request from input stream
