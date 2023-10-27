@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ public class ConnectionHandler implements Runnable {
     @Override
     public void run() {
         try {
+            handleCLient();
             handleClientRequest();
         } catch (IOException e) {
             e.printStackTrace();
@@ -27,6 +29,28 @@ public class ConnectionHandler implements Runnable {
         }
     }
 
+    private void handleCLient() throws IOException {
+        try (
+            Scanner scanner = new Scanner(client.getInputStream());
+            PrintWriter outStream = new PrintWriter(client.getOutputStream());
+        ) {
+            if (scanner.hasNextLine()) {
+                String requestLine = scanner.nextLine();
+                if (requestLine.contains("Upgrade: websocket")) {
+                    handleWebSocketHandShake(outStream);
+                }
+            }
+        }
+    }
+    private static void handleWebSocketHandShake(PrintWriter outStream) {
+        outStream.write("HTTP/1.1 101 Switching Protocols\r\n");
+        outStream.write("Upgrade: websocket\r\n");
+        outStream.write("Connection: Upgrade\r\n");
+        //
+        outStream.write("\r\n");
+        outStream.flush();
+    }
+    //for http request
     private void handleClientRequest() throws IOException {
         //Creates a scanner to read the client's request from input stream
         //create a outputstream to send back the response to client
