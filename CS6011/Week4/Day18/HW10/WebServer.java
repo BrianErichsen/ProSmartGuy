@@ -108,16 +108,17 @@ public class WebServer {
                     if (b == (byte) 0x88) {
 
                     } else if (b == (byte) 0x81) {
-                        parseWebSocket(messageBuffer.array());
+                        System.out.println("sure thing");
+                        // parseWebSocket(messageBuffer.array());
                         messageBuffer.clear();
                     }
                 }
             }
         }
     }
-    private static void parseWebSocket(byte[] frameBytes) throws IOException {
-        WebSocket.parseWebSocket(frameBytes);
-    }
+    // private static void parseWebSocket(byte[] frameBytes) throws IOException {
+    //     WebSocket.parseWebSocket(frameBytes);
+    // }
 
     private static String sanitizeURI(String requestURI) {
         //remove parent directory (e.g. ..) from URI - prevents path manipulation from client

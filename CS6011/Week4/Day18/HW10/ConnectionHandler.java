@@ -21,7 +21,8 @@ public class ConnectionHandler implements Runnable {
     @Override
     public void run() {
         try {
-            // handleCLient();
+            // handleClient();
+            //for http request
             handleClientRequest();
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,7 +35,7 @@ public class ConnectionHandler implements Runnable {
         }
     }
     //Handle client is intended for webSocket
-    private void handleCLient() throws IOException {
+    private void handleClient() throws IOException {
         try (
             Scanner scanner = new Scanner(client.getInputStream());
             PrintWriter outStream = new PrintWriter(client.getOutputStream());
@@ -59,7 +60,8 @@ public class ConnectionHandler implements Runnable {
     private void handleClientRequest() throws IOException {
         //Creates a scanner to read the client's request from input stream
         //create a outputstream to send back the response to client
-        try (
+
+        try (//here's the first error
             Scanner scanner = new Scanner(client.getInputStream());
             OutputStream outStream = client.getOutputStream()
         ) {
