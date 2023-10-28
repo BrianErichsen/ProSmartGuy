@@ -1,11 +1,12 @@
-
-
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ConnectionHandler implements Runnable {
@@ -44,6 +45,9 @@ public class ConnectionHandler implements Runnable {
                 String requestLine = scanner.nextLine();
                 if (requestLine.contains("Upgrade: websocket")) {
                     handleWebSocketHandShake(outStream);
+                    String message = handleWebSocketCommunication();
+                } else {
+                    //handleHttpRequest(requestLine, outStream);
                 }
             }
         }
@@ -55,6 +59,56 @@ public class ConnectionHandler implements Runnable {
         //
         outStream.write("\r\n");
         outStream.flush();
+    }
+    private String handleWebSocketCommunication () throws IOException {
+        //Wrap input stream in data input to read in groups of bytes
+        InputStream inputStream = client.getInputStream();
+        DataInputStream dataInput = new DataInputStream(inputStream);
+
+        //Reads the next 2 bytes
+        byte zeroByte = dataInput.readByte();
+        byte firstByte = dataInput.readByte();
+
+        //Is it masked
+        byte maskKey = (byte) (firstByte & 0x80);
+        if (maskKey != 0) {
+            masked = true;
+        }
+        byte opcode = (byte) (zeroByte & 0x0F);
+        //Length is less than 125, store length as B1
+        byte length = (byte) (firstByte & 0x7F);
+        //If length is 126; then store it as B1 - B3
+        if (length == 126) {
+            byte secondToThirdByte = (byte) dataInput.readShort();
+            length = secondToThirdByte;
+        } else if (length == 127) {
+            byte secondToThirdByte = (byte) dataInput.readLong();
+            length = secondToThirdByte;
+        }
+        //reads in the mask; if the message is masked reads the next 4 bytes (b10 - b13)
+        //and stores them in the mask array
+        byte[] mask = new byte[4];
+        if (masked) {
+            for (int i = 0; i < mask.length; i++) {
+                mask[i] = dataInput.readByte();
+            }
+        }
+        //Read in the payload
+        //Creates a payload arry based on the length and stores byte by byte
+        byte[] payload = new byte[length];
+        for (int i = 0; i < payload.length; i++) {
+            payload[i] = dataInput.readByte();
+        }
+        //Un mask the payload
+        if (masked) {
+            for (int i = 0; i < payload.length; i++) {
+                payload[i] = (byte) (payload[i] ^ mask[i % 4]);
+            }
+        }
+        //Decodes the payload
+        String message = new String(payload, StandardCharsets.UTF_8);
+        System.out.println(message);
+        return message;
     }
     //for http request
     private void handleClientRequest() throws IOException {
