@@ -1,4 +1,5 @@
-package src;
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class ConnectionHandler implements Runnable {
     @Override
     public void run() {
         try {
-            handleCLient();
+            // handleCLient();
             handleClientRequest();
         } catch (IOException e) {
             e.printStackTrace();
