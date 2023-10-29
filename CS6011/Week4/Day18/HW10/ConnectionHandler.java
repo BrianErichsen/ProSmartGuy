@@ -39,16 +39,42 @@ public class ConnectionHandler implements Runnable {
     private void handleClient() throws IOException {
         try (
             Scanner scanner = new Scanner(client.getInputStream());
-            PrintWriter outStream = new PrintWriter(client.getOutputStream());
+            PrintWriter outStream = new PrintWriter(client.getOutputStream(), true);
         ) {
             if (scanner.hasNextLine()) {
+                // String requestLine = scanner.nextLine();
+                // if (requestLine.contains("Upgrade: websocket")) {
+                //     handleWebSocketHandShake(outStream);
+                //     String message = handleWebSocketCommunication();
+                //     handleOutgoingWebSocketMessages(message);
+                // } else {
+                //     handleClientRequest();
+                // }
                 String requestLine = scanner.nextLine();
-                if (requestLine.contains("Upgrade: websocket")) {
+                String[] requestParts = requestLine.split(" ");
+                String httpMethod = requestParts[0];
+                String requestURI = requestParts[1];
+            
+                if ("GET".equals(httpMethod)) {
+                    requestURI = sanitizeURI(requestURI);
+                    //checks if the client requested websocket
+
+                if ("/websocket".equals(requestURI)) {
                     handleWebSocketHandShake(outStream);
+
+                if (requestLine.contains ("Upgrade: websocket")) {
                     String message = handleWebSocketCommunication();
                     handleOutgoingWebSocketMessages(message);
-                } else {
-                    handleClientRequest();
+    
+                //cheks if the client requested the root path "/"
+                } else if ("/".equals(requestURI)) {
+                    //cheks if the client requested the root path "/"if ("/".equals(requestURI)) {
+                    //Sets default file to index.html
+                    requestURI = "/index.html";
+                }
+                //serve the requested file or default file
+                serveFile(client.getOutputStream(), requestURI);
+                    }
                 }
             }
         }
@@ -140,33 +166,33 @@ public class ConnectionHandler implements Runnable {
     }
     
     //for http request
-    private void handleClientRequest() throws IOException {
-        //Creates a scanner to read the client's request from input stream
-        //create a outputstream to send back the response to client
+    // private void handleClientRequest() throws IOException {
+    //     //Creates a scanner to read the client's request from input stream
+    //     //create a outputstream to send back the response to client
 
-        try (
-            Scanner scanner = new Scanner(client.getInputStream());
-            OutputStream outStream = client.getOutputStream()
-        ) {
-            if (scanner.hasNextLine()) {
-                String requestLine = scanner.nextLine();
-                String[] requestParts = requestLine.split(" ");
-                String httpMethod = requestParts[0];
-                String requestURI = requestParts[1];
+    //     try (
+    //         Scanner scanner = new Scanner(client.getInputStream());
+    //         OutputStream outStream = client.getOutputStream()
+    //     ) {
+    //         if (scanner.hasNextLine()) {
+    //             String requestLine = scanner.nextLine();
+    //             String[] requestParts = requestLine.split(" ");
+    //             String httpMethod = requestParts[0];
+    //             String requestURI = requestParts[1];
 
-                if ("GET".equals(httpMethod)) {
-                    requestURI = sanitizeURI(requestURI);
-                    //cheks if the client requested the root path "/"
-                    if ("/".equals(requestURI)) {
-                        //Sets default file to index.html
-                        requestURI = "/index.html";
-                    }
-                    //serve the requested file or default file
-                    serveFile(outStream, requestURI);
-                }
-            }
-            }
-        }
+    //             if ("GET".equals(httpMethod)) {
+    //                 requestURI = sanitizeURI(requestURI);
+    //                 //cheks if the client requested the root path "/"
+    //                 if ("/".equals(requestURI)) {
+    //                     //Sets default file to index.html
+    //                     requestURI = "/index.html";
+    //                 }
+    //                 //serve the requested file or default file
+    //                 serveFile(outStream, requestURI);
+    //             }
+    //         }
+    //         }
+    //     }
         private static String sanitizeURI(String requestURI) {
             //remove parent directory (e.g. ..) from URI - prevents path manipulation from client
             //removes backslashes

@@ -1,7 +1,7 @@
-//Initialyzes websocket server connection
+//Initialyzes socket server connection
 let ws = "ws//localhost:8080/"
 let socket = new WebSocket(ws);
-console.log("Web websocket created");
+console.log("Web socket created");
 
 const jsonObject = {
     type: 'message',
@@ -13,31 +13,34 @@ const jsonObject = {
 const jsonString = JSON.stringify(jsonObject);
 const parsedObject = JSON.parse(jsonString);
 
-websocket.addEventListener('open', (event) => {
+messages.appendChild(jsonString);
+messages.apprendChild(parsedObject);
+
+socket.addEventListener('open', (event) => {
     console.log('Websocket connection is open.')
 });
-websocket.addEventListener('message', (event) => {
+socket.addEventListener('message', (event) => {
     const message = JSON.parse(event.data);
     console.log('Received message:', message);
 });
-websocket.addEventListener('close', (event) => {
+socket.addEventListener('close', (event) => {
     if (event.wasClean) {
         console.log('Websocket connection closed cleanly.');
     } else {
         console.error('Websocket connection closed unexpectedly.');
     }
 })
-websocket.onopen = function(event) {
+socket.onopen = function(event) {
     console.log("WebSocket is now open");
 };
-websocket.onmessage = (event) => {
+socket.onmessage = (event) => {
     const message = event.data;
     console.log('Received message:', message);
 };
-websocket.onerror = (event) => {
+socket.onerror = (event) => {
     console.error('WebSocket error:', event);
 };
-websocket.onclose = (event) => {
+socket.onclose = (event) => {
     if (event.wasClean) {
     console.log('WebSocket connection closed cleanly', event);
 } else {
