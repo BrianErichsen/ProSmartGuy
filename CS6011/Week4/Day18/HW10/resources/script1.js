@@ -1,5 +1,5 @@
 //Initialyzes socket server connection
-let ws = "ws//localhost:8080/"
+let ws = "ws://localhost:8080/"
 let socket = new WebSocket(ws);
 console.log("Web socket created");
 
