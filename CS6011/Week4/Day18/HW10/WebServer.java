@@ -24,20 +24,21 @@ public class WebServer {
             while (true) {
                 //accepts incoming client connections
                 Socket client = server.accept();
-                //From sliders; do I need a runnable r ?
-                // Runnable r = new ConnectionHandler(client);
-                //clientThread is already a thread
-                //Add synchronized
+                String requestLine = getRequestLine(client);
+                if (requestLine.startsWith("GET /websocket")) {
+                
                 ConnectionHandler ch = new ConnectionHandler(client);
                 Thread clientThread = new Thread(ch);
                 clientThread.start();
+                } else {
+                    Thread clientThread2 = new Thread(() -> handleClient(client));
+                    clientThread2.start();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
     }
-
 
     private static void handleClient(Socket client) {
         try (
@@ -60,11 +61,11 @@ public class WebServer {
                 // }
 
                      //cheks if the client requested the root path "/"
-                if ("/".equals(requestURI)) {
+                    if ("/".equals(requestURI)) {
                     //cheks if the client requested the root path "/"if ("/".equals(requestURI)) {
                         //Sets default file to index.html
                         requestURI = "/index.html";
-                }
+                    }
                     //serve the requested file or default file
                     serveFile(client.getOutputStream(), requestURI);
                 }
@@ -81,6 +82,16 @@ public class WebServer {
                 e.printStackTrace();
             }
         }
+    }
+    private static String getRequestLine(Socket client) {
+        try (Scanner scanner = new Scanner(client.getInputStream())) {
+            if (scanner.hasNextLine()) {
+                return scanner.nextLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // private static void handleWebSocketHandShake(PrintWriter outStream) {
