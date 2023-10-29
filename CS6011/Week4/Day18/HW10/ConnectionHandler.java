@@ -1,4 +1,5 @@
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.util.Scanner;
 public class ConnectionHandler implements Runnable {
     private final Socket client;
 
-    String filename = "";
     Boolean masked;
 
     public ConnectionHandler(Socket client) {
@@ -22,9 +22,9 @@ public class ConnectionHandler implements Runnable {
     @Override
     public void run() {
         try {
-            // handleClient();
+            handleClient();
             //for http request
-            handleClientRequest();
+            // handleClientRequest();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -46,8 +46,9 @@ public class ConnectionHandler implements Runnable {
                 if (requestLine.contains("Upgrade: websocket")) {
                     handleWebSocketHandShake(outStream);
                     String message = handleWebSocketCommunication();
+                    handleOutgoingWebSocketMessages(message);
                 } else {
-                    //handleHttpRequest(requestLine, outStream);
+                    handleClientRequest();
                 }
             }
         }
@@ -110,12 +111,40 @@ public class ConnectionHandler implements Runnable {
         System.out.println(message);
         return message;
     }
+    void handleOutgoingWebSocketMessages(String message) throws IOException {
+        OutputStream outputStream = client.getOutputStream();
+        DataOutputStream dataOutPutStream = new DataOutputStream(outputStream);
+        
+        //Change the message to bytes
+        String responseMessage = message;
+        byte[] responseBytes = responseMessage.getBytes(StandardCharsets.UTF_8);
+
+        //Sends the upcode
+        dataOutPutStream.writeByte(0x81);
+
+        //Sends the payload length
+        if (responseBytes.length < 126) {
+            dataOutPutStream.writeByte(responseBytes.length);
+        }
+        else if (responseBytes.length < Math.pow(2, 16)) {
+            dataOutPutStream.write(126);
+            dataOutPutStream.writeShort(responseBytes.length);
+        }
+        else {
+            dataOutPutStream.write(127);
+            dataOutPutStream.writeLong(responseBytes.length);
+        }
+        //Writes the messages bytes (sends the payload)
+        dataOutPutStream.write(responseBytes);
+        dataOutPutStream.flush();
+    }
+    
     //for http request
     private void handleClientRequest() throws IOException {
         //Creates a scanner to read the client's request from input stream
         //create a outputstream to send back the response to client
 
-        try (//here's the first error
+        try (
             Scanner scanner = new Scanner(client.getInputStream());
             OutputStream outStream = client.getOutputStream()
         ) {

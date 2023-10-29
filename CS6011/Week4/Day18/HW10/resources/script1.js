@@ -4,6 +4,7 @@ let socket = new WebSocket(ws);
 console.log("Web websocket created");
 
 const jsonObject = {
+    type: 'message',
     user: 'Brian',
     room: 'dragon',
     message: 'Hello, world!',

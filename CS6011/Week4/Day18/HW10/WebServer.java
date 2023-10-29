@@ -26,9 +26,12 @@ public class WebServer {
             while (true) {
                 //accepts incoming client connections
                 Socket client = server.accept();
-
+                //From sliders; do I need a runnable r ?
+                // Runnable r = new ConnectionHandler(client);
+                //clientThread is already a thread
                 //Add synchronized
-                Thread clientThread = new Thread(new ConnectionHandler(client));
+                ConnectionHandler ch = new ConnectionHandler(client);
+                Thread clientThread = new Thread(ch);
                 clientThread.start();
             }
         } catch (IOException e) {
