@@ -22,8 +22,10 @@ public class WebServer {
         try (ServerSocket server = new ServerSocket(8080)) {
             //continously
             while (true) {
+                System.out.println("Waiting for client...");
                 //accepts incoming client connections
                 Socket client = server.accept();
+                System.out.println("Got connection");
                 String requestLine = getRequestLine(client);
                 if (requestLine.startsWith("GET /websocket")) {
                 

@@ -1,3 +1,6 @@
+//Class that heeps track of user's name, room and handles webSockets communication
+
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -22,101 +25,28 @@ public class ConnectionHandler implements Runnable {
     @Override
     public void run() {
         try {
-            // handleWebSocket();
+            handleWebSocket();
             // handleClient();
             // for http request
             // handleClientRequest();
-            String message = handleWebSocketCommunication();
-            handleOutgoingWebSocketMessages(message);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                client.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        // } finally {
+        //     try {
+        //         client.close();
+        //     } catch (IOException e) {
+        //         e.printStackTrace();
+        //     }
         }
     }
-    private void handleWebSocket() throws IOException { 
+    private void handleWebSocket() throws IOException {
+        try (Scanner sc = new Scanner (client.getInputStream())) {
 
-        // Input and output streams for WebSocket communication 
-
-        InputStream inputStream = client.getInputStream(); 
-
-        OutputStream outputStream = client.getOutputStream(); 
-
- 
-
-        // Read the WebSocket handshake request 
-
-        byte[] buffer = new byte[1024]; 
-
-        int bytesRead = inputStream.read(buffer); 
-
-        String request = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8); 
-
- 
-
-        // Check if it's a WebSocket handshake request 
-
-        if (request.contains("Upgrade: websocket")) { 
-
-            // Perform WebSocket handshake 
-
-            // ... 
-
- 
-
-            // Once the handshake is complete, you can handle WebSocket frames 
-
-            // For simplicity, we'll just echo messages back to the client 
-
-            while (true) { 
-
-                bytesRead = inputStream.read(buffer); 
-
-                if (bytesRead == -1) { 
-
-                    break; // Connection closed 
-
-                } 
-
- 
-
-                // Assuming the received data is a WebSocket frame (no fragmentation) 
-
-                // For simplicity, we don't handle fragmentation here 
-
-                byte[] message = new byte[bytesRead - 6]; // Subtract 6 for WebSocket frame headers 
-
- 
-
-                // Extract the message from the WebSocket frame (ignoring masking for simplicity) 
-
-                for (int i = 6; i < bytesRead; i++) { 
-
-                    message[i - 6] = buffer[i]; 
-
-                } 
-
- 
-
-                // Echo the message back to the client 
-
-                outputStream.write(0x81); // WebSocket frame: Text, FIN 
-
-                outputStream.write(message.length); 
-
-                outputStream.write(message); 
-
-                outputStream.flush(); 
-
-            } 
-
-        } 
-
-    } 
+            String line = sc.nextLine();
+            System.out.println("line" + line);
+        }
+        
+    }
     //Handle client is intended for webSocket
     private void handleClient() throws IOException {
         try (
