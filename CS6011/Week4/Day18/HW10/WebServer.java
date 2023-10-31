@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class WebServer {
 
@@ -22,16 +21,6 @@ public class WebServer {
                 //accepts incoming client connections
                 Socket client = server.accept();
                 System.out.println("Got connection");
-                // String requestLine = getRequestLine(client);
-                // if (requestLine.startsWith("GET /websocket")) {
-                
-                // ConnectionHandler ch = new ConnectionHandler(client);
-                // Thread clientThread = new Thread(ch);
-                // clientThread.start();
-                // } else {
-                //     Thread clientThread2 = new Thread(() -> handleClient(client));
-                //     clientThread2.start();
-                // }
                 ConnectionHandler ch = new ConnectionHandler(client);
                 Thread clienThread = new Thread(ch);
                 clienThread.start();
@@ -41,15 +30,4 @@ public class WebServer {
         }
     }
 
-
-    private static String getRequestLine(Socket client) {
-        try (Scanner scanner = new Scanner(client.getInputStream())) {
-            if (scanner.hasNextLine()) {
-                return scanner.nextLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

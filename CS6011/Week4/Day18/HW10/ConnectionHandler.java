@@ -27,8 +27,14 @@ public ConnectionHandler(Socket client) {
 public void run() {
     try {
         System.out.println("Hi from thread");
-        handleWebSocket();
+        // String requestLine = getRequestLine(client);
+        // if (requestLine.startsWith("GET")) {
+        //     handleClientRequest();
+        // }
         handleClientRequest();
+        // else if (requestLine.startsWith("upgrade")) {
+            handleWebSocket();
+        // }
     } catch (Exception e) {
         e.printStackTrace();
         } finally {
@@ -39,6 +45,17 @@ public void run() {
         }
     }
     }
+    private static String getRequestLine(Socket client) {
+        try (Scanner scanner = new Scanner(client.getInputStream())) {
+            if (scanner.hasNextLine()) {
+                return scanner.nextLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
   private void handleWebSocket() throws Exception {
     try (Scanner sc = new Scanner (client.getInputStream())) {
 
