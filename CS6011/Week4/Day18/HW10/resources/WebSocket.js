@@ -202,8 +202,8 @@ of users in a chat room. */
         //Sets user to be in a room to be true
         let inRoom = true;
         //Update the room name display in the span id
-        // document.getElementById('room-name-display').textContent = `room: ${roomName}`;
-        // document.getElementById('user-name-display').textContent = `user: ${username}`;
+        document.getElementById('room-name-display').textContent = `room: ${roomName}`;
+        document.getElementById('user-name-display').textContent = `user: ${username}`;
         } else {
             alert("invalid");
         }
