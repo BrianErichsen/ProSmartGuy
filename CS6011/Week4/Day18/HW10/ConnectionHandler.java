@@ -1,210 +1,139 @@
 //Class that heeps track of user's name, room and handles webSockets communication
-
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.Scanner;
 
+
+
 public class ConnectionHandler implements Runnable {
-    private final Socket client;
+private final Socket client;
 
-    Boolean masked;
+Boolean masked;
 
-    public ConnectionHandler(Socket client) {
-        this.client = client;
-    }
+public ConnectionHandler(Socket client) {
+    this.client = client;
+}
 
-    @Override
-    public void run() {
-        try {
-            handleWebSocket();
-            // handleClient();
-            // for http request
-            // handleClientRequest();
+@Override
+public void run() {
+    try {
+        System.out.println("Hi from thread");
+        handleWebSocket();
+        // handleClientRequest();
+    } catch (Exception e) {
+        e.printStackTrace();
+        } finally {
+            try {
+            client.close();
         } catch (IOException e) {
             e.printStackTrace();
-        // } finally {
-        //     try {
-        //         client.close();
-        //     } catch (IOException e) {
-        //         e.printStackTrace();
-        //     }
         }
     }
-    private void handleWebSocket() throws IOException {
-        try (Scanner sc = new Scanner (client.getInputStream())) {
+    }
+  private void handleWebSocket() throws Exception {
+    try (Scanner sc = new Scanner (client.getInputStream())) {
 
-            String line = sc.nextLine();
-            System.out.println("line" + line);
-        }
+      String line = sc.nextLine();
+      System.out.println("line " + line);
+      HashMap<String, String> headers = new HashMap<>();
+      line = sc.nextLine();
+
+      while (!line.isEmpty()) {
+        // System.out.println("line: " + line);
+        String[] pieces = line.split(" ");
+        String key = pieces[0];
+        String value = pieces[1];
+        headers.put(key, value);
+        line = sc.nextLine();
+      }
+      boolean isWsRequest = headers.containsKey("Sec-WebSocket-Key");
+        //then do the hand-shake
+      if (isWsRequest) {
+        String key = headers.get("Sec-WebSocket-Key");
+        key += "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+
+        String secret = Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA-1").digest(key.getBytes("UTF-8")));
+        // Socket HandShake
+        PrintWriter out = new PrintWriter(client.getOutputStream());
+        out.print("HTTP/1.1 101 Switching Protocols\r\n");
+        out.print("Upgrade: websocket\r\n");
+        out.print("Connection: Upgrade\r\n");
+        out.print("Sec-WebSocket-Accept" + secret + "\r\n");
+        out.print("\r\n");//blank line means end of headers...
+        out.flush();
         
+        DataInputStream in = new DataInputStream(client.getInputStream());
+        byte b0 = in.readByte();
+        byte b1 = in.readByte();
+
+        int opcode = b0 & 0x0F;
+        int len = b1 & 0x7F;// 7 == 0111 F == 1111 7F == 0111 1111
+        boolean isMasked = (b1 & 0x80) != 0; // 1000 0000; if masked read 4 more bytes
+
+        if (!isMasked) {
+          System.out.println("ERROR!!!");
+          throw new Exception("unmasked msg from client");
+        }
+        System.out.println("opcode: " + opcode + ", len: " + len);
+        byte[] mask = in.readNBytes(4);
+        byte[] payload = in.readNBytes(len);
+
+        byte[] DECODED = payload;
+        for (int i = 0; i < payload.length; i++) {
+          //check byte
+          payload[i] = (byte) ( payload[i] ^ mask[i % 4]);
+
+      }
+      String message = new String(payload);
+      System.out.println("Just got this message: " + message);
+
+      //Sends back the message
+      DataOutputStream dataout = new DataOutputStream(client.getOutputStream());
+      dataout.writeByte(0X81);
+      dataout.writeByte(len);
+      dataout.writeBytes(message);
+
+      while(true) {}
     }
-    //Handle client is intended for webSocket
-    private void handleClient() throws IOException {
-        try (
-            Scanner scanner = new Scanner(client.getInputStream());
-            PrintWriter outStream = new PrintWriter(client.getOutputStream(), true);
-        ) {
-            if (scanner.hasNextLine()) {
-                // String requestLine = scanner.nextLine();
-                // if (requestLine.contains("Upgrade: websocket")) {
-                //     handleWebSocketHandShake(outStream);
-                //     String message = handleWebSocketCommunication();
-                //     handleOutgoingWebSocketMessages(message);
-                // } else {
-                //     handleClientRequest();
-                // }
-                String requestLine = scanner.nextLine();
-                String[] requestParts = requestLine.split(" ");
-                String httpMethod = requestParts[0];
-                String requestURI = requestParts[1];
-            
-                if ("GET".equals(httpMethod)) {
-                    requestURI = sanitizeURI(requestURI);
-                    //checks if the client requested websocket
 
-                if ("/websocket".equals(requestURI)) {
-                    handleWebSocketHandShake(outStream);
+  }
+}
+private void handleClientRequest() throws IOException {
+    //Creates a scanner to read the client's request from input stream
+    //create a outputstream to send back the response to client
+    try (
+        Scanner scanner = new Scanner(client.getInputStream());
+        OutputStream outStream = client.getOutputStream()
+    ) {
+        if (scanner.hasNextLine()) {
+            String requestLine = scanner.nextLine();
+            String[] requestParts = requestLine.split(" ");
+            String httpMethod = requestParts[0];
+            String requestURI = requestParts[1];
 
-                if (requestLine.contains ("Upgrade: websocket")) {
-                    String message = handleWebSocketCommunication();
-                    handleOutgoingWebSocketMessages(message);
-    
+            if ("GET".equals(httpMethod)) {
+                requestURI = sanitizeURI(requestURI);
                 //cheks if the client requested the root path "/"
-                } else if ("/".equals(requestURI)) {
-                    //cheks if the client requested the root path "/"if ("/".equals(requestURI)) {
+                if ("/".equals(requestURI)) {
                     //Sets default file to index.html
                     requestURI = "/index.html";
                 }
                 //serve the requested file or default file
-                serveFile(client.getOutputStream(), requestURI);
-                    }
-                }
+                serveFile(outStream, requestURI);
             }
         }
-    }
-    private static void handleWebSocketHandShake(PrintWriter outStream) {
-        outStream.write("HTTP/1.1 101 Switching Protocols\r\n");
-        outStream.write("Upgrade: websocket\r\n");
-        outStream.write("Connection: Upgrade\r\n");
-        //
-        outStream.write("\r\n");
-        outStream.flush();
-    }
-    private String handleWebSocketCommunication () throws IOException {
-        //Wrap input stream in data input to read in groups of bytes
-        InputStream inputStream = client.getInputStream();
-        DataInputStream dataInput = new DataInputStream(inputStream);
-
-        //Reads the next 2 bytes
-        byte zeroByte = dataInput.readByte();
-        byte firstByte = dataInput.readByte();
-
-        //Is it masked
-        byte maskKey = (byte) (firstByte & 0x80);
-        if (maskKey != 0) {
-            masked = true;
         }
-        byte opcode = (byte) (zeroByte & 0x0F);
-        //Length is less than 125, store length as B1
-        byte length = (byte) (firstByte & 0x7F);
-        //If length is 126; then store it as B1 - B3
-        if (length == 126) {
-            byte secondToThirdByte = (byte) dataInput.readShort();
-            length = secondToThirdByte;
-        } else if (length == 127) {
-            byte secondToThirdByte = (byte) dataInput.readLong();
-            length = secondToThirdByte;
-        }
-        //reads in the mask; if the message is masked reads the next 4 bytes (b10 - b13)
-        //and stores them in the mask array
-        byte[] mask = new byte[4];
-        if (masked) {
-            for (int i = 0; i < mask.length; i++) {
-                mask[i] = dataInput.readByte();
-            }
-        }
-        //Read in the payload
-        //Creates a payload arry based on the length and stores byte by byte
-        byte[] payload = new byte[length];
-        for (int i = 0; i < payload.length; i++) {
-            payload[i] = dataInput.readByte();
-        }
-        //Un mask the payload
-        if (masked) {
-            for (int i = 0; i < payload.length; i++) {
-                payload[i] = (byte) (payload[i] ^ mask[i % 4]);
-            }
-        }
-        //Decodes the payload
-        String message = new String(payload, StandardCharsets.UTF_8);
-        System.out.println(message);
-        return message;
-    }
-    void handleOutgoingWebSocketMessages(String message) throws IOException {
-        OutputStream outputStream = client.getOutputStream();
-        DataOutputStream dataOutPutStream = new DataOutputStream(outputStream);
-        
-        //Change the message to bytes
-        String responseMessage = message;
-        byte[] responseBytes = responseMessage.getBytes(StandardCharsets.UTF_8);
-
-        //Sends the upcode
-        dataOutPutStream.writeByte(0x81);
-
-        //Sends the payload length
-        if (responseBytes.length < 126) {
-            dataOutPutStream.writeByte(responseBytes.length);
-        }
-        else if (responseBytes.length < Math.pow(2, 16)) {
-            dataOutPutStream.write(126);
-            dataOutPutStream.writeShort(responseBytes.length);
-        }
-        else {
-            dataOutPutStream.write(127);
-            dataOutPutStream.writeLong(responseBytes.length);
-        }
-        //Writes the messages bytes (sends the payload)
-        dataOutPutStream.write(responseBytes);
-        dataOutPutStream.flush();
     }
     
-    //for http request
-    private void handleClientRequest() throws IOException {
-        //Creates a scanner to read the client's request from input stream
-        //create a outputstream to send back the response to client
-
-        try (
-            Scanner scanner = new Scanner(client.getInputStream());
-            OutputStream outStream = client.getOutputStream()
-        ) {
-            if (scanner.hasNextLine()) {
-                String requestLine = scanner.nextLine();
-                String[] requestParts = requestLine.split(" ");
-                String httpMethod = requestParts[0];
-                String requestURI = requestParts[1];
-
-                if ("GET".equals(httpMethod)) {
-                    requestURI = sanitizeURI(requestURI);
-                    //cheks if the client requested the root path "/"
-                    if ("/".equals(requestURI)) {
-                        //Sets default file to index.html
-                        requestURI = "/index.html";
-                    }
-                    //serve the requested file or default file
-                    serveFile(outStream, requestURI);
-                }
-            }
-            }
-        }
         private static String sanitizeURI(String requestURI) {
             //remove parent directory (e.g. ..) from URI - prevents path manipulation from client
             //removes backslashes
@@ -216,7 +145,7 @@ public class ConnectionHandler implements Runnable {
         }
     
         private static void serveFile(OutputStream outStream, String requestURI) throws IOException {
-            String rootDirectory = "/Users/brianerichsenfagundes/myGithubRepo/CS6011/Week4/Day18/HW10/resources/";
+            String rootDirectory = "/Users/brianerichsenfagundes/myGithubRepo/CS6011/Week4/Day17/ThreadedWebServer/resources/";
             String requestedFilePath = rootDirectory + requestURI;
             File file = new File(requestedFilePath);
     
@@ -263,7 +192,6 @@ public class ConnectionHandler implements Runnable {
                 return "application/octet-stream"; // Default to binary data
             }
         }
-    
 }//End of class bracket
     
 
