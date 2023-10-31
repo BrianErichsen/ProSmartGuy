@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>WebChat</title>
+    <link rel="stylesheet" href="mystyle.css">
+    <script defer type="text/javascript" src="WebSocket.js"></script> 
+</head>
+<body>
+    <h1 class = "roomChatTitle">Chat Room</h1>
+    <label userNameLabel="html" id="usnerNameLabel">User Name:</label><br>
+    <input username type="text" id="usnerNameBox"placeholder="username"></input>
+
+    <label roomNameLabel="html" id="roomNameLabel">Room Name:</label><br>
+    <input roomNameBox type="text" id="roomNameBox"placeholder="roomname"></input>
+
+    <label messageLabel="html" id="messageLabel">Message:</label><br>
+    <input messageBox type="text" id="messageBox"placeholder="Enter Message"></input>
+
+    <button type="button" id="sendButton">send</button>
+    <button type="button" id="leaveRoomButton">Leave Room</button>
+
+    <button type="button" id="joinButton">Join Room</button>
+
+    <div class="mainChatDiv">
+        <h2>Main Chat</h2>
+        <p></p>
+    </div>
+    <div class="peopleInRoomDiv">
+        <h2>People in Chat</h2>
+        <p></p>
+    </div>
+</body>
+</html>
+
+
+
