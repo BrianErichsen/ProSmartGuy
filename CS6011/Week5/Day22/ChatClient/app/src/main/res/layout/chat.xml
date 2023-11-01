@@ -8,21 +8,25 @@
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".MainActivity">
+
     <Spinner
         android:id="@+id/roomSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-    />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:minHeight="48dp" />
     <ListView
         android:id="@+id/messageListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/messageInput"
+        android:layout_above="@+id/messageInputEditText"
         android:layout_below="@+id/roomSpinner"
         />
     <EditText
-        android:id="@+id/messageInput"
+        android:id="@+id/messageInputEditText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -33,23 +37,31 @@
         android:id="@+id/roomNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="roomname"
         android:inputType="text"
-        android:hint="roomname"/>
+        android:minHeight="48dp" />
+
     <Button
         android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send"
-        android:layout_alignParentBottom="@+id/messageInput"
-        android:layout_alignEnd="@+id/messageInput"
-        />
+        android:layout_alignEnd="@+id/messageInputEditText"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="278dp"
+        android:layout_marginBottom="582dp"
+        android:text="Send" />
+
     <Button
         android:id="@+id/joinRoomButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Join Room"
-        android:layout_margin="16dp"
         android:layout_below="@+id/roomSpinner"
-        />
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="262dp"
+        android:layout_marginBottom="16dp"
+        android:text="Join Room" />
 
 </RelativeLayout>
