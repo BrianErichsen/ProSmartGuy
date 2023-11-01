@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ChatClient</string>
+    <!--come back to this later and delete string Login -->
+</resources>
