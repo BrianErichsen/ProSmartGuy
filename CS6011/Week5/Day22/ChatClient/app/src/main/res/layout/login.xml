@@ -15,6 +15,21 @@
         android:textSize = "35dp"
         android:layout_centerHorizontal = "true" />
         />
+    <TextView
+        android:id="@+id/roomTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chat Room"
+        android:textAlignment="center"
+        />
+    <!-- Chooses which room to join and login  -->
+    <EditText
+        android:id="@+id/roomNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="roomname"
+        android:inputType="text"
+        android:minHeight="48dp" />
 <!-- username-->
     <EditText
         android:id="@+id/usernameEditText"
@@ -24,6 +39,7 @@
         android:layout_alignParentRight = "true"
         android:layout_alignParentStart = "true"
         android:layout_alignParentEnd = "true"
+        android:inputType="textPersonName"
         android:hint="Enter Name"/>
 <!--password - -->
     <EditText

@@ -8,6 +8,14 @@
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/roomName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Room Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <Spinner
         android:id="@+id/roomSpinner"
@@ -30,9 +38,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
+        android:inputType="textPersonName"
         android:hint="Type your message"
         />
-
+<!--
     <EditText
         android:id="@+id/roomNameEditText"
         android:layout_width="match_parent"
@@ -40,6 +49,7 @@
         android:hint="roomname"
         android:inputType="text"
         android:minHeight="48dp" />
+        -->
 
     <Button
         android:id="@+id/sendButton"
@@ -63,5 +73,11 @@
         android:layout_marginEnd="262dp"
         android:layout_marginBottom="16dp"
         android:text="Join Room" />
+    <ListView
+        android:id="@+id/userListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        />
 
 </RelativeLayout>

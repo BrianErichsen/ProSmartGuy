@@ -2,7 +2,7 @@
 <head>
     <title>WebChat</title>
     <link rel="stylesheet" href="mystyle.css">
-    <script defer type="text/javascript" src="WebSocket.js"></script> 
+    <script defer type="text/javascript" src="WebSocket.js"></script>
 </head>
 <body>
     <h1 class = "roomChatTitle">Chat Room</h1>
@@ -11,6 +11,10 @@
 
     <label roomNameLabel="html" id="roomNameLabel">Room Name:</label><br>
     <input roomNameBox type="text" id="roomNameBox"placeholder="roomname"></input>
+    <div>
+        <span id="user-name-display"></span>
+        <span id="room-name-display"></span>
+    </div>
 
     <label messageLabel="html" id="messageLabel">Message:</label><br>
     <input messageBox type="text" id="messageBox"placeholder="Enter Message"></input>

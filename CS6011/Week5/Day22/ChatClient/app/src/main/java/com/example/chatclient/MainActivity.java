@@ -1,7 +1,6 @@
 package com.example.chatclient;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,9 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.neovisionaries.ws.client.WebSocket;
 
 public class MainActivity extends AppCompatActivity {
+    static WebSocket ws;
     Boolean isLoginSuccessful = false;
     EditText username;
     EditText password;
@@ -25,9 +27,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
         //Loads Username and Password fields to be edited
         setContentView(R.layout.login);
+
+//        Starts the websocket thread
+//        try {
+//            ws = new WebSocketFactory().createSocket("ws//10.0.2.2:8080/", 1000);
+//        } catch (IOException e) {
+//            Log.e("Dd:", "WS error");
+//        }
+//        ws.addListener(new AppWebSocket());
+//        ws.connectAsynchronously();
+
+        //------------------------------------------------------------------------------------------
 
         login = (Button) findViewById(R.id.Login);
         username = (EditText) findViewById((R.id.usernameEditText));
@@ -44,7 +56,19 @@ public class MainActivity extends AppCompatActivity {
                         .toString().equals("admin")) {
                     Toast.makeText(getApplicationContext(), "Redirecting ...", Toast.LENGTH_LONG).show();
                     isLoginSuccessful = true;
-                    setContentView(R.layout.chat);
+//                    setContentView(R.layout.chat);
+//                    login(v);
+                    //------------------------------------------------------------------------------
+                    TextView roomNameTV = findViewById(R.id.roomNameEditText);
+                    String room = roomNameTV.getText().toString();
+                    TextView userNameTV = findViewById(R.id.usernameEditText);
+                    String user = userNameTV.getText().toString();
+                    Intent intent = new Intent(MainActivity.this, ChatRoom.class);
+                    //Adds room and user data
+                    intent.putExtra("room", room);
+                    intent.putExtra("user", user);
+                    startActivity(intent);//Launches it
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_LONG).show();
 
@@ -65,11 +89,23 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        //WebSocket ws = new WebSocketAdpater();
-        //ws.connect(); initiates the handshake
-
+        //------------------------------------------------------------------------------------------
 
     }//End of onCreate method bracket
+    public void login(View view) {
+        TextView roomNameTV = findViewById(R.id.roomNameEditText);
+        String room = roomNameTV.getText().toString();
+        TextView userNameTV = findViewById(R.id.usernameEditText);
+        //it says that is currently null
+        String user = userNameTV.getText().toString();
+        ws.sendText("join " + user + " " + room);
+
+        //When login happens; loads new class
+        Intent intent = new Intent(MainActivity.this, ChatRoom.class);
+        //Adds room and user data
+        intent.putExtra("room", room);
+        intent.putExtra("user", user);
+        startActivity(intent);//Launches it
+    }
 
 }//End of MainActivity bracket

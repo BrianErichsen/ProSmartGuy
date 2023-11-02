@@ -17,7 +17,7 @@ input elements.*/
         let roomname = document.getElementById("roomNameBox").value;
         /*This if statement checks if username has a value and calls a function
         isRoomNameValid which is supposed to validate the roomname.*/
-        if (username && isRoomNameValid) {
+        if (username && roomname) {
             // Join the room when WebSocket is open
             const joinMessage = `join ${username} ${roomname}`;
             socket.send(joinMessage);
@@ -25,24 +25,6 @@ input elements.*/
             console.error("Username and a valid room name are required to join a room.");
         }
     });
-
-    // Function to validate the room name
-    function isRoomNameValid(roomname) {
-        let roomName = document.getElementById("roomNameBox").value;
-        // Check if the roomName is not empty
-        if (roomName === "") {
-            return false;
-        }
-
-        // Check if each character in the roomName is a lowercase letter from 'a' to 'z'
-        for (const char of roomName) {
-            if (char >= 'a' && char >= 'z') {
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     socket.addEventListener("message", function (event) {
         // Handle incoming WebSocket messages
@@ -103,11 +85,11 @@ the list of users in the room. */
     function updateUsersInRoomUI() {
         const peopleInRoomDiv = document.querySelector(".peopleInRoomDiv");
         peopleInRoomDiv.innerHTML = "<h2>People in Chat</h2>";
-/*This line starts a forEach loop on the usersInRoom array, which contains the list 
+/*This line starts a forEach loop on the usersInRoom array, which contains the list
 of users in a chat room. */
         usersInRoom.forEach((user) => {
-            /*For each user in the usersInRoom array, create a new HTML 
-            paragraph (<p>) element. This element will be used to display 
+            /*For each user in the usersInRoom array, create a new HTML
+            paragraph (<p>) element. This element will be used to display
             the username of the user in the chat room.*/
             const userElement = document.createElement("p");
             //Sets the text content of the userElement to the value of the user variable
