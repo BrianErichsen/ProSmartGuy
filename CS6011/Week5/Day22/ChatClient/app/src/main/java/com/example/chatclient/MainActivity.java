@@ -59,15 +59,16 @@ public class MainActivity extends AppCompatActivity {
 //                    setContentView(R.layout.chat);
 //                    login(v);
                     //------------------------------------------------------------------------------
-                    TextView roomNameTV = findViewById(R.id.roomNameEditText);
-                    String room = roomNameTV.getText().toString();
-                    TextView userNameTV = findViewById(R.id.usernameEditText);
-                    String user = userNameTV.getText().toString();
-                    Intent intent = new Intent(MainActivity.this, ChatRoom.class);
-                    //Adds room and user data
-                    intent.putExtra("room", room);
-                    intent.putExtra("user", user);
-                    startActivity(intent);//Launches it
+//                    TextView roomNameTV = findViewById(R.id.roomNameEditText);
+//                    String room = roomNameTV.getText().toString();
+//                    TextView userNameTV = findViewById(R.id.usernameEditText);
+//                    String user = userNameTV.getText().toString();
+////                    ws.sendText("join " + user + " " + room);
+//                    Intent intent = new Intent(MainActivity.this, ChatRoom.class);
+//                    //Adds room and user data
+//                    intent.putExtra("room", room);
+//                    intent.putExtra("user", user);
+//                    startActivity(intent);//Launches it
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_LONG).show();

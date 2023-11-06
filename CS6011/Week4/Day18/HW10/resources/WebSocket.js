@@ -17,13 +17,10 @@ input elements.*/
         let roomname = document.getElementById("roomNameBox").value;
         /*This if statement checks if username has a value and calls a function
         isRoomNameValid which is supposed to validate the roomname.*/
-        if (username && roomname) {
             // Join the room when WebSocket is open
-            const joinMessage = `join ${username} ${roomname}`;
+            const joinMessage = `join ${username}: ${roomname}`;
             socket.send(joinMessage);
-        } else {
-            console.error("Username and a valid room name are required to join a room.");
-        }
+        
     });
 
     socket.addEventListener("message", function (event) {
@@ -115,6 +112,7 @@ of users in a chat room. */
                 // Display the sent message in the mainChatDiv
                 const chatMessages = document.getElementById('mainChatDiv');
                 const messageDiv = document.createElement('div');
+                //
                 messageDiv.textContent = `${message.user} ${message.message}`;
                 chatMessages.appendChild(messageDiv);
                 //displayMessage(username, roomname, message);
@@ -146,7 +144,7 @@ of users in a chat room. */
     function displayMessage(username, roomname, message) {
         const mainChatDiv = document.querySelector("mainChatDiv");
         const messageElement = document.createElement("p");
-        const messageText = `${username}: ${message}`;
+        const messageText = `${username} ${message}`;
         messageElement.textContent = messageText;
         mainChatDiv.appendChild(messageElement);
         //To ensure the user sees the latest message
