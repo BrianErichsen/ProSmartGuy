@@ -243,7 +243,10 @@ public class GrayscaleImage {
 
         //Determines if original is wider or taller
         if (originalWidgth > originalHeight) {
-            int pixelsToRemove = (originalWidgth - originalHeight / 2);
+            int pixelsToRemove = (originalWidgth - originalHeight) / 2;
+            if ((originalWidgth - originalHeight) % 2 != 0) {
+                pixelsToRemove--;
+            }
             //Creates a new GrayscaleImage with same dimensions
             GrayscaleImage squareImage = new GrayscaleImage(new double[originalHeight][originalHeight]);
             //Copies the central part of the original
@@ -255,7 +258,10 @@ public class GrayscaleImage {
             return squareImage;
 
         } else if (originalHeight > originalWidgth) {
-            int pixelsToRemove = (originalHeight - originalWidgth / 2);
+            int pixelsToRemove = (originalHeight - originalWidgth) / 2;
+            if ((originalWidgth - originalHeight) % 2 != 0) {
+                pixelsToRemove--;
+            }
             //Creates a new GrayscaleImage with same dimensions
             GrayscaleImage squareImage = new GrayscaleImage(new double[originalWidgth][originalWidgth]);
             //Copies the central part of the original
@@ -269,4 +275,5 @@ public class GrayscaleImage {
             return new GrayscaleImage(imageData);
         }
     }
+
 }
