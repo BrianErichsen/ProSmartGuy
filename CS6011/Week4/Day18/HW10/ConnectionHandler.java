@@ -32,8 +32,9 @@ class ConnectionHandler implements Runnable {
                 String path = requestParts[1];
                 HashMap<String, String> headers = new HashMap<>();
                 if (method.equals("GET")) {
-                    if (path.equals("/") || path.isEmpty()) {
-                        path = "/index.html";
+                    //
+                    if (path.endsWith(".html") || path.isEmpty()) {
+                        path = "/chatroom.html";
                     }
                     File file = new File("resources" + path);
                     if (file.exists() && !file.isDirectory()) {
@@ -67,8 +68,8 @@ class ConnectionHandler implements Runnable {
 
         while (!requestLine.isEmpty()) {
             System.out.println("Line: " + requestLine);
-            String[] pieces = requestLine.split(": ");
-            if (pieces.length == 2) {
+            String[] pieces = requestLine.split(" ");
+            if (pieces.length >= 2) {
                 String key = pieces[0];
                 String value = pieces[1];
                 headers.put(key, value);

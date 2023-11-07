@@ -238,42 +238,37 @@ public class GrayscaleImage {
      * @return a new, square, GrayscaleImage
      */
     public GrayscaleImage squarified(){
-        int originalWidgth = imageData[0].length;
-        int originalHeight = imageData.length;
+        int numberOfRows = imageData.length;
+        int numberOfColumns = imageData[0].length;
 
-        //Determines if original is wider or taller
-        if (originalWidgth > originalHeight) {
-            int pixelsToRemove = (originalWidgth - originalHeight) / 2;
-            if ((originalWidgth - originalHeight) % 2 != 0) {
-                pixelsToRemove--;
-            }
-            //Creates a new GrayscaleImage with same dimensions
-            GrayscaleImage squareImage = new GrayscaleImage(new double[originalHeight][originalHeight]);
-            //Copies the central part of the original
-            for (int row = 0; row < originalHeight; row++) {
-                for (int col = pixelsToRemove; col < originalWidgth - pixelsToRemove; col++) {
-                    squareImage.imageData[row][col - pixelsToRemove] = imageData[row][col];
-                }
-            }
-            return squareImage;
+        // Calculate the size of the square side
+        int size = Math.min(numberOfRows, numberOfColumns);
 
-        } else if (originalHeight > originalWidgth) {
-            int pixelsToRemove = (originalHeight - originalWidgth) / 2;
-            if ((originalWidgth - originalHeight) % 2 != 0) {
-                pixelsToRemove--;
-            }
-            //Creates a new GrayscaleImage with same dimensions
-            GrayscaleImage squareImage = new GrayscaleImage(new double[originalWidgth][originalWidgth]);
-            //Copies the central part of the original
-            for (int row = pixelsToRemove; row < originalHeight - pixelsToRemove; row++) {
-                for (int col = 0; col < originalWidgth; col++) {
-                    squareImage.imageData[row - pixelsToRemove][col] = imageData[row][col];
-                }
-            }
-            return squareImage;
+        // Calculate the number of pixels to remove from each side
+        int pixelsToRemove = Math.abs(numberOfColumns - numberOfRows) / 2;
+
+        // Create a new GrayscaleImage with the square side length
+        GrayscaleImage squarifiedImage = new GrayscaleImage(new double[size][size]);
+
+        // Determine the starting row and column for copying from the original image
+        int startRow;
+        int startColumn;
+
+        if (numberOfRows > numberOfColumns) {
+            startRow = 0;
+            startColumn = pixelsToRemove;
         } else {
-            return new GrayscaleImage(imageData);
+            startRow = pixelsToRemove;
+            startColumn = 0;
         }
+
+        // Iterate through the specified region and copy pixel values to the new square image
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                squarifiedImage.imageData[row][col] = imageData[startRow + row][startColumn + col];
+            }
+        }
+        return squarifiedImage;
     }
 
-}
+}//end of class bracket

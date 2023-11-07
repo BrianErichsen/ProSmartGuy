@@ -68,6 +68,7 @@ class GrayscaleImageTest {
 
     @Test
     void squarified() {
+        //Add if it is squarified already
         var squared = smallWide.squarified();
         var expected = new GrayscaleImage(new double[][]{{1,2},{4,5}});
         assertEquals(squared, expected);

@@ -3,6 +3,7 @@ package com.example.chatclient;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketFactory;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     static WebSocket ws;
@@ -27,17 +31,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Loads Username and Password fields to be edited
+        //Loads Username and Password fields to be edited along with room name to join in
         setContentView(R.layout.login);
 
 //        Starts the websocket thread
-//        try {
-//            ws = new WebSocketFactory().createSocket("ws//10.0.2.2:8080/", 1000);
-//        } catch (IOException e) {
-//            Log.e("Dd:", "WS error");
-//        }
-//        ws.addListener(new AppWebSocket());
-//        ws.connectAsynchronously();
+        try {
+            ws = new WebSocketFactory().createSocket("ws://10.0.2.2:8080", 1000);
+        } catch (IOException e) {
+            Log.e("Dd:", "WS error");
+        }
+        ws.addListener(new AppWebSocket());
+        ws.connectAsynchronously();
 
         //------------------------------------------------------------------------------------------
 
@@ -59,16 +63,16 @@ public class MainActivity extends AppCompatActivity {
 //                    setContentView(R.layout.chat);
 //                    login(v);
                     //------------------------------------------------------------------------------
-//                    TextView roomNameTV = findViewById(R.id.roomNameEditText);
-//                    String room = roomNameTV.getText().toString();
-//                    TextView userNameTV = findViewById(R.id.usernameEditText);
-//                    String user = userNameTV.getText().toString();
+                    TextView roomNameTV = findViewById(R.id.roomNameEditText);
+                    String room = roomNameTV.getText().toString();
+                    TextView userNameTV = findViewById(R.id.usernameEditText);
+                    String user = userNameTV.getText().toString();
 ////                    ws.sendText("join " + user + " " + room);
-//                    Intent intent = new Intent(MainActivity.this, ChatRoom.class);
+                    Intent intent = new Intent(MainActivity.this, ChatRoom.class);
 //                    //Adds room and user data
-//                    intent.putExtra("room", room);
-//                    intent.putExtra("user", user);
-//                    startActivity(intent);//Launches it
+                    intent.putExtra("room", room);
+                    intent.putExtra("user", user);
+                    startActivity(intent);//Launches it
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_LONG).show();
