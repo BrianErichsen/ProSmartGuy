@@ -13,7 +13,7 @@ import java.net.URL;
 /**
  * Represents a grayscale (black and white) image as a 2D array of "pixel" brightnesses
  * 255 is "white" 127 is "gray" 0 is "black" with intermediate values in between
- * Author: Ben Jones and ***STUDENT FILL YOUR NAME IN***
+ * Author: Brian Erichsen Fagundes
  */
 public class GrayscaleImage {
     private double[][] imageData; // the actual image data
@@ -39,6 +39,12 @@ public class GrayscaleImage {
                 imageData[row][col] = data[row][col];
             }
         }
+    }
+    public int getNumRows() {
+        return this.imageData.length;
+    }
+    public int getNumCol() {
+        return this.imageData[0].length;
     }
 
     /**
@@ -241,6 +247,11 @@ public class GrayscaleImage {
         int numberOfRows = imageData.length;
         int numberOfColumns = imageData[0].length;
 
+        //if number of rows and number of columns is the same; that means that the image is already squarified
+        if (numberOfRows == numberOfColumns) {
+            return this;
+        }
+
         // Calculate the size of the square side
         int size = Math.min(numberOfRows, numberOfColumns);
 
@@ -265,7 +276,7 @@ public class GrayscaleImage {
         // Iterate through the specified region and copy pixel values to the new square image
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-                squarifiedImage.imageData[row][col] = imageData[startRow + row][startColumn + col];
+                squarifiedImage.imageData[row][col] = this.imageData[startRow + row][startColumn + col];
             }
         }
         return squarifiedImage;

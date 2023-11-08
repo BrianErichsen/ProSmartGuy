@@ -29,7 +29,9 @@ class GrayscaleImageTest {
     void testEquals() {
         assertEquals(smallSquare, smallSquare);
         var equivalent = new GrayscaleImage(new double[][]{{1,2},{3,4}});
+        var equivalent1 = new GrayscaleImage(new double[][]{{2,2},{4,4}});
         assertEquals(smallSquare, equivalent);
+        assertNotEquals(smallSquare, equivalent1);
     }
 
     @Test
@@ -37,6 +39,11 @@ class GrayscaleImageTest {
         assertEquals(smallSquare.averageBrightness(), 2.5, 2.5*.001);
         var bigZero = new GrayscaleImage(new double[1000][1000]);
         assertEquals(bigZero.averageBrightness(), 0);
+
+        //makes sure that average brightness is within normal range
+        GrayscaleImage image = smallWide.normalized();
+        double image2 = image.averageBrightness();;
+        assertTrue(image2 >= 0 && image2 <= 127);
     }
 
     @Test
@@ -57,13 +64,24 @@ class GrayscaleImageTest {
     @Test
     void mirrored() {
         var expected = new GrayscaleImage(new double[][]{{2,1},{4,3}});
+
+        var mirror = smallSquare.mirrored();
+        var mirrorTwice = mirror.mirrored();
+
+        //Asserts that mirrored twice is what is expected
         assertEquals(smallSquare.mirrored(), expected);
+        assertEquals(mirrorTwice, expected.mirrored());
     }
 
     @Test
     void cropped() {
         var cropped = smallSquare.cropped(1,1,1,1);
         assertEquals(cropped, new GrayscaleImage(new double[][]{{4}}));
+
+    }
+    @Test
+    void testCropped() {
+        assertThrows(IllegalArgumentException.class, () -> {smallWide.cropped(-1,1, -2, 0);});
     }
 
     @Test
@@ -71,7 +89,11 @@ class GrayscaleImageTest {
         //Add if it is squarified already
         var squared = smallWide.squarified();
         var expected = new GrayscaleImage(new double[][]{{1,2},{4,5}});
+        //Test for an already square image
+        var alreadySquare = new GrayscaleImage(new double[][]{{2,2},{2,2}});
+        var expected2 = alreadySquare.squarified();
         assertEquals(squared, expected);
+        assertEquals(alreadySquare, expected2);
     }
 
     @Test
@@ -79,3 +101,4 @@ class GrayscaleImageTest {
         assertThrows(IllegalArgumentException.class, () -> { smallSquare.getPixel(-1,0);});
     }
 }
+
