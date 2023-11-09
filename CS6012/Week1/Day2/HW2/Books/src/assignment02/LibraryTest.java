@@ -59,6 +59,13 @@ class LibraryTest {
         //Asserts that Brian F has checked in a book
         var checkin = lib.checkin("Brian F");
         assertTrue(checkin);
+
+        //Wrong ISBN
+        assertNull(lib.lookup(1234567891011L));
+
+        //Non existing holder case
+        var missMatchHolder = lib.lookup("Mike Litoris");
+        assertEquals(missMatchHolder.size(), 0);
     }
     @Test
     public void stringLibraryTest() {
