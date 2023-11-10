@@ -317,6 +317,10 @@ public class Library<T> {
     }
   }
 
+  public ArrayList<LibraryBook<T>> getLibrary() {
+    return library;
+  }
+
   /**
    * Comparator that defines an ordering among library books using the
    ISBN.

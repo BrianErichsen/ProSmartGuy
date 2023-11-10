@@ -1,5 +1,6 @@
 package assignment02;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -7,7 +8,13 @@ import java.util.GregorianCalendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LibraryTest {
+class LibraryTest<T> {//changed class to take T data as well
+private Library libra;
+    @BeforeEach
+    void setUp() {
+        libra = new Library<T>();
+        libra.add(123456789, "John F.", "Once Upon a Time");
+    }
 
     @Test
     public void testEmpty() {
@@ -116,6 +123,28 @@ class LibraryTest {
         assertEquals(booksCheckedOut2.get(1).getDueDate(), new GregorianCalendar(2008, 1, 1));
 
         assertTrue(lib.checkin(patron2));
-
     }
+    @Test
+    void testGetOverdueList() {
+        Library lib = new Library<>();
+
+        int month = 11;
+        int day = 1;
+        int year = 1999;
+        //Makes sure that array list size is 0
+        ArrayList<LibraryBook<T>> overDueL = lib.getOverdueList(month, day, year);
+        int expectedSize = 0;
+        assertEquals(expectedSize, overDueL.size(), "Incorrect number of overdue books");
+
+        //Makes sure that expected size is 1 after checking out a specific book
+        LibraryBook book = new LibraryBook(7777, "Kate", "Hi");
+        int expectedSize2 = 1;
+        book.checkOut("Cat", 2000, 1, 1);
+        GregorianCalendar kkk = book.getDueDate();
+        System.out.println(kkk);
+        //Add book to library list
+        lib.getLibrary().add(book);
+        ArrayList<LibraryBook<T>> overDueL2 = lib.getOverdueList(month, day, year);
+//        assertEquals(expectedSize2, overDueL2.size());
+        }
 }//end of class bracket
