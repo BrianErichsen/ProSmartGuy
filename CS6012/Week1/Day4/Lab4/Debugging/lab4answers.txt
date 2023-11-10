@@ -1,0 +1,27 @@
+﻿1. Which two binarySearch tests are failing?
+The second binary search and the third one fails if you run them.
+
+
+if(Part1.binarySearch(arr1, 0) == true) System.out.println("Binary search is broken 2");
+if(Part1.binarySearch(arr2, 20) == false) System.out.println("Binary search is broken 3");
+
+
+
+
+2. What are the values of arr and goal passed in to binary search?
+Initially the first array (arr1) 1, 2, 3, 4, and 5. Goal returns true if equals to mid; which in the first case; it returned true. On the second case arr still is arr1 and but asserting that
+Arr1 for goal 0 returns true but it returns false since its array mid is not equal to goal. 
+3. For each of the two cases of binarySearch that are failing, which return statements are they executing in error (is it returning true when it should be returning false, or the other way around)?
+For the first failing binarySearch the return statement is actually true when it should be false instead. For the second failing case it returns false when it should be returning true.
+4. What is the bug in binarySearch? How do you fix it?
+The Binary search was comparing the int index in the array, not the values at the indexes of the array.
+5. Which loops appear to be inifinite?
+Loops 2 and loop 4.
+6. For the loops that you found to be infinite, briefly explain why they are never progressing.
+For loop 2; b is set to 0 and never changes. Which is always less than 10.  For loop 4 the value only changes from 5 to 6; the condition of the loop never becomes false.
+
+
+7. What does the call to password.split(" ") appear to do? Hint: examine the input value of "password", then examine the items in the "tokens" array returned by the call.
+Password.splits splits the password by space into tokens. 
+8. What is the correct password?
+1, 4, 9, 16, 25

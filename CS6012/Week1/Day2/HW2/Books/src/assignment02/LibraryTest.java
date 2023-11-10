@@ -1,6 +1,5 @@
 package assignment02;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,10 +11,10 @@ class LibraryTest {
 
     @Test
     public void testEmpty() {
-        LibraryGeneric lib = new LibraryGeneric();
+        Library lib = new Library();
         assertNull(lib.lookup(978037429279L));
 
-        ArrayList<LibraryBookGeneric> booksCheckedOut = lib.lookup("Jane Doe");
+        ArrayList<LibraryBook> booksCheckedOut = lib.lookup("Jane Doe");
         assertEquals(booksCheckedOut.size(), 0);
 
         assertFalse(lib.checkout(978037429279L, "Jane Doe", 1, 1, 2008));
@@ -26,7 +25,7 @@ class LibraryTest {
     @Test
     public void testNonEmpty() {
 
-        var lib = new LibraryGeneric<>();
+        var lib = new Library<>();
         // test a small library
         lib.add(9780374292799L, "Thomas L. Friedman", "The World is Flat");
         lib.add(9780330351690L, "Jon Krakauer", "Into the Wild");
@@ -49,7 +48,7 @@ class LibraryTest {
     @Test
     public void testLargeLibrary(){
         // test a medium library
-        var lib = new LibraryGeneric<>();
+        var lib = new Library<>();
         lib.addAll("Mushroom_Publishing.txt");
         //test to see if someone already checked a book and asserting it to false on the second checkout
         var checkout1 = lib.checkout(9781843190028L, "Brian F", 1, 1, 2000);
@@ -70,7 +69,7 @@ class LibraryTest {
     @Test
     public void stringLibraryTest() {
         // test a library that uses names (String) to id patrons
-        LibraryGeneric<String> lib = new LibraryGeneric<>();
+        Library<String> lib = new Library<>();
         lib.add(9780374292799L, "Thomas L. Friedman", "The World is Flat");
         lib.add(9780330351690L, "Jon Krakauer", "Into the Wild");
         lib.add(9780446580342L, "David Baldacci", "Simple Genius");
@@ -96,7 +95,7 @@ class LibraryTest {
     @Test
     public void phoneNumberTest(){
         // test a library that uses phone numbers (PhoneNumber) to id patrons
-        var lib = new LibraryGeneric<PhoneNumber>();
+        var lib = new Library<PhoneNumber>();
         lib.add(9780374292799L, "Thomas L. Friedman", "The World is Flat");
         lib.add(9780330351690L, "Jon Krakauer", "Into the Wild");
         lib.add(9780446580342L, "David Baldacci", "Simple Genius");
@@ -106,7 +105,7 @@ class LibraryTest {
         assertTrue(lib.checkout(9780330351690L, patron2, 1, 1, 2008));
         assertTrue(lib.checkout(9780374292799L, patron2, 1, 1, 2008));
 
-        ArrayList<LibraryBookGeneric> booksCheckedOut2 = lib.lookup(patron2);
+        ArrayList<LibraryBook> booksCheckedOut2 = lib.lookup(patron2);
 
         assertEquals(booksCheckedOut2.size(), 2);
         assertTrue(booksCheckedOut2.contains(new Book(9780330351690L, "Jon Krakauer", "Into the Wild")));
