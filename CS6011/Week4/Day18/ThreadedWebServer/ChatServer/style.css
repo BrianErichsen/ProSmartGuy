@@ -1,0 +1,64 @@
+html {
+    background-color: pink;
+}
+
+header {
+    text-align: center;
+    color:black;
+}
+#chat-users {
+    border: 5px outset red;
+    background-color: lightblue;
+    text-align: center;
+    height: 300px;
+    width: 15%;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+#messages {
+    position: relative;
+    top: -300px; /* move the element 50 pixels down from its normal position */
+    left: 350px; /* move the element 100 pixels to the right from its normal position */
+    border: 5px outset red;
+    background-color: lightblue;
+    text-align: center;
+    height: 400px;
+    width: 50%;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+input {
+    width: 20%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #006666; /* Green background color */
+    color: white; /* White text color */
+    border: none; /* Remove the button border */
+    padding: 10px 20px; /* Add some padding to make it bigger */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Add a pointer cursor on hover */
+    font-size: 16px; /* Adjust the font size */
+}
+#message-input{
+    position: relative;
+    top: -300px; /* move the element 50 pixels down from its normal position */
+    left: 350px; /* move the element 100 pixels to the right from its normal position */
+}
+
+#leave-btn{
+    position: relative;
+    top: -678px; /* move the element 50 pixels down from its normal position */
+    left: 650px;
+}
+
+#send-btn{
+    position: relative;
+    top: -300px; /* move the element 50 pixels down from its normal position */
+    left: 650px;
+}
