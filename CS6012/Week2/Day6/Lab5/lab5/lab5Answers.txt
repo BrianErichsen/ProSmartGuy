@@ -1,0 +1,31 @@
+﻿* What activities did you do as the driver? What activities did you do as the navigator?
+
+
+I was the driver for method 1 and the navigator for method 2.
+
+
+* What are the advantages and disadvantages of serving in each role?
+
+
+I prefer to be the navigator instead of driver just because I prefer to do things my own way but sometimes is nice to let others lead the way that something is being programmed.
+
+
+* How often did you and your partner switch roles? Did you switch often enough?
+
+
+As I was supposed to be driver; I often expressed my opinion which led to me navigating when I was not supposed to. If felt that we both were the navigators whenever my partner was brain storming and trying to figure out what to do.
+
+
+* Which is your preferred role and why?
+
+
+I preferred to navigate because I like to exercise what I know in programming and I prefer to show the path rather than follow the path; it’s just personal preference.
+
+
+* Explain why this is a BAD test case for your method: assertEquals("bird", MedianSolver.median(new String[]{"bird", "cat", "dog", "ant"}))
+Because my sorting algorithm assumes that we are sorting through alphabetical order; if I wanted another way to sort my test would fail. Here also we are using an odd number for length; we should also test for odd and even lengths.
+ 
+* Explain how you could change the test to make it "valid" and explain how you could change the specification so that this is considered a "good" test
+        String[] stringArray = {“bird”, “cat”, “dog”, “ant”};
+        String result = MedianCalculator.findMedian(stringArray);
+        assertTrue(result.equals(“cat”) || result.equals(“dog”));

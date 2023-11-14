@@ -5,6 +5,7 @@ import java.util.*;
 import static java.util.Collections.binarySearch;
 
 public class BinarySearchSet<E> implements SortedSet<E>{
+    //remove capacity method to call .length
     private int capacity_;
     private int size_;
     private Comparator<? super E> comparator_;
@@ -61,13 +62,14 @@ public class BinarySearchSet<E> implements SortedSet<E>{
     public boolean add(E element) {
         boolean added = false;
         //If set is null, then creates new array and adds element to it
-        if (set_.equals(null)) {
+        if (set_==null) {
             set_ = (E[]) new Object[1];
             set_[0] = element;
             size_ = 1;
             added = true;
             return added;
         }
+        //call constains methods once
         //If the set does not contain specific element; then it adds it
         if (!contains(element)) {
             //Calls for the binarySearch to find insertion point
@@ -79,6 +81,7 @@ public class BinarySearchSet<E> implements SortedSet<E>{
             if (size_ >= capacity_) {
                 growArray();
             }
+            //handles case ...
             //Shifts contents to the right, starting from the insertion point, to make space for the new element
             System.arraycopy(set_, insertionPoint, set_, insertionPoint + 1, size_ - insertionPoint);
             set_[insertionPoint] = element;
@@ -87,16 +90,13 @@ public class BinarySearchSet<E> implements SortedSet<E>{
         }
         return added;
     }
-
     @Override
     public boolean addAll(Collection<? extends E> elements) {
         //get the original collection size
         int originalSize = this.size();
         //Iterates through all elements / if element is not already in the set; then adds to set
         for (E obj : elements) {
-            if (!this.contains(obj)) {
                 this.add(obj);
-            }
         }
         //Gets the new size of the collection
         int newSize = this.size();
@@ -112,12 +112,9 @@ public class BinarySearchSet<E> implements SortedSet<E>{
     @Override
     public boolean contains(E element) {
         //searches in the array with binary search
-        int index = binarySearch((E) element);
+        int index = binarySearch(element);
         //if index >= 0 it means that element already exists in array hence returning true
-        if (index >= 0) {
-            return true;
-        }
-        return false;
+        return index >= 0;
     }
 
     @Override
@@ -145,9 +142,7 @@ public class BinarySearchSet<E> implements SortedSet<E>{
             if (contains(element)) {
                 System.arraycopy(set_, index + 1, set_, index, size_ - index - 1);
                 //sets the last element to null
-                if (size_ > 0) {
                     set_[--size_] = null;
-                }
                 //returns true that element was removed
                 return true;
             }
@@ -155,6 +150,7 @@ public class BinarySearchSet<E> implements SortedSet<E>{
     }
     //Removes from this set all its elements that are contained in the specific collection
     @Override
+    //remove new array list no chekc for contains
     public boolean removeAll(Collection<? extends E> elements) {
         List<E> elementsToRemove = new ArrayList<>(elements);
         boolean ifRemoved = false;
@@ -189,8 +185,6 @@ public class BinarySearchSet<E> implements SortedSet<E>{
         E[] tempArray = Arrays.copyOf(set_, capacity_);
         //changes the pointer to the temp array
         set_ = tempArray;
-        //sets the pointer from the tempArray to null;
-        tempArray = null;
     }
     //Algorithm to find specific element from sorted list of items // repeatedly divides by 2 the portion that possibly
     //contains item until we narrow the possible location to just one // repeat until low is less than or equal to high
@@ -225,7 +219,7 @@ public class BinarySearchSet<E> implements SortedSet<E>{
                 //else element found at mid index
             } else
                 return mid;
-        }
+        }//
         //if element is not found in array; the method returns the negative of the insertion point -low and -1;
         //which is where the element should be inserted
         return -(low + 1);
@@ -258,7 +252,7 @@ public class BinarySearchSet<E> implements SortedSet<E>{
                 throw new IllegalArgumentException("Position should be a positive number");
             }
             return position < size_;
-        }
+        }//remove check
         //Returns next Element and advance the position
         @Override
         public E next() {
@@ -274,6 +268,6 @@ public class BinarySearchSet<E> implements SortedSet<E>{
         public void remove() {
             E obj = get(position);
             BinarySearchSet.this.remove(obj);
-        }
+        }//add bolean
     }//end of InnerIterator class bracket
 }//end of class bracket

@@ -11,7 +11,7 @@ public class AddExperiment {
     //opens file writer to we can write to file
     public static void main(String[] args) {
         try (FileWriter fw = new FileWriter(new File("add_experiment.csv"))) {
-            Random random = new Random();
+
 
             for (int exp = 10; exp <= 20; exp++) {
                 int size = (int) Math.pow(2, exp);
