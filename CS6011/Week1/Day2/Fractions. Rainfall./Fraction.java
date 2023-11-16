@@ -7,17 +7,10 @@ import java.util.List;
 public class Fraction implements Comparable<Fraction> {
     //private member variables
     private long numerator, denominator;
-    long lcd, gcd;
-    long quotient, remainder;
-    //this one takes care of long toDouble()
-    double realnumber;
-
     //default constructor
     public Fraction() {
         numerator = 0;
         denominator = 1;
-        lcd = 1;
-        gcd = 1;
     }
     //Constructor that sets fraction (numerator and denominator)
     Fraction(long n, long d) {
@@ -39,8 +32,6 @@ public class Fraction implements Comparable<Fraction> {
         numerator = n;
         denominator = d;
         reduce();
-        quotient = numerator / denominator;
-        remainder = numerator % denominator;
     }
     //Computes the greatest common denominator of a fraction
     long GCD () {
@@ -53,12 +44,7 @@ public class Fraction implements Comparable<Fraction> {
         }
         return gcd;
     }
-    //Returns a long from a single Fraction
-    private double getTheRealNumber() {
-        double numeratorDouble = numerator;
-        realnumber = numeratorDouble / denominator;
-        return realnumber;
-    }
+    
     public int compareTo(Fraction otherFraction) {
         //Calculates the cross product of fractions for comparison
         long crossProduct1 = this.numerator * otherFraction.denominator;
@@ -76,47 +62,29 @@ public class Fraction implements Comparable<Fraction> {
         if (denominator == b.denominator) {
             result.denominator = b.denominator;
             result.numerator = numerator + b.numerator;
-            double realNumber = result.getTheRealNumber();
         }
         //When different denom is itself * rhs (b)
         //Nume is (itself_denom * rhs_denom) + (rhs_nume * itself_denom)
         if (denominator != b.denominator) {
             result.denominator = denominator * b.denominator;
             result.numerator = numerator * (b.denominator) + b.numerator * (denominator);
-            result.realnumber = result.getTheRealNumber();
         }
         //simplifies fraction and returns result
         result.reduce();
         return result;
     }
-    //Still working on this
-
-    // //equal operator && constructor
-    // public Fraction copy(Fraction b) {
-    //     //Creates new copy
-    //     Fraction result = new Fraction();
-    //     if ...
-
-        // numerator = b.numerator;
-        // denominator = b.denominator;
-        // realnumber = b.realnumber;
-        // gcd = b.gcd;
-
-    // }
     //minus operator
     public Fraction minus(Fraction b) {
             Fraction result = new Fraction();
         if (denominator == b.denominator) {
             result.denominator = b.denominator;
             result.numerator = numerator - b.numerator;
-            double realNumber = result.getTheRealNumber();
         }
         //When different denom is itself * rhs (b)
         //Nume is (itself_denom * rhs_denom) + (rhs_nume * itself_denom)
         if (denominator != b.denominator) {
             result.denominator = denominator * b.denominator;
             result.numerator = numerator * (b.denominator) - b.numerator * (denominator);
-            double realnumber = result.getTheRealNumber();
         }
         //simplifies fraction and returns result
         result.reduce();
@@ -127,7 +95,6 @@ public class Fraction implements Comparable<Fraction> {
         Fraction result = new Fraction();
         result.numerator = numerator * rhs.numerator;
         result.denominator = denominator * rhs.denominator;
-        result.realnumber = result.getTheRealNumber();
         result.reduce();
         return result;
     }
@@ -138,7 +105,6 @@ public class Fraction implements Comparable<Fraction> {
         //same as multiplying lhs to reciprocal of rhs
         result.numerator = numerator * rhsInverse.numerator;
         result.denominator = denominator * rhsInverse.denominator;
-        result.realnumber = result.getTheRealNumber();
         //Simplifies result and returns it
         result.reduce();
         return result;
@@ -147,14 +113,32 @@ public class Fraction implements Comparable<Fraction> {
         Fraction reciprocal = new Fraction(numerator, denominator);
         reciprocal.numerator = denominator;
         reciprocal.denominator = numerator;
-        reciprocal.realnumber = reciprocal.getTheRealNumber();
         return reciprocal;
     }
     public void reduce() {
-        gcd = GCD();
+        long gcd = GCD();
         numerator /= gcd;
         denominator /= gcd;
     }
+    public double toDouble() {
+        double realNumber = numerator / denominator;
+        return realNumber;
+    }
+    public String toString() {
+        long absNumerator = Math.abs(numerator);
+        long absDenominator = Math.abs(denominator);
+        //if both are negative then fraction is positive
+        if (numerator < 0 && denominator > 0) {
+            return absNumerator + "/" + absDenominator;
+            //else either is negative then fraction is negative
+        } else if (numerator < 0 || denominator < 0) {
+            return "-" + absDenominator + "/" + absDenominator;
+            //else fraction is positive
+        } else {
+            return absNumerator + "/" + absDenominator;
+        }
+    }
+
     // Private methods used internally by Fraction class
     // computes least common denominator from 2 different fractions
     public static long LCD(long denom1, long denom2) {
@@ -188,20 +172,20 @@ public class Fraction implements Comparable<Fraction> {
 
         //Test + operator
         Fraction result3 = a.plus(b);
-        System.out.println(result3.realnumber);
+        System.out.println(result3);
         //Test - operator
         Fraction result4 = a.minus(b);
-        System.out.println(result4.realnumber);
+        System.out.println(result4);
         System.out.println(result4);
         //Test * operator
         Fraction result5 = a.times(b);
-        System.out.println(result5.realnumber);
+        System.out.println(result5);
         //Test reciprocal operator
         Fraction result7 = a.Reciprocal();
-        System.out.println(result7.realnumber);
+        System.out.println(result7);
         // Test / operator
         Fraction result6 = a.dividedBy(b);
-        System.out.println(result6.realnumber);
+        System.out.println(result6);
     }
 
     //Main method
@@ -216,7 +200,7 @@ public class Fraction implements Comparable<Fraction> {
         Collections.sort(fraction);
         //Prints the sorted list
         for (Fraction fractions : fraction) {
-            System.out.println(fractions.realnumber);
+            System.out.println(fractions);
         }
         //For testing my exception statement
         test();
