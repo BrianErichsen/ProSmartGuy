@@ -12,9 +12,7 @@ public class QuickSortFinalExperiment {
     private static final int ITER_COUNT = 100;
     //opens file writer to we can write to file
     public static void main(String[] args) {
-        try (FileWriter fw = new FileWriter(new File("quicksort_qs_best.csv"))) {
-
-            int threshold = 5;
+        try (FileWriter fw = new FileWriter(new File("quicksort_qs_worst.csv"))) {
 
             for (int exp = 10; exp <= 20; exp++) {
                 int size = (int) Math.pow(2, exp);
@@ -22,7 +20,7 @@ public class QuickSortFinalExperiment {
                 //sorts in increasing time
                 for (int iter = 0; iter < ITER_COUNT; iter++) {
                     // SET UP!
-                    ArrayList<Integer> orginalList = SortUtil.generateBestCase(size);
+                    ArrayList<Integer> orginalList = SortUtil.generateWorstCase(size);
                     //Copy for each test
                     ArrayList<Integer> tempList = new ArrayList<>(orginalList);
                     long start = System.nanoTime();
