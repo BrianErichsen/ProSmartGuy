@@ -1,20 +1,59 @@
-body {
+html {
     background-color: pink;
 }
-h1 {
+
+header {
     text-align: center;
+    color:black;
 }
-.user-input {
-    display: flex;
-    padding: 10px;
-    background-color: aquamarine;
-    border-bottom: 1px solid #ccc;
+#user-name-display {
+    border: 5px outset red;
+    background-color: lightblue;
     text-align: center;
+    height: 300px;
+    width: 15%;
+    max-height: 300px;
+    overflow-y: scroll;
 }
 
-.chat-room {
-    display: flex;
-    background-color: aquamarine;
-    margin: 20px;
-    padding: 10px;
+#chat-messages {
+    position: relative;
+    top: -300px; /* move the element 50 pixels down from its normal position */
+    left: 350px; /* move the element 100 pixels to the right from its normal position */
+    border: 5px outset red;
+    background-color: lightblue;
+    text-align: center;
+    height: 400px;
+    width: 50%;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+input {
+    width: 20%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #006666; /* Green background color */
+    color: white; /* White text color */
+    border: none; /* Remove the button border */
+    padding: 10px 20px; /* Add some padding to make it bigger */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Add a pointer cursor on hover */
+    font-size: 16px; /* Adjust the font size */
+}
+#message-input{
+    position: relative;
+    top: -300px; /* move the element 50 pixels down from its normal position */
+    left: 350px; /* move the element 100 pixels to the right from its normal position */
+}
+
+
+#send-butoon{
+    position: relative;
+    top: -300px; /* move the element 50 pixels down from its normal position */
+    left: 650px;
 }

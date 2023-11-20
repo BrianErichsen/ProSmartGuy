@@ -16,14 +16,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     static WebSocket ws;
-//    Boolean isLoginSuccessful = false;
-//    EditText username;
-//    EditText password;
     Button login;
     Button exit;
-//    TextView tx1;
-//    //to keep track of total attempts to log in
-//    int counter = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,52 +34,26 @@ public class MainActivity extends AppCompatActivity {
         ws.addListener(new AppWebSocket());
         ws.connectAsynchronously();
 
-        //------------------------------------------------------------------------------------------
-
         //defines what login means
         login = (Button) findViewById(R.id.Login);
-//        username = (EditText) findViewById((R.id.usernameEditText));
-//        password = (EditText) findViewById((R.id.passwordEditText));
-//
         exit = (Button) findViewById(R.id.Exit);
-//        tx1 = (TextView) findViewById(R.id.textView3);
-//        tx1.setVisibility(View.GONE);
 
         //tells what do to do when login is clicked
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (username.getText().toString().equals("Brian") && password.getText()
-//                        .toString().equals("123")) {
-//                    Toast.makeText(getApplicationContext(), "Redirecting ...", Toast.LENGTH_LONG).show();
-//                    isLoginSuccessful = true;
-//                    setContentView(R.layout.chat);
-//                    login(v);
-                //------------------------------------------------------------------------------
-
-                TextView roomNameTV = findViewById(R.id.roomNameEditText);
-                String room = roomNameTV.getText().toString();
-                TextView userNameTV = findViewById(R.id.usernameEditText);
-                String user = userNameTV.getText().toString();
-                ws.sendText("join " + user + " " + room);
-                Intent intent = new Intent(MainActivity.this, ChatRoom.class);
-//                    //Adds room and user data
-                intent.putExtra("room", room);
-                intent.putExtra("user", user);
-                startActivity(intent);//Launches it
+//                TextView roomNameTV = findViewById(R.id.roomNameEditText);
+//                String room = roomNameTV.getText().toString();
+//                TextView userNameTV = findViewById(R.id.usernameEditText);
+//                String user = userNameTV.getText().toString();
+//                ws.sendText("join " + user + " " + room);
+//                Intent intent = new Intent(MainActivity.this, ChatRoom.class);
+////                    //Adds room and user data
+//                intent.putExtra("room", room);
+//                intent.putExtra("user", user);
+//                startActivity(intent);
+                login(v);
             }
-//                 else {
-//                    Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_LONG).show();
-//
-//                    tx1.setVisibility(View.VISIBLE);
-//                    tx1.setBackgroundColor(Color.RED);
-//                    counter--;
-//                    tx1.setText(Integer.toString(counter));
-//
-//                    if (counter == 0) {
-//                        login.setEnabled(false);
-//                    }
-//                }
             });
         exit.setOnClickListener(new View.OnClickListener() {
             @Override

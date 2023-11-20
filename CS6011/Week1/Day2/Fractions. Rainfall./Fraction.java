@@ -15,19 +15,10 @@ public class Fraction implements Comparable<Fraction> {
     //Constructor that sets fraction (numerator and denominator)
     Fraction(long n, long d) {
         //handles if denom is negative and numerator is positive
-        assert denominator != 0 : "Denominator should not be zero!";
         if (d == 0) {
             throw new IllegalArgumentException("Denominator should not be zero");
         }
-        if (d < 0 && n > 0) {
-            d *= -1;
-            n *= -1;
-        }
-        //handles if both denom and numerator are negative
-        if (d < 0 && n < 0) {
-            d *= -1;
-            n *= -1;
-        }
+
         //Defines Fraction properties
         numerator = n;
         denominator = d;
@@ -58,20 +49,22 @@ public class Fraction implements Comparable<Fraction> {
     public Fraction plus(Fraction b) {
         //when equal denom the sum is itself for denom
         //for nume is simply adding one to eachother
-        Fraction result = new Fraction();
+
+        long NewDenominator;
+        long NewNumerator;
+
         if (denominator == b.denominator) {
-            result.denominator = b.denominator;
-            result.numerator = numerator + b.numerator;
+            NewDenominator = b.denominator;
+            NewNumerator = numerator + b.numerator;
         }
         //When different denom is itself * rhs (b)
         //Nume is (itself_denom * rhs_denom) + (rhs_nume * itself_denom)
-        if (denominator != b.denominator) {
-            result.denominator = denominator * b.denominator;
-            result.numerator = numerator * (b.denominator) + b.numerator * (denominator);
+        else {
+            NewDenominator = denominator * b.denominator;
+            NewNumerator = numerator * (b.denominator) + b.numerator * (denominator);
         }
         //simplifies fraction and returns result
-        result.reduce();
-        return result;
+        return new Fraction(NewNumerator, NewDenominator);
     }
     //minus operator
     public Fraction minus(Fraction b) {
@@ -111,9 +104,8 @@ public class Fraction implements Comparable<Fraction> {
     }
     private Fraction Reciprocal() {
         Fraction reciprocal = new Fraction(numerator, denominator);
-        reciprocal.numerator = denominator;
-        reciprocal.denominator = numerator;
-        return reciprocal;
+        
+        return new Fraction(denominator, numerator);
     }
     public void reduce() {
         long gcd = GCD();
@@ -121,22 +113,12 @@ public class Fraction implements Comparable<Fraction> {
         denominator /= gcd;
     }
     public double toDouble() {
-        double realNumber = numerator / denominator;
-        return realNumber;
+        
+        return (double) numerator / denominator;
     }
     public String toString() {
-        long absNumerator = Math.abs(numerator);
-        long absDenominator = Math.abs(denominator);
-        //if both are negative then fraction is positive
-        if (numerator < 0 && denominator > 0) {
-            return absNumerator + "/" + absDenominator;
-            //else either is negative then fraction is negative
-        } else if (numerator < 0 || denominator < 0) {
-            return "-" + absDenominator + "/" + absDenominator;
-            //else fraction is positive
-        } else {
-            return absNumerator + "/" + absDenominator;
-        }
+        String sign = numerator * denominator < 0 ? "-" : "";
+        return sign + Math.abs(numerator) + "/" + Math.abs(denominator);
     }
 
     // Private methods used internally by Fraction class
@@ -154,7 +136,7 @@ public class Fraction implements Comparable<Fraction> {
     }
     public static void test() {
         try {
-            Fraction c = new Fraction(50, 0);
+            new Fraction(50, 0);
         } catch (IllegalArgumentException e) {
             System.out.println("Denominator should not be zero");
         }
