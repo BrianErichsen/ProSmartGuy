@@ -3,14 +3,24 @@ package assignment05;
 
 import java.net.URL;
 import java.util.NoSuchElementException;
+import java.util.Iterator;
 
 
 public class WebBrowser {
-    private Stack<URL> backButtonStack;
-    private Stack<URL> forwardButtonStack;
-    private URL currentWebpage;
+    private Stack<URL> backButtonStack;  // Stack to store URLs for backward navigation
+    private Stack<URL> forwardButtonStack;  // Stack to store URLs for forward navigation
+    private URL currentWebpage;  // Current webpage URL
 
 
+    //===============================================================================================================//
+
+
+    /**
+     * Constructs a WebBrowser object with empty stacks and null currentWebpage.
+     *
+     * This constructor initializes a WebBrowser with empty backButtonStack and forwardButtonStack,
+     * and sets the currentWebpage to null, indicating that the browser has no current webpage.
+     */
     public WebBrowser() {
         this.backButtonStack = new LinkedListStack<>();
         this.forwardButtonStack = new LinkedListStack<>();
@@ -18,6 +28,19 @@ public class WebBrowser {
     }
 
 
+    //===============================================================================================================//
+
+
+    /**
+     * Constructs a WebBrowser object with a given history.
+     *
+     * This constructor initializes a WebBrowser with the provided history. It sets the currentWebpage to
+     * the last URL in the history and populates the backButtonStack with all URLs in the history except
+     * the current one.
+     *
+     * @param history The history of URLs to initialize the WebBrowser with.
+     * @throws IllegalArgumentException if the provided history is null or empty.
+     */
     public WebBrowser(SinglyLinkedList<URL> history) {
         if (history == null || history.isEmpty()) {
             throw new IllegalArgumentException("History cannot be null or empty");
@@ -39,6 +62,7 @@ public class WebBrowser {
     }
 
 
+    //===============================================================================================================//
 
 
     /**
@@ -47,10 +71,15 @@ public class WebBrowser {
      * @param webpage - the URL of the webpage to visit
      */
     public void visit(URL webpage) {
-        backButtonStack.push(currentWebpage);
-        forwardButtonStack.clear();
-        currentWebpage = webpage;
+        backButtonStack.push(currentWebpage);  // Push the current webpage to the backButtonStack
+        forwardButtonStack.clear();  // Clear the forward button stack
+        currentWebpage = webpage;  // Set the current webpage to the specified URL
     }
+
+
+    //===============================================================================================================//
+
+
     /**
      * Simulates using the back button, returning the URL visited.
      *
@@ -77,10 +106,7 @@ public class WebBrowser {
     }
 
 
-
-
-
-
+    //===============================================================================================================//
 
 
     /**
@@ -90,55 +116,20 @@ public class WebBrowser {
      * @throws NoSuchElementException if there is no URL to visit next
      */
     public URL forward() throws NoSuchElementException {
-
-
         if (forwardButtonStack.isEmpty()) {
             throw new NoSuchElementException("No URL to visit next");
         }
-        //backButtonStack.push(currentWebpage);
+
+
+        // Pop the next URL from the forwardButtonStack and set it as the currentWebpage
         currentWebpage = forwardButtonStack.pop();
         return currentWebpage;
     }
-    /**
-     * Generates a history of URLs visited, including the current webpage.
-     *
-     * @return a list of URLs ordered from most recently visited to least recently visited
-     */
-//    public SinglyLinkedList<URL> history() {
-//        // Create a copy of the backStack to avoid modifying its state
-//        Stack<URL> tempStack = new LinkedListStack<>();
-//        SinglyLinkedList<URL> historyList = new SinglyLinkedList<>();
-//
-//        // Push elements from backStack to tempStack and historyList
-//        while (!backButtonStack.isEmpty()) {
-//            URL url = backButtonStack.pop();
-//            if (url != null) {
-//                tempStack.push(url);
-//                historyList.insertFirst(url);
-//            }
-//        }
-//
-//        // Restore the backStack state
-//        while (!tempStack.isEmpty()) {
-//            backButtonStack.push(tempStack.pop());
-//            URL url = tempStack.pop();
-//            historyList.insertFirst(url);
-//        }
-//
-//        // Add the currentWebpage to the historyList if it is not null
-//        if (currentWebpage != null) {
-//            historyList.insertFirst(currentWebpage);
-//        }
-//
-//        return historyList;
-//    }
 
 
-    /**
-     * Generates a history of URLs visited, including the current webpage.
-     *
-     * @return a list of URLs ordered from most recently visited to least recently visited
-     */
+    //===============================================================================================================//
+
+
     /**
      * Generates a history of URLs visited, including the current webpage.
      *
@@ -150,7 +141,7 @@ public class WebBrowser {
 
         // Add the currentWebpage to the historyList if it is not null
         if (currentWebpage != null) {
-            historyList.insertLast(currentWebpage); // Use insertFirst to add at the beginning of the list
+            historyList.insertLast(currentWebpage);
         }
 
 
@@ -163,10 +154,8 @@ public class WebBrowser {
 
             // Skip adding the currentWebpage again in the loop
             if (url != null && !url.toString().equals(currentWebpage.toString())) {
-                historyList.insertFirst(url);
+                historyList.insertLast(url); // Use insertLast to maintain the order
             }
-
-
         }
 
 
@@ -179,4 +168,5 @@ public class WebBrowser {
         return historyList;
     }
 }
+
 

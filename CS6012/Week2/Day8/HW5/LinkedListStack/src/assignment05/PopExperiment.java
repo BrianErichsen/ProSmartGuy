@@ -9,7 +9,7 @@ public class PopExperiment {
     private static final int ITER_COUNT = 100;
     //opens file writer to we can write to file
     public static void main(String[] args) {
-        try (FileWriter fw = new FileWriter(new File("pop_linked_list.csv"))) {
+        try (FileWriter fw = new FileWriter(new File("pop_array_stack.csv"))) {
 
             int element;
 
@@ -18,20 +18,21 @@ public class PopExperiment {
                 long totalTime = 0;
                 //sorts in increasing time
                 for (int iter = 0; iter < ITER_COUNT; iter++) {
-//                    ArrayStack<Integer> arrayStack = new ArrayStack<>();
-                    LinkedListStack<Integer> linkedListStack = new LinkedListStack<>();
+                    ArrayStack<Integer> arrayStack = new ArrayStack<>();
+//                    LinkedListStack<Integer> linkedListStack = new LinkedListStack<>();
                     // SET UP!
                     //element to push
                     element = 5;
                     //
                     for (int i = 0; i < size; i++) {
-//                        arrayStack.push(element);
-                        linkedListStack.push(element);
+                        arrayStack.push(element);
+//                        linkedListStack.push(element);
                     }
                     long start = System.nanoTime();
-                    for (int i = 0; i < size; i++) {
-                        linkedListStack.pop();
-                    }
+                    arrayStack.pop();
+//                    for (int i = 0; i < size; i++) {
+//                        linkedListStack.pop();
+//                    }
                     long stop = System.nanoTime();
                     totalTime += stop - start;
                 }
