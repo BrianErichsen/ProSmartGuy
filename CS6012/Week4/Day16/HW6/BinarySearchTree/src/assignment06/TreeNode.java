@@ -49,45 +49,45 @@ public class TreeNode<T extends Comparable<? super T>> {
 //    public void delete (int value) {
 //
 //    }
-//    TreeNode deleteNode(TreeNode root, int value) {
-//        //base case
-//        if (root == null) {
-//            return root;
-//        }
-//        //recursive call for ancerstors of node to be deleted
-//        if (root.data > value) {
-//            root.left = deleteNode(root.left, value);
-//            return root;
-//        } else if (root.data < value) {
-//            root.right = deleteNode(root.right, value);
-//            return root;
-//        }
-//        //if one child is empty
-//        if (root.left == null) {
-//            TreeNode temp = root.right;
-//            return temp;
-//        } else if (root.right == null) {
-//            TreeNode temp = root.left;
-//            return temp;
-//            //if both child exists
-//        } else {
-//            TreeNode sParent = root;
-//            TreeNode successor = root.right;
-//            while (successor.left != null) {
-//                sParent = successor;
-//                successor = successor.left;
-//            }
-//            //Delete successor; since succ is always left we can safely make successor right right child
-//            // as left of it's parent, if no succ, then assign succ.right to be sParente.right
-//            if (sParent != root) {
-//                sParent.left = successor.right;
-//            } else
-//                sParent.right = successor.right;
-//            //Copies successor data to root
-//            root.data = successor.data;
-//            return root;
-//        }
-//    }
+    TreeNode deleteNode(TreeNode root, T value) {
+        //base case
+        if (root == null) {
+            return root;
+        }
+        //recursive call for ancerstors of node to be deleted
+        if (root.data.compareTo(value) > 0) {
+            root.left = deleteNode(root.left, value);
+            return root;
+        } else if (root.data.compareTo(value) < 0) {
+            root.right = deleteNode(root.right, value);
+            return root;
+        }
+        //if one child is empty
+        if (root.left == null) {
+            TreeNode temp = root.right;
+            return temp;
+        } else if (root.right == null) {
+            TreeNode temp = root.left;
+            return temp;
+            //if both child exists
+        } else {
+            TreeNode sParent = root;
+            TreeNode successor = root.right;
+            while (successor.left != null) {
+                sParent = successor;
+                successor = successor.left;
+            }
+            //Delete successor; since succ is always left we can safely make successor right right child
+            // as left of it's parent, if no succ, then assign succ.right to be sParente.right
+            if (sParent != root) {
+                sParent.left = successor.right;
+            } else
+                sParent.right = successor.right;
+            //Copies successor data to root
+            root.data = successor.data;
+            return root;
+        }
+    }
     public void inOrderTransversal() {
         if (left != null) {
             left.inOrderTransversal();
@@ -115,20 +115,20 @@ public class TreeNode<T extends Comparable<? super T>> {
         }
         System.out.print(data + " ");
     }
-//    public boolean search(int value) {
-//        if (data == value) {
-//            return true;
-//        }
-//        boolean foundInLeft = false;
-//        boolean foundInRight = false;
-//        if (left != null) {
-//            foundInLeft = left.search(value);
-//        }
-//        if (right != null) {
-//            foundInRight = right.search(value);
-//        }
-//        return foundInLeft || foundInRight;
-//    }
+    public boolean search(T value) {
+        if (data.equals(value)) {
+            return true;
+        }
+        boolean foundInLeft = false;
+        boolean foundInRight = false;
+        if (left != null) {
+            foundInLeft = left.search(value);
+        }
+        if (right != null) {
+            foundInRight = right.search(value);
+        }
+        return foundInLeft || foundInRight;
+    }
     public int height() {
         //Height of an empty tree is 0 and height of a tree with a single node is 1;
         if (this == null) {
