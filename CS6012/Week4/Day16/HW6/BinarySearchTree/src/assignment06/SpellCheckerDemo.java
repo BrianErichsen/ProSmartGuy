@@ -18,14 +18,11 @@ public class SpellCheckerDemo {
 //    run_spell_check(mySC, "good_luck.txt");
 
     TreeNode root = new TreeNode<>(4);
-
-    root.insert(4);
-    root.insert(2);
-    root.insert(6);
-    root.insert(1);
-    root.insert(5);
-    root.insert(7);
-//    root.deleteNode(root, 5);
+    BinarySearchTree ozzy = new BinarySearchTree<>(root);
+    ozzy.add(7);
+    ozzy.add(1);
+    ozzy.add(2);
+    ozzy.add(4);
 
     System.out.println("In order transversal:");
     root.inOrderTransversal();

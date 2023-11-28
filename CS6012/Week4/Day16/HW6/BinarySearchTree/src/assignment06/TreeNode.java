@@ -24,22 +24,24 @@ public class TreeNode<T extends Comparable<? super T>> {
     private TreeNode after;
     private TreeNode before;
     /**Insert method inserts new values to binary tress**/
-    public void insert(T value) {
+    public boolean insert(T value) {
         //if value is lower than itself, child is inserted in the left
         if (value.compareTo (this.data) <= 0) {
             //if left node is empty, then sets value to be the value of the left node;
             if (left == null) {
                 left = new TreeNode<>(value);
+                return true;
                 //else insert value in itself
             } else {
-                left.insert(value);
+                return left.insert(value);
             }
             //use same logic for the right side and if value is not lower than it's higher and after
         } else {
             if (right == null) {
                 right = new TreeNode<>(value);
+                return true;
             } else {
-                right.insert(value);
+                return right.insert(value);
             }
         }
     }//end of insert method bracket

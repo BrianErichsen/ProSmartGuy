@@ -13,7 +13,21 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
         this.root = null;
         this.size = 0;
     }
-
+    public BinarySearchTree(TreeNode node) {
+        //will come back to this later to have the root of any given node.
+        this.root = node;
+        size++;
+    }
+    /**
+     * Ensures that this set contains the specified item.
+     *
+     * @param item
+     *          - the item whose presence is ensured in this set
+     * @return true if this set changed as a result of this method call (that is, if
+     *         the input item was actually inserted); otherwise, returns false
+     * @throws NullPointerException
+     *           if the item is null
+     */
     @Override
     public boolean add(Comparable item) {
         if (item == null) {
@@ -28,7 +42,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
             size++;
             return true;
         }
-    }
+    }//end of add method bracket
 
     @Override
     public boolean addAll(Collection items) {
