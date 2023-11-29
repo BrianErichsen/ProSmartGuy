@@ -10,11 +10,11 @@ import java.util.Scanner;
  * Represents a "dictionary" of strings using a binary search tree and offers
  * methods for spell-checking documents.
  *
- * @author
+ * @author Brian Erichsen Fagundes
  */
 public class SpellChecker {
 
-  private BinarySearchTree<String> dictionary;
+  BinarySearchTree<String> dictionary;
 
   /**
    * Default constructor--creates empty dictionary.
@@ -37,7 +37,7 @@ public class SpellChecker {
   /**
    * Constructor--creates dictionary from a file.
    *
-   * @param dictionary_file
+   * @param
    *          - the File that contains Strings used to build the dictionary
    */
   public SpellChecker(File dictionaryFile) {
@@ -52,7 +52,7 @@ public class SpellChecker {
    *          - the String to be added to the dictionary
    */
   public void addToDictionary(String word) {
-    // FILL IN
+    dictionary.add(word.toLowerCase());
   }
 
   /**
@@ -62,23 +62,27 @@ public class SpellChecker {
    *          - the String to be removed from the dictionary
    */
   public void removeFromDictionary(String word) {
-    // FILL IN
+    dictionary.remove(word.toLowerCase());
   }
 
   /**
    * Spell-checks a document against the dictionary.
    *
-   * @param document_file
+   * @param
    *          - the File that contains Strings to be looked up in the dictionary
    * @return a List of misspelled words
    */
   public List<String> spellCheck(File documentFile) {
 
     List<String> wordsToCheck = readFromFile(documentFile);
+    List<String> misspelledWords = new ArrayList<>();
 
-    // FILL IN -- do not return null
-
-    return null;
+  for (String word : wordsToCheck) {
+    if (!dictionary.contains(word.toLowerCase())) {
+      misspelledWords.add(word);
+    }
+  }
+    return misspelledWords;
   }
 
   /**
@@ -88,7 +92,9 @@ public class SpellChecker {
    *          - the List of Strings to be added to the dictionary
    */
   private void buildDictionary(List<String> words) {
-    // FILL IN
+    for (String word : words) {
+      addToDictionary(word);
+    }
   }
 
   /**

@@ -5,8 +5,93 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 public class BinarySearchTree<T extends Comparable<? super T>> implements SortedSet {
-    private TreeNode<T> root;
+    private TreeNode root;
     private int size;
+
+    public class TreeNode<T extends Comparable<? super T>> {
+        TreeNode right, left;
+        T data;
+        //Public constructor that takes data as a parameter
+        public TreeNode(T data) {
+            this.data = data;
+        }
+        /**Insert method inserts new values to binary tress**/
+        public boolean insert(T value) {
+            //if value is lower than itself, child is inserted in the left
+            if (value.compareTo (this.data) <= 0) {
+                //if left node is empty, then sets value to be the value of the left node;
+                if (left == null) {
+                    left = new TreeNode<>(value);
+                    return true;
+                    //else insert value in itself
+                } else {
+                    return left.insert(value);
+                }
+                //use same logic for the right side and if value is not lower than it's higher and after
+            } else {
+                if (right == null) {
+                    right = new TreeNode<>(value);
+                    return true;
+                } else {
+                    return right.insert(value);
+                }
+            }
+        }//end of insert method bracket
+        /**Delete method to remove nodes from tree*/
+        TreeNode deleteNode(TreeNode root, T value) {
+            //base case
+            if (root == null) {
+                return root;
+            }
+            //recursive call for ancerstors of node to be deleted
+            if (root.data.compareTo(value) > 0) {
+                root.left = deleteNode(root.left, value);
+                return root;
+            } else if (root.data.compareTo(value) < 0) {
+                root.right = deleteNode(root.right, value);
+                return root;
+            }
+            //if one child is empty
+            if (root.left == null) {
+                TreeNode temp = root.right;
+                return temp;
+            } else if (root.right == null) {
+                TreeNode temp = root.left;
+                return temp;
+                //if both child exists
+            } else {
+                TreeNode sParent = root;
+                TreeNode successor = root.right;
+                while (successor.left != null) {
+                    sParent = successor;
+                    successor = successor.left;
+                }
+                //Delete successor; since succ is always left we can safely make successor right right child
+                // as left of it's parent, if no succ, then assign succ.right to be sParente.right
+                if (sParent != root) {
+                    sParent.left = successor.right;
+                } else
+                    sParent.right = successor.right;
+                //Copies successor data to root
+                root.data = successor.data;
+                return root;
+            }
+        }
+        public boolean search(T value) {
+            if (data.equals(value)) {
+                return true;
+            }
+            boolean foundInLeft = false;
+            boolean foundInRight = false;
+            if (left != null) {
+                foundInLeft = left.search(value);
+            }
+            if (right != null) {
+                foundInRight = right.search(value);
+            }
+            return foundInLeft || foundInRight;
+        }
+    }//end of inner class bracket
 
     //No parameter constructor which creates a empty BST
     public BinarySearchTree() {
@@ -15,8 +100,16 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
     }
     public BinarySearchTree(TreeNode node) {
         //will come back to this later to have the root of any given node instead to be the root
-        this.root = node;
-        size++;
+        if (root == null) {
+            this.root = node;
+            size++;
+        } else {
+            node.insert(node.data);
+        }
+    }
+    /**public helper method for testing purposes */
+    public TreeNode<T> getRoot() {
+        return root;
     }
     /**
      * Ensures that this set contains the specified item.
@@ -37,12 +130,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
         //if root is empty, then creates a new treeNode that it's element will be set as the root
         if (root == null) {
             root = new TreeNode<>(item);
-            size++;
             return true;
             //else use the insert method
         } else {
             root.insert((T) item);
-            size++;
             return true;
         }
     }//end of add method bracket
@@ -101,6 +192,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
     public boolean contains(Comparable item) {
         if (item == null) {
             throw new NullPointerException("Item cannot be null");
+        }
+        //if root is empty; then item is not present
+        if (root == null) {
+            return false;
         }
         //calls for the search method within TreeNode class
         return root.search((T) item);
@@ -203,27 +298,81 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
         if (item == null) {
             throw new NullPointerException("Item cannot be null to be removed");
         }
+        //Check if the tree is empty
+        if (root == null) {
+            return false;
+        }
         //to check if the set is changed or not
         int initialSize = size();
         root = root.deleteNode(root, (T) item);
-
         //checks if the set was changed
+        //returns true if current size is less than initial size; false otherwise
         return size() < initialSize;
     }
-
+    /**
+     * Ensures that this set does not contain any of the items in the specified
+     * collection.
+     *
+     * @param items
+     *          - the collection of items whose absence is ensured in this set
+     * @return true if this set changed as a result of this method call (that is, if
+     *         any item in the input collection was actually removed); otherwise,
+     *         returns false
+     * @throws NullPointerException
+     *           if any of the items is null
+     */
     @Override
     public boolean removeAll(Collection items) {
-        return false;
+        if (items == null) {
+            throw new NoSuchElementException("Items cannot be empty to be removed");
+        }
+        //Flag to track if any changes are made
+        boolean changed = false;
+        //Iterates through set of items
+        for (Object item : items) {
+            //if the item is removed; then changes the flag
+            if (remove((Comparable) item)) {
+                changed = true;
+            }
+        }
+        return changed;
     }
-
+    /**
+     * Returns the number of items in this set.
+     */
     @Override
     public int size() {
-        return 0;
+        //I am keeping track of size within the add & remove methods hence just call this.size
+        return countNodes(root);
     }
-
+    /**Helper method that counts the number of nodes */
+    private int countNodes(TreeNode<T> node) {
+        //if node is empty; hence returns 0
+        if (node == null) {
+            return 0;
+        }
+        //Recursively count nodes in the left and right subtrees and add 1 for the current node
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+    /**
+     * Returns an ArrayList containing all of the items in this set, in sorted
+     * order.
+     */
     @Override
     public ArrayList toArrayList() {
-        return null;
+        ArrayList<T> result = new ArrayList<>();
+        //Starts in order transversal from the root
+        inOrderTransversal(root, result);
+        return result;
     }
-}
+    public void inOrderTransversal(TreeNode<T> node, ArrayList<T> result) {
+        if (node != null) {
+            //Recursively transverse the left subtree, visit the current node, and then
+            //transverse the right subtree
+            inOrderTransversal(node.left, result);
+            result.add(node.data);
+            inOrderTransversal(node.right, result);
+        }
+    }
+}//end of class bracket
 

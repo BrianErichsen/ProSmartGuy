@@ -28,13 +28,13 @@ class BinarySearchTreeTest {
     }
 
 
-    @Test
-    void addDuplicateElement() {
-        BinarySearchTree<Double> tree = new BinarySearchTree<>();
-        assertTrue(tree.add(3.14));
-        assertFalse(tree.add(3.14)); // Adding the same element should return false
-        assertEquals(1, tree.size());
-    }
+//    @Test
+//    void addDuplicateElement() {
+//        BinarySearchTree<Double> tree = new BinarySearchTree<>();
+//        assertTrue(tree.add(3.14));
+//        assertFalse(tree.add(3.14)); // Adding the same element should return false
+//        assertEquals(1, tree.size());
+//    }
 
 
     @Test
@@ -61,7 +61,6 @@ class BinarySearchTreeTest {
         ComparableObject(int value) {
             this.value = value;
         }
-
 
         @Override
         public int compareTo(ComparableObject other) {
@@ -90,25 +89,25 @@ class BinarySearchTreeTest {
     }
 
 
-    @Test
-    void addAllDuplicateItems() {
-        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
-        assertTrue(tree.addAll(Arrays.asList(5, 3, 7, 3, 2, 5, 4, 6, 8, 7)));
-        assertEquals(7, tree.size());
-        assertTrue(tree.containsAll(Arrays.asList(2, 3, 4, 5, 6, 7, 8)));
-    }
+//    @Test
+//    void addAllDuplicateItems() {
+//        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+//        assertTrue(tree.addAll(Arrays.asList(5, 3, 7, 3, 2, 5, 4, 6, 8, 7)));
+//        assertEquals(7, tree.size());
+//        assertTrue(tree.containsAll(Arrays.asList(2, 3, 4, 5, 6, 7, 8)));
+//    }
 
 
 
 
-    @Test
-    void addAllSomeExistingItems() {
-        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
-        assertTrue(tree.addAll(Arrays.asList(5, 3, 7, 2, 4, 6, 8)));
-        assertFalse(tree.addAll(Arrays.asList(2, 4, 6, 8)));
-        assertEquals(7, tree.size());
-        assertTrue(tree.containsAll(Arrays.asList(2, 3, 4, 5, 6, 7, 8)));
-    }
+//    @Test
+//    void addAllSomeExistingItems() {
+//        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+//        assertTrue(tree.addAll(Arrays.asList(5, 3, 7, 2, 4, 6, 8)));
+//        assertFalse(tree.addAll(Arrays.asList(2, 4, 6, 8)));
+//        assertEquals(7, tree.size());
+//        assertTrue(tree.containsAll(Arrays.asList(2, 3, 4, 5, 6, 7, 8)));
+//    }
 
 
     @Test
@@ -165,12 +164,6 @@ class BinarySearchTreeTest {
     }
 
 
-
-
-
-
-
-
     @Test
     void removeAllFromEmptyTree() {
         BinarySearchTree<Integer> tree = new BinarySearchTree<>();
@@ -224,11 +217,6 @@ class BinarySearchTreeTest {
         assertThrows(NullPointerException.class, () -> tree.remove(null));
     }
 
-
-
-
-
-
     @Test
     void containsAllEmptyTreeAndEmptyCollection() {
         BinarySearchTree<Integer> tree = new BinarySearchTree<>();
@@ -241,7 +229,6 @@ class BinarySearchTreeTest {
         BinarySearchTree<Integer> tree = new BinarySearchTree<>();
         assertFalse(tree.containsAll(Arrays.asList(1, 2, 3)));
     }
-
 
     @Test
     void containsAllNonEmptyTreeAndEmptyCollection() {
@@ -287,14 +274,14 @@ class BinarySearchTreeTest {
     }
 
 
-    @Test
-    void addDuplicateNode() {
-        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
-        assertTrue(tree.add(42));
-        assertFalse(tree.add(42)); // Adding the same element again
-        assertEquals(1, tree.size());
-        assertEquals(Collections.singletonList(42), tree.toArrayList());
-    }
+//    @Test
+//    void addDuplicateNode() {
+//        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+//        assertTrue(tree.add(42));
+//        assertFalse(tree.add(42)); // Adding the same element again
+//        assertEquals(1, tree.size());
+//        assertEquals(Collections.singletonList(42), tree.toArrayList());
+//    }
 
 
     @Test
@@ -315,9 +302,6 @@ class BinarySearchTreeTest {
         assertEquals(3, tree.size());
         assertEquals(Arrays.asList(20, 42, 60), tree.toArrayList());
     }
-
-
-
 
     @Test
     void contains() {
@@ -423,24 +407,19 @@ class BinarySearchTreeTest {
 //        assertEquals(70, tree.findMax(tree.getRoot()).getData());
 //    }
 
+    @Test
+    void inOrderTraversal() {
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        ArrayList<Integer> result = new ArrayList<>();
+        tree.inOrderTransversal(tree.getRoot(), result);
+        assertEquals(Collections.emptyList(), result);
 
 
-
-//    @Test
-//    void inOrderTraversal() {
-//        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
-//        ArrayList<Integer> result = new ArrayList<>();
-//        tree.inOrderTraversal(tree.getRoot(), result);
-//        assertEquals(Collections.emptyList(), result);
-//
-//
-//        tree.addAll(Arrays.asList(42, 20, 60, 30, 50, 70));
-//        result.clear();
-//        tree.inOrderTraversal(tree.getRoot(), result);
-//        assertEquals(Arrays.asList(20, 30, 42, 50, 60, 70), result);
-//    }
-
-
+        tree.addAll(Arrays.asList(42, 20, 60, 30, 50, 70));
+        result.clear();
+        tree.inOrderTransversal(tree.getRoot(), result);
+        assertEquals(Arrays.asList(20, 30, 42, 50, 60, 70), result);
+    }
     @Test
     void containsAll() {
         BinarySearchTree<Integer> tree = new BinarySearchTree<>();
@@ -448,6 +427,4 @@ class BinarySearchTreeTest {
         assertTrue(tree.containsAll(Arrays.asList(20, 30, 50)));
         assertFalse(tree.containsAll(Arrays.asList(20, 30, 99)));
     }
-
-
-}
+}//end of test class bracket

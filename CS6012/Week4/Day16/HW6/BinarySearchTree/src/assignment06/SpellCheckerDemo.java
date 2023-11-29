@@ -1,6 +1,6 @@
 package assignment06;
 
-import  java.io.File;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -12,24 +12,10 @@ public class SpellCheckerDemo {
 
   public static void main(String[] args) {
 
-//    SpellChecker mySC = new SpellChecker(new File("dictionary.txt"));
-//
-//    run_spell_check(mySC, "hello_world.txt");
-//    run_spell_check(mySC, "good_luck.txt");
+    SpellChecker mySC = new SpellChecker(new File("assignment06/dictionary.txt"));
 
-    TreeNode root = new TreeNode<>(4);
-    BinarySearchTree ozzy = new BinarySearchTree<>(root);
-    ozzy.add(7);
-    ozzy.add(1);
-    ozzy.add(2);
-    ozzy.add(4);
-
-    System.out.println("In order transversal:");
-    root.inOrderTransversal();
-    System.out.println("\nPre order transversal:");
-    root.preOrderTransversal();
-    System.out.println("\nPost order transversal:");
-    root.postOrderTransversal();
+    run_spell_check(mySC, "assignment06/hello_world.txt");
+    run_spell_check(mySC, "assignment06/good_luck.txt");
   }
 
   private static void run_spell_check(SpellChecker sc, String documentFilename) {
