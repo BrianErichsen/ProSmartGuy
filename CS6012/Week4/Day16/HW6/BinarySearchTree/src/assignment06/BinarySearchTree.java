@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
-public class BinarySearchTree<T extends Comparable<? super T>> implements SortedSet {
+public class BinarySearchTree<T extends Comparable<? super T>> implements SortedSet<T> {
     private TreeNode root;
     private int size;
 
@@ -122,7 +122,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
      *           if the item is null
      */
     @Override
-    public boolean add(Comparable item) {
+    public boolean add(T item) {
         if (item == null) {
             //I could change exception to be a return stament of false if I wanted program not to quit
             throw new NullPointerException("Item cannot be empty to be inserted in the tree node.");
@@ -133,7 +133,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
             return true;
             //else use the insert method
         } else {
-            root.insert((T) item);
+            root.insert(item);
             return true;
         }
     }//end of add method bracket
@@ -161,7 +161,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
             if (item == null) {
                 throw new NullPointerException("Item cannot be empty to be inserted in the Tree!");
             }
-            if (add((Comparable) item)) {
+            if (add((T) item)) {
                 changed = true;
             }
         }
@@ -189,7 +189,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
      *           if the item is null
      */
     @Override
-    public boolean contains(Comparable item) {
+    public boolean contains(T item) {
         if (item == null) {
             throw new NullPointerException("Item cannot be null");
         }
@@ -198,7 +198,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
             return false;
         }
         //calls for the search method within TreeNode class
-        return root.search((T) item);
+        return root.search(item);
     }
     /**
      * Determines if for each item in the specified collection, there is an item in
@@ -219,7 +219,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
         //Iterates through each item in the collection
         for (Object item : items) {
             //if any item is not present in the tree; then it returns false
-            if (!contains((Comparable) item)) {
+            if (!contains((T) item)) {
                 return false;
             }
         }
@@ -233,11 +233,11 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
      *           if the set is empty
      */
     @Override
-    public Comparable first() throws NoSuchElementException {
+    public T first() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("Set is empty");
         }
-        return findMin(root).data;
+        return (T) findMin(root).data;
     }
     /** helper method to find the minimun node in a subtree */
     protected TreeNode<T> findMin(TreeNode<T> node) {
@@ -265,12 +265,12 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
      *           if the set is empty
      */
     @Override
-    public Comparable last() throws NoSuchElementException {
+    public T last() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("Set is empty");
         }
         //find and returns the max element in the set
-        return findMax(root).data;
+        return (T) findMax(root).data;
     }
     /** helper method to find the max element in a subtree */
     protected TreeNode<T> findMax(TreeNode<T> node) {
@@ -294,7 +294,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
      *           if the item is null
      */
     @Override
-    public boolean remove(Comparable item) {
+    public boolean remove(T item) {
         if (item == null) {
             throw new NullPointerException("Item cannot be null to be removed");
         }
@@ -331,7 +331,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Sorted
         //Iterates through set of items
         for (Object item : items) {
             //if the item is removed; then changes the flag
-            if (remove((Comparable) item)) {
+            if (remove((T) item)) {
                 changed = true;
             }
         }
