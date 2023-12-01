@@ -34,8 +34,8 @@ public class ChainingHashTable implements Set<String> {
      */
     @Override
     public boolean add(String item) {
-        if (item == null || item.isEmpty()) {
-            throw new IllegalArgumentException("Item cannot be empty or null to be added");
+        if (item == null) {
+            throw new IllegalArgumentException("Item cannot be null to be added");
         }
         //Finds the index based on the compressHash function
         int index = compressHash(item);
@@ -136,8 +136,8 @@ public class ChainingHashTable implements Set<String> {
      */
     @Override
     public boolean contains(String item) {
-        if (item == null || isEmpty()) {
-            throw new IllegalArgumentException("Item cannot be null or empty");
+        if (item == null) {
+            throw new IllegalArgumentException("Item cannot be null");
         }
         //Calculates the index where item should be found
         int index = compressHash(item);
@@ -223,7 +223,7 @@ public class ChainingHashTable implements Set<String> {
         if (items == null) {
             throw new IllegalArgumentException("Collections of items to be removed cannot be null");
         }
-        //flag to keep track either a item has been removed or not
+        //flag to keep track either an item has been removed or not
         boolean changed = false;
         //Iterates through whole collection of items; if a item from collection is removed; changed flag
         for (String item : items) {

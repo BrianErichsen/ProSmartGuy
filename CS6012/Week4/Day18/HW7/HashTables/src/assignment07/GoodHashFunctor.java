@@ -6,7 +6,7 @@ package assignment07;
  * by Java's default hashCode method. This hash function aims to provide
  * a well-distributed set of hash codes to minimize collisions in hash tables.
  */
-class GoodHashFunctor implements HashFunctor {
+public class GoodHashFunctor implements HashFunctor {
 
 
     /**
