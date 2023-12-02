@@ -41,7 +41,7 @@ public class ChainingHashTable implements Set<String> {
         int index = compressHash(item);
         //If there is no LinkedList at index, then creates a new one
         if (storage_[index] == null) {
-            storage_[index] = new LinkedList<>();
+            storage_[index] = new LinkedList<String>();
         }
         //if item is already present; then returns false
         if (contains(item)) {
