@@ -3,136 +3,188 @@ package assignment07;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Objects;
 
-public class QuadProbeHashTable implements Set<String>{
-    private String[] table_;
+public class QuadProbeHashTable implements Set<String> {
+
     private int capacity_;
-    private HashFunctor functor_;
+    private String[] table;
     private int size_;
-    public LinkedList<String>[] storage_;
-    /** Constructs a hash table of the given capacity that uses the hashing function
-     * specified by the given functor.
-     */
+    private HashFunctor functor_;
+
     public QuadProbeHashTable(int capacity, HashFunctor functor) {
-       if (capacity <= 0) {
-           throw new IllegalArgumentException("The capacity must be higher than 0");
-       }
-       //capacity is initial table size; if it is not a prime number; then find next prime number
-       capacity_ = nextPrime(capacity);
-       functor_ = functor;
-       table_ = new String[capacity_];
-       size_ = 0;
-       storage_ = (LinkedList<String>[]) new LinkedList[capacity_];
+        capacity_ = capacity;
+        table = new String[capacity];
+        functor_ = functor;
+        size_ = 0;
     }
-    /** Helper method to find the next prime for proper/suitable table size*/
-    private int nextPrime(int n) {
-        BigInteger bigInteger = BigInteger.valueOf(n);
-        return Integer.parseInt(bigInteger.nextProbablePrime().toString());
+
+    public void insert(String key) {
+        int index = functor_.hash(key);
+        int i = 0;
+        while (table[index] != null) {
+            index = (index + (i * i)) % capacity_;
+            i++;
+        }
+        table[index] = key;
     }
-    private int quadraticProbe(String item, int i) {
-        int index = (functor_.hash(item) + i * i) % capacity_;
-        return (index < 0) ? index + capacity_ : index;
+
+    public boolean search(String key) {
+        int index = functor_.hash(key);
+        int i = 0;
+        while (table[index] != null && !Objects.equals(table[index], key)) {
+            index = (index + (i * i)) % capacity_;
+            i++;
+        }
+        return Objects.equals(table[index], key);
+    }
+
+    public boolean delete(String key) {
+        boolean changed = false;
+        int index = functor_.hash(key);
+        int i = 0;
+        while (table[index] != null && !Objects.equals(table[index], key)) {
+            index = (index + (i * i)) % capacity_;
+            i++;
+        }
+        if (Objects.equals(table[index], key)) {
+            table[index] = null;
+             changed = true;
+             size_--;
+        }
+        return changed;
     }
 
     @Override
     public boolean add(String item) {
-            if (item == null) {
-                throw new IllegalArgumentException("Item cannot be null to be added");
-            }
-            //Finds the index based on the compressHash function
-            int index = compressHash(item);
-            //If there is no LinkedList at index, then creates a new one
-            if (storage_[index] == null) {
-                storage_[index] = new LinkedList<>();
-            }
-            int i = 0;
-            int probeIndex = index;
-            //While current probing index is occupied, keep probing quadratically
-            while(storage_[probeIndex] != null && contains(item)) {
-                i++;
-                probeIndex = (index + i * i) % capacity_;
-            }
-            //Adds the new node
-            storage_[index].add(item);
-            size_++;//increases size
-
-            //if loadfactor is > than 0.5 then rehash
-            double loadFactor = (double) size_ / capacity_;
-            if (loadFactor > 0.5) {
-                rehash();
-            }
-            //if reached to this point; item was successfully added into the set
-            return true;
+        if (item == null) {
+            throw new IllegalArgumentException("Item cannot be null to be added");
         }
-
-    private void rehash() {
-        //doubles the capacity
+        //item already is present in the data structure
+        if (search(item)) {
+            return false;
+        }
+        double loadFactor = (double) size_ / capacity_;
+        if (loadFactor > 0.5) {
+            rehash();
+        }
+        insert(item);
+        size_++;
+        return true;
+    }
+    public void rehash() {
+        // Double the capacity
         int newCapacity = capacity_ * 2;
-        //creates a new storage array with the new Capacity
-        LinkedList<String>[] newStorage = (LinkedList<String>[]) new LinkedList[newCapacity];
+
+        // Find the next prime number greater than or equal to the new capacity
+        newCapacity = nextPrime(newCapacity);
+
+        // Create a new table with the new capacity
+        String[] newTable = new String[newCapacity];
         int newSize = 0;
-        //Rehashes the elements from the old storage into the new one
-        for (LinkedList<String> item : storage_) {
-            if (item != null) {
-                //for each element, add the chain to the new one
-                for (String chain : item) {
-                    int hashCode = functor_.hash(chain);
-                    int newIndex = Math.abs(hashCode % newCapacity);
-                    if (newStorage[newIndex] == null) {
-                        newStorage[newIndex] = new LinkedList<>();
-                    }
-                    newStorage[newIndex].add(chain);
-                    newSize++;
-                }
+        // Rehash the elements from the old table into the new one
+        for (String key : table) {
+            if (key != null) {
+                int newIndex = findEmptySlot(newTable, functor_.hash(key), key);
+                newTable[newIndex] = key;
+                newSize++;
             }
         }
-        //sets the new storage, new capacity and size to the new values
-        storage_ = newStorage;
+
+        // Update the capacity and table
         capacity_ = newCapacity;
+        table = newTable;
         size_ = newSize;
     }
-    private int compressHash(String item) {
-        int hashCode = functor_.hash(item);
-        int index = Math.abs(hashCode % capacity_);
+    private int nextPrime(int n) {
+        BigInteger bigInteger = BigInteger.valueOf(n);
+        return Integer.parseInt(bigInteger.nextProbablePrime().toString());
+    }
+    private int findEmptySlot(String[] table, int index, String key) {
+        int i = 0;
+        while (table[index] != null) {
+            index = (index + (i * i)) % table.length;
+            i++;
+        }
         return index;
     }
+
     @Override
     public boolean addAll(Collection<? extends String> items) {
-        return false;
+        if (items == null) {
+            throw new IllegalArgumentException("Collectionss of items cannot be null");
+        }
+        //flag to keep track if a item has been added
+        boolean added = false;
+        //iterates through whole collection and uses the add method to add each item;
+        for (String item : items) {
+            if (add(item)) {
+                added = true;
+            }
+        }
+        return added;
     }
 
     @Override
     public void clear() {
-
+        size_ = 0;
+        for (int i = 0; i < capacity_; i++) {
+            table[i] = null;
+        }
     }
 
     @Override
     public boolean contains(String item) {
-        return false;
+        if (item == null) {
+            throw new IllegalArgumentException("Item cannot be null to be searched");
+        }
+        return search(item);
     }
 
     @Override
     public boolean containsAll(Collection<? extends String> items) {
-        return false;
+        if (items == null) {
+            throw new IllegalArgumentException("Collections cannot be null");
+        }
+        //iterates through whole collection and if contains method returns false in any item
+        for (String item : items) {
+            if (!contains(item)) {
+                return false; //returns false then
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size_ == 0;
     }
 
     @Override
     public boolean remove(String item) {
-        return false;
+        if (item == null || isEmpty()) {
+            throw new IllegalArgumentException("Item cannot be null or empty to be deleted");
+        }
+        return delete(item);
     }
-
     @Override
     public boolean removeAll(Collection<? extends String> items) {
-        return false;
+        if (items == null) {
+            throw new IllegalArgumentException("Collections of items to be removed cannot be null");
+        }
+        //flag to keep track either an item has been removed or not
+        boolean changed = false;
+        //Iterates through whole collection of items; if a item from collection is removed; changed flag
+        for (String item : items) {
+            if (remove(item)) {
+                changed = true;
+            }
+        }
+        return changed;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size_;
     }
 }
