@@ -109,6 +109,11 @@ public class Graph {
      * @param row The row index of the node to retrieve.
      * @param col The column index of the node to retrieve.
      * @return The node found or a new node with default values if not found.
+     *
+     * .keySet returns a set view of keys contained in adjanList .steams converts Set of nodes
+     * into stream ; in java  streams are sequence of elements that can be processed into parallel or
+     * sequentially.filter filters the stream to only include the nodes that have the same row and
+     * same col number .findFirst retrieves  the first element from the filtered stream or return null
      */
     public Node getNode(int row, int col) {
         // Filter nodes to find the one with the specified row and column
