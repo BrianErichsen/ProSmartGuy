@@ -4,8 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
-public class Experiment {
+public class Experiment2 {
     //Same file that was provided to us on our experiement lab
     private static final int ITER_COUNT = 100;
     //opens file writer to we can write to file
@@ -15,14 +16,22 @@ public class Experiment {
             for (int exp = 10; exp <= 20; exp++) {
                 int size = (int) Math.pow(2, exp);
                 long totalTime = 0;
-                //sorts in increasing time
+                ArrayList<Segment> segments = new ArrayList<>();
+                Random rand = new Random(42);
+//                    long start = System.nanoTime();
+                double y = 0;
+                //populates segments ArrayList
+                for (int i = 0; i < size; i++) {
+                    segments.add(new Segment(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), rand.nextDouble()));
+                    y += 0.1;
+                }
+                BSPTree tree = new BSPTree(segments);
+                Segment query = new Segment(0.5, 0, 0.5, 1.0);
+
+                int numCollisions = 0;
                 for (int iter = 0; iter < ITER_COUNT; iter++) {
-                    ArrayList<Segment> segments = generateVerticalSegments(size);
-                    BSPTree tree = new BSPTree();
                     long start = System.nanoTime();
-                    for (Segment segment : segments) {
-                        tree.insert(segment);
-                    }
+                    var elem = tree.collision(query);
                     long stop = System.nanoTime();
                     totalTime += stop - start;
                 }

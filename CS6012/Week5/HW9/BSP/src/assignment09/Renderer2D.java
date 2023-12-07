@@ -121,7 +121,7 @@ public class Renderer2D extends JPanel {
 
     private void startAnimation() {
         orderedSegments = new ArrayList<>();
-        tree.transverseFarToNear(eye.x, eye.y, orderedSegments::add);
+        tree.traverseFarToNear(eye.x, eye.y, orderedSegments::add);
 
         //animate
         if(timer != null){

@@ -44,7 +44,7 @@ public class Renderer3D extends JPanel {
 
         segmentColors = new HashMap<>();
         var rand = new Random();
-        tree.transverseFarToNear(eye.x, eye.y, s -> {
+        tree.traverseFarToNear(eye.x, eye.y, s -> {
             //todo, pick better colors
             segmentColors.put(s, new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
         });
@@ -124,7 +124,7 @@ public class Renderer3D extends JPanel {
 
         g2.clearRect(0,0,windowSize,windowSize);
 
-        tree.transverseFarToNear(eye.x, eye.y, s -> {
+        tree.traverseFarToNear(eye.x, eye.y, s -> {
             drawSegment(g2, s);
         });
 
