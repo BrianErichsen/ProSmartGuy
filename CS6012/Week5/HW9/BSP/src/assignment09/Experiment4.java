@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Experiment2 {
+public class Experiment4 {
     //Same file that was provided to us on our experiement lab
     private static final int ITER_COUNT = 100;
     //opens file writer to we can write to file
     public static void main(String[] args) {
-        try (FileWriter fw = new FileWriter(new File("collisions_optimized.csv"))) {
+        try (FileWriter fw = new FileWriter(new File("collisions_alternative.csv"))) {
             for (int exp = 10; exp <= 20; exp++) {
                 int size = (int) Math.pow(2, exp);
                 long totalTime = 0;
@@ -25,12 +25,14 @@ public class Experiment2 {
                     //Using the optimized collision method
                     Segment query = new Segment(0.5, 0, 0.5, 1.0);
                     //start the timer (get the start time)
+                    int numCollisions = 0;
                     long start = System.nanoTime();
-                    tree.collision(query);
+                    numCollisions = newCollision(query, tree);
                     //stop the timer (get the end time)
                     long stop = System.nanoTime();
                     //get the total time (stop time - start time = execution time)
                     totalTime += stop - start;
+                    count = 0;
                 }
 
                 double averageTime = totalTime / (double) ITER_COUNT;

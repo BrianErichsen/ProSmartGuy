@@ -5,12 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Experiment {
+public class Experiment3 {
     //Same file that was provided to us on our experiement lab
     private static final int ITER_COUNT = 100;
     //opens file writer to we can write to file
     public static void main(String[] args) {
-        try (FileWriter fw = new FileWriter(new File("runtime_empty.csv"))) {
+        try (FileWriter fw = new FileWriter(new File("runtime_bulk.csv"))) {
+
+            int element;
 
             for (int exp = 10; exp <= 20; exp++) {
                 int size = (int) Math.pow(2, exp);
@@ -18,11 +20,8 @@ public class Experiment {
                 //sorts in increasing time
                 for (int iter = 0; iter < ITER_COUNT; iter++) {
                     ArrayList<Segment> segments = generateVerticalSegments(size);
-                    BSPTree tree = new BSPTree();
                     long start = System.nanoTime();
-                    for (Segment segment : segments) {
-                        tree.insert(segment);
-                    }
+                    BSPTree tree = new BSPTree(segments);
                     long stop = System.nanoTime();
                     totalTime += stop - start;
                 }

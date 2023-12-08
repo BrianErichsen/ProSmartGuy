@@ -28,7 +28,6 @@ public class BSPTree {
         this.root = null;
     }
 
-
     //===========================================    Constructor    ===============================================//
 
 
@@ -41,19 +40,39 @@ public class BSPTree {
      *
      * @param segments An ArrayList of Segment objects to be inserted into the BSP tree.
      */
-    public BSPTree(ArrayList<Segment> segments) {
-        for (Segment segment : segments) {
-            insert(segment);
+    public BSPTree(ArrayList<Segment> segments){
+        if(segments != null && !segments.isEmpty()){
+            root = buildBSPTree(segments);
         }
-//        addSegments(segments);
+    }
+    private Node buildBSPTree(ArrayList<Segment> segments){
+        if(segments.isEmpty()) {
+            return null;
+        }
+        int index = (int) (Math.random() * segments.size());
+        Segment randomSegment = segments.get(index);
+        Node node = new Node(randomSegment);
+        segments.remove(index);
+        ArrayList<Segment> leftSegments = new ArrayList<>();
+        ArrayList<Segment> rightSegments = new ArrayList<>();
+        for(Segment loopSegment : segments) {
+            int side = node.segment.whichSide(loopSegment);
+            if (side < 0) {
+                leftSegments.add(loopSegment);
+            } else if (side > 0) {
+                rightSegments.add(loopSegment);
+            } else {
+                Segment[] split = node.segment.split(loopSegment);
+                leftSegments.add(split[0]);
+                rightSegments.add(split[1]);
+            }
+        }
+        node.left = buildBSPTree(leftSegments);
+        node.right = buildBSPTree(rightSegments);
+        return node;
     }
 
 
-//    public void addSegments(ArrayList<Segment> segments){
-//        for (Segment segment : segments) {
-//            insert(segment);
-//        }
-//    }
     //========================================   Insert  Method    ===============================================//
 
 
@@ -113,19 +132,7 @@ public class BSPTree {
             Segment[] splitSegments = node.segment.split(segment);//[0]
             node.left = insert(node.left, splitSegments[0]);
             node.right = insert(node.right, splitSegments[1]);
-//            for (Segment splitSegment : splitSegments) {
-//                // Create a new node for each split segment
-//                Node newNode = new Node(splitSegment);
-//
-//
-//                // Determine which child (left or right) to update
-//                int sideOfSplit = segment.whichSide(newNode.segment);
-//                if (sideOfSplit == 1) {
-//                    node.right = insert(node.right, newNode.segment);
-//                } else if (sideOfSplit == -1) {
-//                    node.left = insert(node.left, newNode.segment);
-//                }
-//            }
+
         }
 //        System.out.println("Inserted segment: " + segment);
         return node;
