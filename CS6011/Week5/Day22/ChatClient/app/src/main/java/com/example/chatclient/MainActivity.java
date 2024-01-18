@@ -42,16 +42,6 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                TextView roomNameTV = findViewById(R.id.roomNameEditText);
-//                String room = roomNameTV.getText().toString();
-//                TextView userNameTV = findViewById(R.id.usernameEditText);
-//                String user = userNameTV.getText().toString();
-//                ws.sendText("join " + user + " " + room);
-//                Intent intent = new Intent(MainActivity.this, ChatRoom.class);
-////                    //Adds room and user data
-//                intent.putExtra("room", room);
-//                intent.putExtra("user", user);
-//                startActivity(intent);
                 login(v);
             }
             });
