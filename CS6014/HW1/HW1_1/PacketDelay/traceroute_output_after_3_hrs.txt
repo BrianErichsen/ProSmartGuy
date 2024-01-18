@@ -1,0 +1,24 @@
+ 1  10.0.0.1 (10.0.0.1)  40.648 ms  6.842 ms  11.789 ms
+ 2  10.22.235.66 (10.22.235.66)  23.945 ms
+    10.22.235.67 (10.22.235.67)  17.375 ms
+    10.22.235.66 (10.22.235.66)  15.329 ms
+ 3  po-326-364-rur402.saltlakecity.ut.utah.comcast.net (24.153.95.137)  17.362 ms
+    po-326-363-rur401.saltlakecity.ut.utah.comcast.net (24.153.95.129)  20.906 ms
+    po-326-364-rur402.saltlakecity.ut.utah.comcast.net (24.153.95.137)  15.106 ms
+ 4  po-2-rur402.saltlakecity.ut.utah.comcast.net (162.151.9.246)  16.010 ms
+    po-400-xar02.saltlakecity.ut.utah.comcast.net (162.151.39.153)  21.297 ms
+    po-2-rur402.saltlakecity.ut.utah.comcast.net (162.151.9.246)  17.484 ms
+ 5  be-306-arsc1.sandy.ut.utah.comcast.net (24.124.175.21)  30.796 ms
+    po-400-xar02.saltlakecity.ut.utah.comcast.net (162.151.39.153)  17.157 ms
+    be-306-arsc1.sandy.ut.utah.comcast.net (24.124.175.21)  30.367 ms
+ 6  be-306-arsc1.sandy.ut.utah.comcast.net (24.124.175.21)  46.877 ms
+    be-501-ar01.sandy.ut.utah.comcast.net (24.124.175.226)  15.299 ms
+    be-306-arsc1.sandy.ut.utah.comcast.net (24.124.175.21)  17.577 ms
+ 7  69.241.15.210 (69.241.15.210)  14.785 ms
+    be-501-ar01.sandy.ut.utah.comcast.net (24.124.175.226)  19.713 ms
+    69.241.15.210 (69.241.15.210)  23.943 ms
+ 8  69.241.15.210 (69.241.15.210)  19.982 ms *  20.641 ms
+ 9  142.251.73.1 (142.251.73.1)  16.848 ms *  38.490 ms
+10  slc09s01-in-f14.1e100.net (172.217.15.238)  18.751 ms
+    142.251.73.3 (142.251.73.3)  91.692 ms
+    slc09s01-in-f14.1e100.net (172.217.15.238)  31.933 ms
