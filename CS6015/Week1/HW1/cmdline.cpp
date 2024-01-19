@@ -29,11 +29,13 @@ void use_arguments(int argc, char* argv[]) {
                 std::cout << "All tests passed!" << std::endl;
             }
         } else if (strcmp(argv[i], "--interp") == 0) {
-            Expr* left = new Num(std::atoi(argv[i + 1]));
-            Expr* right = new Num(std::atoi(argv[i + 3]));
-            Expr* addition = new Add(left, right);
-            std::cout << Expr::interpret(addition) << std::endl;
-            delete addition;
+    
+            std::vector<std::string> tokens;
+            for (int j = i + 1; j < argc; j++) {
+                tokens.push_back(argv[j]);
+            }
+            size_t index = 0;
+            Expr* result = parseExpr(tokens, index);
             exit(0);
         } else {
             //if reached here; then given argument is invalid
@@ -41,5 +43,5 @@ void use_arguments(int argc, char* argv[]) {
             "'.\n";
             exit(1);
         }
-    }
+    }//end of cmd method
 }//end of method bracket

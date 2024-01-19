@@ -13,6 +13,8 @@ class Expr {
     virtual ~Expr() {}
 
     static int interpret(Expr* expr);
+    static Expr* parseExpr(const std::vector<std::string>& tokens,
+    size_t& index);
 };
 //child class from expr
 class Num : public Expr {
@@ -49,6 +51,18 @@ class Add : public Expr {
     //destructor making sure that the sub expr (left and right)
     //are properly deleted
     ~Add();
+};
+//Mul from multiply - using the first 3 chars
+class Mul : public Expr {
+    private:
+    Expr* left;
+    Expr* right;
+
+    public:
+    Mul(Expr* l, Expr* r);
+    int eval() const override;
+    bool equals(const Expr* other) const override;
+    ~Mul();
 };
 
 #endif // EXPR_H
