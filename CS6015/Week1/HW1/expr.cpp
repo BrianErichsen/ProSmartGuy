@@ -7,23 +7,25 @@ int Expr::interpret(Expr* expr) {
 Expr* Expr::parseExpr(const std::vector<std::string>& tokens,
 size_t& index) {
     //skip any white spaces
+    //the purpose is to make tokens 1 + 2; from       1     +      2
     while (index < tokens.size() && tokens[index] == " ") {
         ++index;
     }
-    std::string token = tokens[index++];
+    std::cout << tokens[0] << " " << tokens[1] << " " << tokens[2];
+    std::string token = tokens[index];
+    // std::string token = tokens[index++];
     if (token == "+") {
-        Add::parseExpr(tokens, index);
+        return Add::parseExpr(tokens, index);
     } else if (token == "*") {
-        Mul::parseExpr(tokens, index);
-    } else if (isdigit(token[index])) {
+        return Mul::parseExpr(tokens, index);
+    } else if (isdigit(token[0])) {
         return new Num(std::stoi(token));
     } else {
         std::cerr << "Error: Invalid token '" << token << "'.\n";
         exit(1);
     }
+    return nullptr;
 }
-
-
 //--Num class implementation
 //Initialization list - member value with arg val
 Num::Num(int val) : value(val) {}
@@ -41,7 +43,21 @@ bool Num::equals(const Expr* other) const {
 int Num::eval() const {
         return value;
 }
-//----
+
+Expr* Num::parseExpr(const std::vector<std::string>& tokens,
+size_t& index) {
+    if (index < tokens.size()) {
+        std::string token = tokens[index++];
+        if (isdigit(token[0])) {
+            return new Num(std::stoi(token));
+    } else {
+        throw new std::runtime_error("Invalid expression from Num-Parser1");
+    }
+    } else {
+        throw std::runtime_error("Invalid expression from Num-Parser2");
+    }
+}
+//---- end of Num class implementation
 // Beguinning of VarExpr class implementation
 VarExpr::VarExpr(const std::string& name) : varName(name) {}
 
@@ -72,12 +88,18 @@ bool Add::equals(const Expr* other) const {
     }
     return false;
 }
-
+Expr* Add::parseExpr(const std::vector<std::string>& tokens,
+    size_t& index) {
+        Expr* left = parseExpr(tokens, --index);
+        Expr* right = parseExpr(tokens, ++index);
+        return new Add(left, right);
+    }
 Add::~Add() {
     delete left;
     delete right;
 }
 //end
+
 //Beginning of Multiplication class implementation
 Mul::Mul(Expr* l, Expr* r) : left(l), right(r) {}
 
@@ -91,6 +113,17 @@ bool Mul::equals(const Expr* other) const {
         (otherMul->right);
     }
     return false;
+}
+
+Expr* Mul::parseExpr(const std::vector<std::string>& tokens,
+size_t& index) {
+    if (index + 3 < tokens.size()) {
+        Expr* left = parseExpr(tokens, --index);
+        Expr* right = parseExpr(tokens, ++index);
+        return new Mul(left, right);
+    } else {
+        throw new std::runtime_error("Invalid expression");
+    }
 }
 Mul::~Mul() {
     delete left;

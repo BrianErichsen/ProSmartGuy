@@ -26,6 +26,8 @@ class Num : public Expr {
     Num(int val);
     int eval() const override;
     bool equals(const Expr* other) const override;
+    static Expr* parseExpr(const std::vector<std::string>& tokens,
+    size_t& index);
 };
 
 class VarExpr : public Expr {
@@ -48,6 +50,8 @@ class Add : public Expr {
     Add(Expr* l, Expr* r);
     int eval() const override;
     bool equals(const Expr* other) const override;
+    static Expr* parseExpr(const std::vector<std::string>& tokens,
+    size_t& index);
     //destructor making sure that the sub expr (left and right)
     //are properly deleted
     ~Add();
@@ -62,6 +66,8 @@ class Mul : public Expr {
     Mul(Expr* l, Expr* r);
     int eval() const override;
     bool equals(const Expr* other) const override;
+    static Expr* parseExpr(const std::vector<std::string>& tokens,
+    size_t& index);
     ~Mul();
 };
 
